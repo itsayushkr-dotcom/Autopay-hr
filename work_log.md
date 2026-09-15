@@ -93,3 +93,25 @@ Where:
 - **Planned for Day 3:**
   - Implement the end-to-end automation prototype for `payroll_items`.
   - Simulate incoming memo batches, validate schema/business rules, execute auto-filling/submission, and generate audit reports.
+
+---
+
+## Submission & Repository Configuration
+
+- **Candidate Profile:**
+  - Full Name: Ayush Kumar
+  - University: IIT Kharagpur
+  - Department / Major: Chemical Engineering (Dual Degree B.Tech + M.Tech)
+  - Microspecialization: Artificial Intelligence and its Applications
+  - Email: itsayushkr7@gmail.com
+- **Private Repository Created:** `https://github.com/itsayushkr-dotcom/fde-intern-selection-task`
+- **Visibility:** Strictly Private (verified via GitHub API).
+- **Collaborator Invitations Required:**
+  - yasuhironose@imbesideyou.world
+  - mamindla@imbesideyou.world
+  - jayeshahire@imbesideyou.world
+  - ashwingaikwad@imbesideyou.world
+  - namansolanki@imbesideyou.world
+  - kushakjafry@imbesideyou.world
+  - rajeevkumar@imbesideyou.world
+- **Final Notification Target:** Email to `singhpratyush@imbesideyou.world` with repo URL.
