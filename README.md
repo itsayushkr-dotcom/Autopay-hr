@@ -1,4 +1,13 @@
-# Intern Selection Task: From Operation Logs to an Automation Proposal
+﻿# Intern Selection Task: From Operation Logs to an Automation Proposal
+
+## Candidate Information
+- **Full Name:** Ayush Kumar
+- **University:** Indian Institute of Technology Kharagpur (IIT Kharagpur)
+- **Department / Major:** Chemical Engineering (Dual Degree B.Tech + M.Tech)
+- **Microspecialization:** Artificial Intelligence and its Applications
+- **Email:** itsayushkr7@gmail.com
+
+---
 
 **Duration:** 7 days
 **Submission:** Full repository (including Git history) + final report
@@ -35,7 +44,7 @@ by whom, or how much time it takes.
 that actually runs.**
 
 Technical accuracy is not the objective in itself. Your judgment is what is being
-assessed — including how you choose to spend your 7 days.
+assessed â€” including how you choose to spend your 7 days.
 
 ---
 
@@ -60,7 +69,7 @@ dataset_a/
 Use this dataset to build and validate your approach.
 
 Note that a single session may be split across multiple chunks. This is a property of
-how the agent records data — it is not an anomaly.
+how the agent records data â€” it is not an anomaly.
 
 ### Dataset B (no ground truth / 15 sessions / ~20,000 events)
 
@@ -81,7 +90,7 @@ and the applications in use are also different.
 
 ## Tasks
 
-### Step 1 — Recover units of work from the logs
+### Step 1 â€” Recover units of work from the logs
 
 `events.jsonl` is simply a list of keystrokes, clicks, and application switches
 **in the order they occurred.** There are no markers saying "an expense claim started here"
@@ -106,12 +115,12 @@ Real office workers do not behave the way a textbook would suggest.
 #### How to proceed
 
 Start with Dataset A. Because A includes ground truth (`gt.jsonl`), **you can measure
-how correct your approach is.** How far you push accuracy — and what you consider
-"good enough" — is left to your judgment.
+how correct your approach is.** How far you push accuracy â€” and what you consider
+"good enough" â€” is left to your judgment.
 
 For the output format, see the Deliverables section.
 
-### Step 2 — Analyze the work and identify automation candidates
+### Step 2 â€” Analyze the work and identify automation candidates
 
 Apply your Step 1 approach to Dataset B, and analyze the operations based on its output.
 
@@ -122,7 +131,7 @@ Apply your Step 1 approach to Dataset B, and analyze the operations based on its
 Then, **propose which processes should be automated, in priority order.**
 Explain the reasoning behind that ordering.
 
-### Step 3 — Build an automation tool
+### Step 3 â€” Build an automation tool
 
 From the candidates identified in Step 2, build the one (or ones) you judge to have
 the greatest impact.
@@ -154,7 +163,7 @@ information.** Proposals built purely on optimistic assumptions will not score w
 
 **We do not specify how many tools to build.** Whether you build one thing specialized
 for a single process, or a general mechanism that can be extended across several processes
-(for example, a shared foundation with per-process definitions) — **that decision is itself
+(for example, a shared foundation with per-process definitions) â€” **that decision is itself
 part of the ROI question.**
 
 A broadly applicable design has a higher ceiling, but delivers zero value if you cannot
@@ -167,16 +176,16 @@ A working prototype is sufficient. Polish itself is not evaluated; judgment is.
 Your report must address the following four points:
 
 1. **Why you chose that process, and why that scope**
-2. **Why you chose that implementation form** — including why you rejected the alternatives
+2. **Why you chose that implementation form** â€” including why you rejected the alternatives
 3. **What manual work remains after deployment**, and what impact can realistically be expected
 4. **What risks you anticipate in implementation and rollout, and how you would address them**
-   — including what evidence led you to anticipate each risk
+   â€” including what evidence led you to anticipate each risk
 
 ---
 
 ## Deliverables
 
-1. **Step 1 output** — the result of applying your approach to Dataset B,
+1. **Step 1 output** â€” the result of applying your approach to Dataset B,
    submitted as `segments.jsonl`
 
    One JSON object per line:
@@ -191,13 +200,13 @@ Your report must address the following four points:
    | `start` / `end` | Segment start and end time (ISO 8601, UTC) |
    | `label` | Your own name for the process. **Use the same label for the same process** |
 
-   The label text itself is not evaluated — name them however you like.
+   The label text itself is not evaluated â€” name them however you like.
    What is evaluated is whether the boundaries between units of work are correct,
    and whether the same process consistently receives the same label.
 
-2. **Full repository** — include your Git history (we review how the work progressed)
+2. **Full repository** â€” include your Git history (we review how the work progressed)
 
-3. **Final report** — must include:
+3. **Final report** â€” must include:
    - Your Step 2 analysis, the prioritized automation candidates, and the reasoning
    - A description of what you built in Step 3, **why that process and scope**,
      and **why that implementation form**
@@ -205,7 +214,7 @@ Your report must address the following four points:
    - **Anticipated implementation and rollout risks, with your mitigation approach**
    - How you allocated the 7 days, and why
 
-4. **Work log** — what you were thinking each day, what you tried, and what did not work
+4. **Work log** â€” what you were thinking each day, what you tried, and what did not work
 
 ---
 
@@ -241,3 +250,4 @@ fit the objective.
 **Q. I could not complete all three steps.**
 A. Record in your work log why you did not, and how you arrived at the decisions you made
 along the way.
+
