@@ -1,0 +1,190 @@
+[
+  {
+    "case_id": "P1-07080388-002",
+    "status": "SYNCED",
+    "action": "AUTO_APPROVED_AND_SUBMITTED",
+    "details": {
+      "case_id": "P1-07080388-002",
+      "employee_name_or_id": "田中 麻里",
+      "category": "出張旅費",
+      "amount": 35241.0,
+      "rule_confirmed": true,
+      "remark": "======================================== / 精算確認メモ / P1-07080388-002 / 申請者：田中 麻里 / 経費精算確認済み。費目：出張旅費 金額：35,241円。規程内であることを確認した。",
+      "source_memo": "routine_batch.txt",
+      "raw_text": "========================================\n精算確認メモ\nP1-07080388-002\n申請者：田中 麻里\n経費精算確認済み。費目：出張旅費 金額：35,241円。規程内であることを確認した。",
+      "currency": "JPY",
+      "created_at": "2026-09-15T11:57:50.434458+00:00"
+    },
+    "transaction_id": "TXN-8E1810BF"
+  },
+  {
+    "case_id": "P1-07080388-003",
+    "status": "SYNCED",
+    "action": "AUTO_APPROVED_AND_SUBMITTED",
+    "details": {
+      "case_id": "P1-07080388-003",
+      "employee_name_or_id": "高橋 健司",
+      "category": "時間外手当",
+      "amount": 57500.0,
+      "rule_confirmed": true,
+      "remark": "給与手当連絡票 / P1-07080388-003 / 対象者：高橋 健司 / 2026-06分 時間外手当調整 57,500円を給与備考欄に登録。通常処理。規程内確認済み。",
+      "source_memo": "routine_batch.txt",
+      "raw_text": "給与手当連絡票\nP1-07080388-003\n対象者：高橋 健司\n2026-06分 時間外手当調整 57,500円を給与備考欄に登録。通常処理。規程内確認済み。",
+      "currency": "JPY",
+      "created_at": "2026-09-15T11:57:50.434528+00:00"
+    },
+    "transaction_id": "TXN-CD62AD85"
+  },
+  {
+    "case_id": "P1-07080388-004",
+    "status": "SYNCED",
+    "action": "AUTO_APPROVED_AND_SUBMITTED",
+    "details": {
+      "case_id": "P1-07080388-004",
+      "employee_name_or_id": "上野 大樹",
+      "category": "機器手当",
+      "amount": 45000.0,
+      "rule_confirmed": true,
+      "remark": "IT申請メモ / P1-07080388-004 / 申請者：上野 大樹 / PC新規発行申請 費目：機器手当 金額：45,000円。承認済。",
+      "source_memo": "routine_batch.txt",
+      "raw_text": "IT申請メモ\nP1-07080388-004\n申請者：上野 大樹\nPC新規発行申請 費目：機器手当 金額：45,000円。承認済。",
+      "currency": "JPY",
+      "created_at": "2026-09-15T11:57:50.434556+00:00"
+    },
+    "transaction_id": "TXN-94DFC3B6"
+  },
+  {
+    "case_id": "P1-07080388-005",
+    "status": "SYNCED",
+    "action": "AUTO_APPROVED_AND_SUBMITTED",
+    "details": {
+      "case_id": "P1-07080388-005",
+      "employee_name_or_id": "小林 翔太",
+      "category": "資格取得補助",
+      "amount": 28000.0,
+      "rule_confirmed": true,
+      "remark": "福利厚生費精算 / P1-07080388-005 / 対象者：小林 翔太 / 費目：資格取得補助 金額：28,000円。規程内確認済み。",
+      "source_memo": "routine_batch.txt",
+      "raw_text": "福利厚生費精算\nP1-07080388-005\n対象者：小林 翔太\n費目：資格取得補助 金額：28,000円。規程内確認済み。",
+      "currency": "JPY",
+      "created_at": "2026-09-15T11:57:50.434577+00:00"
+    },
+    "transaction_id": "TXN-0F75E0C2"
+  },
+  {
+    "case_id": "P1-07080388-006",
+    "status": "FLAGGED_FOR_HUMAN_REVIEW",
+    "action": "ROUTED_TO_MANAGER",
+    "flags": [
+      "HIGH_VALUE_THRESHOLD_EXCEEDED(>100,000JPY)"
+    ],
+    "details": {
+      "case_id": "P1-07080388-006",
+      "employee_name_or_id": "渡辺 翼",
+      "category": "海外出張手当",
+      "amount": 285000.0,
+      "rule_confirmed": true,
+      "remark": "======================================== / 精算確認メモ / P1-07080388-006 / 申請者：渡辺 翼 / 費目：海外出張手当 金額：285,000円。規程内確認済み。",
+      "source_memo": "exception_batch.txt",
+      "raw_text": "========================================\n精算確認メモ\nP1-07080388-006\n申請者：渡辺 翼\n費目：海外出張手当 金額：285,000円。規程内確認済み。",
+      "currency": "JPY",
+      "created_at": "2026-09-15T11:57:50.505038+00:00"
+    }
+  },
+  {
+    "case_id": "P1-07080388-007",
+    "status": "FLAGGED_FOR_HUMAN_REVIEW",
+    "action": "ROUTED_TO_MANAGER",
+    "flags": [
+      "POLICY_COMPLIANCE_UNCONFIRMED"
+    ],
+    "details": {
+      "case_id": "P1-07080388-007",
+      "employee_name_or_id": "中村 祐介",
+      "category": "特別役職手当",
+      "amount": 60000.0,
+      "rule_confirmed": false,
+      "remark": "未承認メモ / P1-07080388-007 / 申請者：中村 祐介 / 費目：特別役職手当 金額：60,000円。上長確認待ちのため規程未確認。",
+      "source_memo": "exception_batch.txt",
+      "raw_text": "未承認メモ\nP1-07080388-007\n申請者：中村 祐介\n費目：特別役職手当 金額：60,000円。上長確認待ちのため規程未確認。",
+      "currency": "JPY",
+      "created_at": "2026-09-15T11:57:50.505076+00:00"
+    }
+  },
+  {
+    "case_id": "P1-07080388-002",
+    "status": "REJECTED",
+    "action": "DISCARDED",
+    "flags": [
+      "DUPLICATE_CASE_ID"
+    ],
+    "details": {
+      "case_id": "P1-07080388-002",
+      "employee_name_or_id": "田中 麻里",
+      "category": "出張旅費",
+      "amount": 35241.0,
+      "rule_confirmed": false,
+      "remark": "重複テスト案件 / P1-07080388-002 / 申請者：田中 麻里 / 費目：出張旅費 金額：35,241円。重複申請。",
+      "source_memo": "exception_batch.txt",
+      "raw_text": "重複テスト案件\nP1-07080388-002\n申請者：田中 麻里\n費目：出張旅費 金額：35,241円。重複申請。",
+      "currency": "JPY",
+      "created_at": "2026-09-15T11:57:50.505096+00:00"
+    }
+  },
+  {
+    "case_id": "P1-07080388-010",
+    "status": "SYNCED",
+    "action": "AUTO_APPROVED_AND_SUBMITTED",
+    "details": {
+      "case_id": "P1-07080388-010",
+      "employee_name_or_id": "加藤 恵",
+      "category": "出張旅費",
+      "amount": 22400.0,
+      "rule_confirmed": true,
+      "remark": "大阪支社出張旅費精算",
+      "source_memo": "enterprise_feed.json",
+      "raw_text": "{'case_id': 'P1-07080388-010', 'employee': '加藤 恵', 'category': '出張旅費', 'amount': 22400, 'confirmed': True, 'remark': '大阪支社出張旅費精算'}",
+      "currency": "JPY",
+      "created_at": "2026-09-15T11:57:50.505714+00:00"
+    },
+    "transaction_id": "TXN-E7C9D095"
+  },
+  {
+    "case_id": "P1-07080388-011",
+    "status": "SYNCED",
+    "action": "AUTO_APPROVED_AND_SUBMITTED",
+    "details": {
+      "case_id": "P1-07080388-011",
+      "employee_name_or_id": "伊藤 潤",
+      "category": "時間外手当",
+      "amount": 64800.0,
+      "rule_confirmed": true,
+      "remark": "プロジェクト繁忙期残業手当調整",
+      "source_memo": "enterprise_feed.json",
+      "raw_text": "{'case_id': 'P1-07080388-011', 'employee': '伊藤 潤', 'category': '時間外手当', 'amount': 64800, 'confirmed': True, 'remark': 'プロジェクト繁忙期残業手当調整'}",
+      "currency": "JPY",
+      "created_at": "2026-09-15T11:57:50.505978+00:00"
+    },
+    "transaction_id": "TXN-5CAD5A21"
+  },
+  {
+    "case_id": "P1-07080388-012",
+    "status": "FLAGGED_FOR_HUMAN_REVIEW",
+    "action": "ROUTED_TO_MANAGER",
+    "flags": [
+      "HIGH_VALUE_THRESHOLD_EXCEEDED(>100,000JPY)"
+    ],
+    "details": {
+      "case_id": "P1-07080388-012",
+      "employee_name_or_id": "山本 雅也",
+      "category": "研修手当",
+      "amount": 150000.0,
+      "rule_confirmed": true,
+      "remark": "海外技術研修費用（高額案件）",
+      "source_memo": "enterprise_feed.json",
+      "raw_text": "{'case_id': 'P1-07080388-012', 'employee': '山本 雅也', 'category': '研修手当', 'amount': 150000, 'confirmed': True, 'remark': '海外技術研修費用（高額案件）'}",
+      "currency": "JPY",
+      "created_at": "2026-09-15T11:57:50.506136+00:00"
+    }
+  }
+]
