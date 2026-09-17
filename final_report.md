@@ -183,10 +183,10 @@ Drawing direct evidence from Dataset B event logs, we identified 4 realistic ope
 
 ## 6. How to Run the Deliverables
 
-### Option 1: Live Cloud Streamlit Dashboard (Direct Public Access)
+### Option 1 — Live Cloud Streamlit Dashboard (Direct Public Access)
 * **Live URL:** [https://autopay-hr.streamlit.app/](https://autopay-hr.streamlit.app/) *(Publicly accessible from any browser with zero installation)*
 
-### Option 2: Local Streamlit Dashboard Execution
+### Option 2 — Local Streamlit Dashboard Execution
 ```bash
 git clone https://github.com/itsayushkr-dotcom/fde-intern-selection-task.git
 cd fde-intern-selection-task
@@ -196,13 +196,13 @@ streamlit run streamlit_app.py --server.port 8502
 *Access via browser at:* http://localhost:8502  
 *Features:* Real-time language toggle (`日本語` / `English` / `Smart Hybrid`), interactive batch simulation, and custom memo NLP testing.
 
-### Option 3: Docker Containerized Execution (Enterprise Private Cloud)
+### Option 3 — Docker Containerized Execution (Enterprise Private Cloud)
 ```bash
 docker build -t autopay-hr .
 docker run -p 8501:8501 autopay-hr
 ```
 
-### Option 4: Automated Regression Tests
+### Option 4 — Automated Regression Tests
 ```bash
 python -m unittest tests/test_automation_tool.py -v
 ```
