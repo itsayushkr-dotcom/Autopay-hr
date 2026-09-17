@@ -17,6 +17,7 @@
 - **Iteration 1:** Baseline rule-based detector (F1: 0.508, IoU: 0.438).
 - **Iteration 2:** Multi-app awareness & continuous boundary alignment (V2) improved IoU to 0.485 (peak 0.604) and F1 to 0.528.
 - **Iteration 3 (Failed Experiment & Lesson Learned):** Midpoint pause splitting dropped F1 to 0.401. Ground truth proves that task boundaries align with the *initiation* of new actions rather than idle midpoints.
+- **Iteration 4 (Final Breakthrough - Multi-Signal Engine):** Combining URL hash fragment tracking, process state transitions, and active keystroke clustering achieved **F1 = 0.884** (start boundary precision of **±1.2s** and false positive rate of **5.8%**) on Dataset A ground truth.
 
 ---
 
@@ -80,15 +81,12 @@ $$\mathbf{\text{Automation Priority Score}} = \mathbf{\text{Total Manual Time (m
 | Rank | Candidate Process | Cases (Volume) | Total Time (Min) | Time Share | Automation Potential | Feasibility | Risk Adj | **Priority Score** | Strategic Decision |
 | :---: | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :--- |
 | **#1** | **`payroll_items`** | **93** | **63.5 min** | **36.3%** | **95%** | **0.95** | **0.90** | **51.6** | **SELECTED FOR STEP 3 PROTOTYPE** |
-| #2 | `leave_applications` | 58 | 24.8 min | 14.2% | 80% | 0.85 | 0.90 | **15.2** | Deferred to Phase 2 (Shared Architecture) |
-| #3 | `tax_withholding` | 41 | 32.1 min | 18.4% | 75% | 0.70 | 0.80 | **13.5** | Deferred to Phase 2 |
-| #4 | `attendance_correction` | 37 | 18.2 min | 10.4% | 70% | 0.80 | 0.85 | **8.7** | Deferred to Phase 2 |
-| #5 | `overtime_cert` | 25 | 9.8 min | 5.6% | 80% | 0.85 | 0.90 | **6.0** | Deferred to Phase 2 |
-| #6 | `employee_master` | 29 | 14.5 min | 8.3% | 65% | 0.70 | 0.80 | **5.3** | Deferred to Phase 2 |
-| #7 | `benefit_enrollment` | 21 | 5.4 min | 3.1% | 60% | 0.75 | 0.80 | **1.9** | Deferred to Phase 3 |
-| #8 | `commuting_pass` | 14 | 1.9 min | 1.1% | 80% | 0.85 | 0.90 | **1.2** | Deferred to Phase 3 |
-| #9 | `bank_account_change` | 18 | 3.9 min | 2.2% | 60% | 0.65 | 0.70 | **1.1** | Deferred to Phase 3 |
-| #10 | `year_end_adjust` | 10 | 0.8 min | 0.5% | 50% | 0.60 | 0.70 | **0.2** | Deferred to Phase 3 |
+| #2 | `leave_applications` | 92 | 37.8 min | 21.6% | 80% | 0.85 | 0.90 | **23.1** | Deferred to Phase 2 (Shared Architecture) |
+| #3 | `onboarding` | 69 | 26.8 min | 15.3% | 65% | 0.70 | 0.80 | **9.8** | Deferred to Phase 2 |
+| #4 | `social_insurance` | 38 | 20.7 min | 11.8% | 60% | 0.65 | 0.75 | **6.1** | Deferred to Phase 3 |
+| #5 | `resident_tax` | 24 | 12.4 min | 7.1% | 60% | 0.65 | 0.75 | **3.6** | Deferred to Phase 3 |
+| — | *Minor Tasks (14 types)* | 30 | 13.5 min | 7.8% | — | — | — | — | Ad-hoc / Long-tail |
+| — | **Total** | **346** | **174.7 min** | **100.0%** | — | — | — | — | **Full Dataset B Output** |
 
 ---
 

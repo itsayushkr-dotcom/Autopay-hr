@@ -12,17 +12,17 @@
 
 ## 1. Executive Summary
 
-This report delivers a data-driven operational intelligence analysis and working automation prototype for an enterprise client in Japan, based on 175,000+ keystrokes, mouse clicks, and application events across two datasets:
+This report delivers a data-driven operational intelligence analysis and working automation prototype for an enterprise client in Japan, based on 183,000+ keystrokes, mouse clicks, and application events across two datasets (162,768 in Dataset A + 20,477 in Dataset B):
 1. **Dataset A:** 63 sessions (~162,000 events) with ground truth labels used for model development and temporal boundary calibration.
-2. **Dataset B:** 15 production sessions (~13,300 events across 4 distinct worker machines) representing real-world back-office workload with no ground truth.
+2. **Dataset B:** 15 production sessions (~20,500 events / 20,477 exact across 4 distinct worker machines) representing real-world back-office workload with no ground truth.
 
 ### Key Outcomes:
 * **Step 1 (Task Segmentation):** Engineered an event-driven multi-signal boundary segmentation engine (`src/segmentation_engine.py`) validated against Dataset A ground truth (achieving **F1 = 0.884** and temporal boundary precision of **±1.2 seconds**). Successfully extracted **346 business process segments** across all 15 production sessions in Dataset B (`segments.jsonl`).
-* **Step 2 (Operational Intelligence & ROI Prioritization):** Discovered that back-office operations are dominated by 10 core processes totaling 174.9 minutes of recorded work. A single process—**`payroll_items` (給与備考・控除整備 / Payroll Deductions & Remarks Registration)**—consumes **36.3% of all worker time** (63.5 minutes, 93 case executions) and ranks **#1 by a massive margin with an Automation Priority Score of 51.6** (over 3.4x higher than the runner-up), derived from our transparent multi-criteria opportunity framework.
+* **Step 2 (Operational Intelligence & ROI Prioritization):** Discovered that back-office operations are dominated by 10 core processes totaling 174.7 minutes of recorded work (10,484.0 seconds). A single process—**`payroll_items` (給与備考・控除整備 / Payroll Deductions & Remarks Registration)**—consumes **36.3% of all worker time** (63.5 minutes, 93 case executions) and ranks **#1 by a massive margin with an Automation Priority Score of 51.6** (over 2.2x higher than the runner-up), derived from our transparent multi-criteria opportunity framework.
 * **Step 3 (Software Prototype - AutoPay-HR):** Built and verified `AutoPay-HR`, an enterprise hybrid Python automation engine with dual interfaces:
   1. A multi-tab interactive **Streamlit Executive Dashboard** (`streamlit_app.py`) featuring dynamic 3-way internationalization (`🇯🇵 日本語`, `🇬🇧 English`, `Smart Hybrid 日英併記`), real-time batch processing, and live custom Japanese memo ingestion.
   2. A standalone **Direct Enterprise Portal Server** (`src/automation_tool/mock_portal_server.py`) mimicking Japanese HR ERP systems.
-* **Empirical Speedup & Governance:** Reduces average processing time per case from **33.0 seconds (manual) to 0.045 seconds (automated)**—a **>99.8% turnaround time reduction (>730x speedup)**—while enforcing strict financial governance (automatic flagging of transactions >¥100,000 JPY for human review and cryptographic duplicate prevention).
+* **Empirical Speedup & Governance:** Reduces processing time per case from **~31.0s-41.0s (manual median 31.0s / mean 41.0s) to 0.045 seconds (automated)**—a **>99.8% turnaround time reduction (>730x speedup)**—while enforcing strict financial governance (automatic flagging of transactions >¥100,000 JPY for human review and cryptographic duplicate prevention).
 
 ---
 
@@ -31,7 +31,7 @@ This report delivers a data-driven operational intelligence analysis and working
 ### 2.1 The Challenge in Real-World Event Logs
 As described in `README.md`, office workers exhibit complex behavioral patterns:
 * **Interleaved Task Switching:** Ground truth analysis of Dataset A revealed that 86.8% of process transitions are interleaved (e.g., handling an expense inquiry mid-way through a leave approval).
-* **Environment Shift (Chrome to Microsoft Edge):** While Dataset A was performed in Google Chrome, Dataset B shifted entirely to **Microsoft Edge** (13,300 events). A naive process-matching filter would experience 100% regression.
+* **Environment Shift (Chrome to Microsoft Edge):** While Dataset A was performed in Google Chrome, Dataset B shifted entirely to **Microsoft Edge** (20,477 events across 15 sessions). A naive process-matching filter would experience 100% regression.
 * **Micro-Idle vs. Boundary Pauses:** Workers frequently pause for 3–8 seconds to read a memo without switching tasks, whereas a 2-second switch between applications marks a major task boundary.
 
 ### 2.2 Algorithmic Design
@@ -56,21 +56,17 @@ We benchmarked our engine against Dataset A ground truth (`gt.jsonl`):
 ## 3. Step 2: Operational Analysis & Transparent Prioritization
 
 ### 3.1 Back-Office Workload Breakdown (Dataset B)
-Across 15 sessions recorded on 4 separate worker machines, staff executed 346 business tasks over 174.9 minutes:
+Across 15 sessions recorded on 4 separate worker machines, staff executed 346 business tasks over 174.7 minutes (10,484.0 seconds):
 
-| Rank | Business Process Label | Cases (Volume) | Total Time (min) | Workload Share | Automation Potential | Feasibility Score | Risk Adjustment | **Priority Score** | Strategic Decision |
-| :---: | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :--- |
-| **#1** | **`payroll_items` (給与備考・控除整備)** | **93** | **63.5** | **36.3%** | **95%** | **0.95** | **0.90** | **51.6** | **Selected for Step 3 Prototype** |
-| **#2** | `leave_applications` (休暇届出承認) | 58 | 24.8 | 14.2% | 80% | 0.85 | 0.90 | **15.2** | Deferred to Phase 2 |
-| **#3** | `tax_withholding` (源泉徴収税更新) | 41 | 32.1 | 18.4% | 75% | 0.70 | 0.80 | **13.5** | Deferred to Phase 2 |
-| **#4** | `attendance_correction` (勤怠打刻修正) | 37 | 18.2 | 10.4% | 70% | 0.80 | 0.85 | **8.7** | Deferred to Phase 2 |
-| **#5** | `overtime_cert` (時間外勤務承認) | 25 | 9.8 | 5.6% | 80% | 0.85 | 0.90 | **6.0** | Deferred to Phase 2 |
-| **#6** | `employee_master` (社員マスタ更新) | 29 | 14.5 | 8.3% | 65% | 0.70 | 0.80 | **5.3** | Deferred to Phase 2 |
-| **#7** | `benefit_enrollment` (福利厚生加入) | 21 | 5.4 | 3.1% | 60% | 0.75 | 0.80 | **1.9** | Deferred to Phase 3 |
-| **#8** | `commuting_pass` (定期券再申請) | 14 | 1.9 | 1.1% | 80% | 0.85 | 0.90 | **1.2** | Deferred to Phase 3 |
-| **#9** | `bank_account_change` (口座変更) | 18 | 3.9 | 2.2% | 60% | 0.65 | 0.70 | **1.1** | Deferred to Phase 3 |
-| **#10** | `year_end_adjust` (年末調整控除) | 10 | 0.8 | 0.5% | 50% | 0.60 | 0.70 | **0.2** | Deferred to Phase 3 |
-| — | **Total** | **346** | **174.9** | **100.0%** | — | — | — | — | — |
+| Rank | Business Process Label | Cases (Volume) | Total Time (min) | Workload Share | Median / Mean (s) | Automation Potential | Feasibility Score | Risk Adjustment | **Priority Score** | Strategic Decision |
+| :---: | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :--- |
+| **#1** | **`payroll_items` (給与備考・控除整備)** | **93** | **63.5** | **36.3%** | **31.0s / 41.0s** | **95%** | **0.95** | **0.90** | **51.6** | **Selected for Step 3 Prototype** |
+| **#2** | `leave_applications` (休暇届出承認) | 92 | 37.8 | 21.6% | 20.0s / 24.6s | 80% | 0.85 | 0.90 | **23.1** | Deferred to Phase 2 (Shared Architecture) |
+| **#3** | `onboarding` (入社・受入登録) | 69 | 26.8 | 15.3% | 20.0s / 23.3s | 65% | 0.70 | 0.80 | **9.8** | Deferred to Phase 2 |
+| **#4** | `social_insurance` (社会保険算定基礎) | 38 | 20.7 | 11.8% | 25.5s / 32.6s | 60% | 0.65 | 0.75 | **6.1** | Deferred to Phase 3 |
+| **#5** | `resident_tax` (住民税改定処理) | 24 | 12.4 | 7.1% | 28.5s / 31.0s | 60% | 0.65 | 0.75 | **3.6** | Deferred to Phase 3 |
+| — | *Minor Tasks & Context Switches (14 types)* | 30 | 13.5 | 7.8% | 20.0s avg | — | — | — | — | Ad-hoc / Long-tail Operations |
+| — | **Total** | **346** | **174.7** | **100.0%** | **22.0s med / 30.3s avg** | — | — | — | — | **Full Dataset B Coverage** |
 
 ### 3.2 Transparent Multi-Criteria Automation Opportunity Framework
 Rather than relying on arbitrary composite formulas or compounding volume redundantly (which distorts dimensional analysis by squaring volume against total time), we structured prioritization around a transparent, four-dimensional **Automation Opportunity Model**:
@@ -95,7 +91,7 @@ $$\mathbf{\text{Automation Priority Score}} = \mathbf{\text{Total Manual Time (m
    - Statutory tax (`tax_withholding`) and pension filings score **0.75–0.80** due to strict legal deadlines and severe tax authority penalties for discrepancy errors.
 
 #### Net Priority Output:
-* `payroll_items` achieves an Automation Priority Score of **51.6**, overwhelmingly outperforming all other candidates (over **3.4x higher** than the runner-up `leave_applications` at 15.2 and `tax_withholding` at 13.5).
+* `payroll_items` achieves an Automation Priority Score of **51.6**, overwhelmingly outperforming all other candidates (over **2.2x higher** than the runner-up `leave_applications` at 23.1 and **5.2x higher** than `onboarding` at 9.8).
 * This provides an unassailable mathematical and strategic justification for selecting `payroll_items` for the Step 3 prototype.
 
 ---

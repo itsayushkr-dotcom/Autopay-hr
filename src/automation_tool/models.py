@@ -44,7 +44,7 @@ class SyncResult:
     portal_status_code: int = 200
     message: str = "Success"
     timestamp: str = field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
-    time_saved_sec: float = 33.0  # Based on empirical Dataset B median of 33.0s
+    time_saved_sec: float = 31.0  # Based on empirical Dataset B payroll_items median of 31.0s (mean 41.0s)
 
     def to_dict(self):
         return asdict(self)
