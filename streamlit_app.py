@@ -40,9 +40,9 @@ st.markdown("""
         font-family: 'Material Symbols Rounded', 'Material Icons' !important;
     }
 
-    /* Clean, Generous Whitespace */
+    /* Clean, Generous Whitespace with Top Clearance */
     .block-container {
-        padding-top: 2rem !important;
+        padding-top: 4.75rem !important;
         padding-bottom: 3rem !important;
         max-width: 1200px !important;
     }
@@ -50,6 +50,7 @@ st.markdown("""
     /* Prominent Enterprise Header */
     .header-box {
         border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+        padding-top: 0.5rem;
         padding-bottom: 1.25rem;
         margin-bottom: 1.8rem;
     }
@@ -62,9 +63,9 @@ st.markdown("""
         color: #38BDF8;
         background: rgba(56, 189, 248, 0.1);
         border: 1px solid rgba(56, 189, 248, 0.25);
-        padding: 3px 10px;
+        padding: 4px 12px;
         border-radius: 20px;
-        margin-bottom: 0.5rem;
+        margin-bottom: 0.6rem;
     }
     .app-title {
         font-size: 2.75rem;
