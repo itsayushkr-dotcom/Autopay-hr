@@ -47,25 +47,51 @@ st.markdown("""
         max-width: 1200px !important;
     }
 
-    /* Minimalist Header */
+    /* Prominent Enterprise Header */
+    .header-box {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+        padding-bottom: 1.25rem;
+        margin-bottom: 1.8rem;
+    }
+    .header-pill {
+        display: inline-block;
+        font-size: 0.72rem;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: #38BDF8;
+        background: rgba(56, 189, 248, 0.1);
+        border: 1px solid rgba(56, 189, 248, 0.25);
+        padding: 3px 10px;
+        border-radius: 20px;
+        margin-bottom: 0.5rem;
+    }
     .app-title {
-        font-size: 1.75rem;
-        font-weight: 700;
-        color: #F8FAFC !important;
-        margin-bottom: 0.2rem;
-        letter-spacing: -0.02em;
+        font-size: 2.75rem;
+        font-weight: 800;
+        color: #FFFFFF !important;
+        line-height: 1.15;
+        letter-spacing: -0.03em;
+        margin-bottom: 0.4rem;
     }
     .app-subtitle {
-        font-size: 0.9rem;
+        font-size: 1.05rem;
         font-weight: 400;
         color: #94A3B8 !important;
-        margin-bottom: 1.8rem;
+        line-height: 1.45;
+        margin: 0;
     }
 
     /* Light Mode */
     @media (prefers-color-scheme: light) {
+        .header-box { border-bottom-color: #E2E8F0; }
         .app-title { color: #0F172A !important; }
-        .app-subtitle { color: #64748B !important; }
+        .app-subtitle { color: #475569 !important; }
+        .header-pill {
+            color: #0284C7;
+            background: #F0F9FF;
+            border-color: #BAE6FD;
+        }
     }
 
     /* Tab Design - Understated & Clean */
@@ -281,9 +307,14 @@ if "processed_cases" not in st.session_state:
         {"case_id": "P1-07080388-003", "employee": "高橋 健司", "category": "通勤交通費", "amount": 57500, "remark": "定期券6ヶ月分一括支給", "status": "SYNCED", "txn_id": "TXN-INIT-03", "time": "2026-09-15 10:12"},
     ]
 
-# Header
-st.markdown(f'<div class="app-title">{T["title"]}</div>', unsafe_allow_html=True)
-st.markdown(f'<div class="app-subtitle">{T["subtitle"]}</div>', unsafe_allow_html=True)
+# Header Container
+st.markdown(f'''
+<div class="header-box">
+    <div class="header-pill">ENTERPRISE FDE AUTOMATION • DATASET B</div>
+    <div class="app-title">{T["title"]}</div>
+    <div class="app-subtitle">{T["subtitle"]}</div>
+</div>
+''', unsafe_allow_html=True)
 
 # Tabs
 tab1, tab2, tab3 = st.tabs([T["tab1"], T["tab2"], T["tab3"]])
