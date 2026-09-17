@@ -1,4 +1,4 @@
-﻿# Engineering Work Log & Decision Journal
+# Engineering Work Log & Decision Journal
 
 > **Engagement Timeline & 7-Day Budget Allocation:**
 > Although the assignment provided a 7-day duration, the core technical implementation, segmentation pipeline, automation prototype, and executive UI were completed across **four focused engineering days (Days 1–4)**. Days 5–7 were allocated to independent verification, adversarial edge-case stress testing, numerical claim reconciliation across deliverables, and pilot readiness documentation. The schedule below documents the complete progression of thought, experiments, failures, and architectural decisions.
