@@ -204,7 +204,7 @@ TEXTS = {
         "tab2_title": "Process Breakdown & ROI Priority",
         "tab2_caption": "Empirical workload analysis across 15 sessions in Dataset B (4 worker machines, 174.7 minutes total)",
         "tab2_chart1": "Staff Time Distribution (Minutes)",
-        "tab2_chart2": "ROI Impact Score",
+        "tab2_chart2": "Heuristic Automation-Priority Score",
         "tab2_finding": "Finding: payroll_items accounts for 36.3% of total back-office workload (63.5 minutes) and ranks #1 with an Automation Priority Score of 51.6 (over 2.2x higher than the runner-up leave_applications at 23.1).",
         "tab3_title": "Segmentation Architecture & Validation",
         "tab3_bullets": """
@@ -252,7 +252,7 @@ TEXTS = {
         "tab2_title": "業務工数分析と自動化ROI順位",
         "tab2_caption": "Dataset B (全15セッション / 20,477イベント / 4台のPC端末) の実測分析",
         "tab2_chart1": "業務時間配分 (分)",
-        "tab2_chart2": "ROIスコア",
+        "tab2_chart2": "自動化優先度スコア (Priority Score)",
         "tab2_finding": "分析結果: 「給与備考・控除整備」が全作業時間の36.3% (63.5分) を占め、自動化優先度スコア 51.6 (次点 休暇届出承認 23.1 比で2.2倍超) で最優先 (#1) と判定。",
         "tab3_title": "セグメンテーション技術と精度検証",
         "tab3_bullets": """
@@ -300,7 +300,7 @@ TEXTS = {
         "tab2_title": "Process Breakdown & ROI Priority",
         "tab2_caption": "Empirical workload analysis across 15 sessions in Dataset B (174.7 minutes total)",
         "tab2_chart1": "Staff Time Distribution (Minutes)",
-        "tab2_chart2": "ROI Impact Score",
+        "tab2_chart2": "Heuristic Automation-Priority Score",
         "tab2_finding": "Finding: payroll_items accounts for 36.3% of total workload (63.5 minutes) and ranks #1 with Automation Priority Score 51.6 (2.2x over runner-up leave_applications at 23.1).",
         "tab3_title": "Segmentation Architecture & Validation",
         "tab3_bullets": """

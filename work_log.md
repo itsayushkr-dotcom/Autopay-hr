@@ -12,7 +12,7 @@
 - Build an initial boundary detection algorithm and establish rigorous evaluation metrics (IoU, boundary precision/recall, label alignment).
 
 ### 2. Engineering Decisions & Architecture Rationale
-- **Storage Architecture:** Established working repository at local repository workspace (`fde-intern-selection-task`) to avoid permission issues on the read-only G: drive mount while streaming datasets directly from source.
+- **Storage Architecture:** Established the working repository and configured access to the provided datasets.
 - **Dataset A Insights:** Median task execution duration is 31.7s. 86.8% of transitions are interleaved switches between different processes. Processes are cross-application (Chrome + Excel / Word).
 - **Dataset B Insights:** Production data shifts to Microsoft Edge and uses distinct URL hash routes (`#/payroll-items`, `#/leave-applications`, `#/onboarding`, `#/social-insurance`, `#/resident-tax`).
 
@@ -65,10 +65,12 @@
 
 ---
 
-### 4. Step 2: Transparent Multi-Criteria Prioritization Framework
+### 4. Step 2: Heuristic Automation-Priority Framework
 
-We designed an objective, dimensionally sound **Automation Opportunity Priority Framework**:
-$$\mathbf{\text{Automation Priority Score}} = \mathbf{\text{Total Manual Time (min)}} \times \mathbf{\text{Automation Potential (\%)}} \times \mathbf{\text{Feasibility Factor}} \times \mathbf{\text{Risk Adjustment}}$$
+We formulated a **heuristic automation-priority score** as a relative operational prioritization metric (rather than a financial ROI calculation):
+$$\mathbf{\text{Heuristic Automation-Priority Score}} = \mathbf{\text{Total Manual Time (min)}} \times \mathbf{\text{Automation Potential (\%)}} \times \mathbf{\text{Feasibility Factor}} \times \mathbf{\text{Risk Adjustment}}$$
+
+> **Note on Metric Definition:** This heuristic automation-priority score is a relative prioritization metric designed to evaluate operational bottleneck severity, repetitive task volume, and engineering feasibility across candidate processes. It is an operational prioritization tool rather than a formal accounting or financial ROI calculation.
 
 > **Engineering Design Note (Dimensional Soundness):**
 > We specifically avoided ad-hoc formulas multiplying Total Time by Volume ($V \times \text{Total Time}$). Because Total Time is already $\sum t_i \approx V \times \bar{t}$, multiplying Volume again would mathematically square the volume term ($V^2 \times \bar{t}$), which distorts dimensional analysis by overweighting transaction counts over actual recoverable labor hours. Instead, our transparent multi-criteria formula maps directly to **Expected High-Confidence Recovered Labor Hours**.
@@ -132,7 +134,7 @@ $$\mathbf{\text{Automation Priority Score}} = \mathbf{\text{Total Manual Time (m
 ## Day 3 — Step 3 Automation Prototype Build (`AutoPay-HR`)
 
 ### 1. Objective
-- Build a production-oriented working prototype demonstrating the end-to-end automation architecture for the #1 candidate identified in Step 2 (`payroll_items` / 給与備考・控除整備).
+- Build a working, production-oriented automation prototype demonstrating the end-to-end automation architecture for the #1 candidate identified in Step 2 (`payroll_items` / 給与備考・控除整備).
 - Address client requirements: "Show us something that actually works."
 - Implement robust financial business controls: automatic validation, threshold-based human approval routing (> ¥100,000), duplicate prevention, live portal synchronization, and cryptographic audit trail generation.
 - Build automated test suite and CLI runner.
@@ -179,7 +181,7 @@ $$\mathbf{\text{Automation Priority Score}} = \mathbf{\text{Total Manual Time (m
   - Ingested 10 cases across 3 batches in < 0.1 seconds (0.045s average single-case API latency).
   - Manual baseline (Dataset B): ~31.0s median / 41.0s mean per case.
   - **Engine Velocity Gain:** **> 99.8% reduction in deterministic engine processing time** for compliant cases, while catching 100% of policy anomalies and duplicates.
-  - *Engineering Note on Speedup Interpretation:* As highlighted in the assignment brief, test logs feature shorter idle times than production. We explicitly recognize that this benchmark reflects deterministic engine compute velocity rather than end-to-end production cycle time, which will be bounded by human review queues (>¥100k items), enterprise network RTT, and approval workflows.
+  - *Engineering Note on Speedup Interpretation:* In the prototype benchmark, the deterministic automation engine reduced processing time from 33.0s to 0.045s (>730× speedup). *This benchmark measures prototype processing time rather than end-to-end production cycle time; production savings will depend on system latency, human review, exception handling, and integration overhead.*
 
 ---
 
@@ -193,7 +195,7 @@ $$\mathbf{\text{Automation Priority Score}} = \mathbf{\text{Total Manual Time (m
 3. **What manual work remains after deployment?**
    - High-value anomalies (> ¥100,000) and unconfirmed policy exceptions are routed to a human manager review queue for 1-click verification.
    - All routine, compliant transactions (80-90% of volume) are processed with zero manual touch.
-   - **Net Capacity Creation:** Derived via $\frac{\text{Cases/month} \times \text{Manual Seconds} \times \text{Coverage}}{3600}$. At 41.0s mean manual duration and 88% touchless coverage, ~2,450 department cases/month saves **~24.6 hours/month across the 4-clerk team** (~6.1 hrs/clerk/month; or ~25.1 hrs/month for a dedicated closing clerk at ~2,500 cases/mo). Production savings should be validated against actual monthly transaction volumes during pilot rollout.
+   - **Net Capacity Creation:** Derived via $\frac{\text{Cases/month} \times \text{Manual Seconds} \times \text{Coverage}}{3600}$. At 41.0s mean manual duration and 88% touchless coverage, ~2,450 department cases/month saves **~24.6 hours/month across the 4-clerk team** (~6.1 hrs/clerk/month; or ~25.1 hrs/month for a dedicated closing clerk at ~2,500 cases/mo). The observed workload indicates substantial potential for reducing repetitive payroll-entry effort; actual monthly capacity savings should be validated using production transaction volumes.
 4. **Anticipated risks & mitigations:**
    - *Risk:* Double submission / duplicate payments. *Mitigation:* State-level idempotency tracking on case ID.
    - *Risk:* Data extraction errors on free-form text. *Mitigation:* Regex strict typing + fallback to human review queue whenever confidence drops.

@@ -22,7 +22,7 @@ This report delivers a data-driven operational intelligence analysis and working
 * **Step 3 (Software Prototype - AutoPay-HR):** Built and verified `AutoPay-HR`, a production-shaped working prototype demonstrating the proposed automation architecture with dual interfaces:
   1. A multi-tab interactive **Streamlit Executive Dashboard** (`streamlit_app.py`) featuring dynamic 3-way internationalization (`🇯🇵 日本語`, `🇬🇧 English`, `Smart Hybrid 日英併記`), real-time batch processing, and live custom Japanese memo ingestion.
   2. A standalone **Direct Enterprise Portal Server** (`src/automation_tool/mock_portal_server.py`) mimicking Japanese HR ERP systems.
-* **Empirical Prototype Benchmark & Governance:** In the prototype benchmark, the deterministic engine reduced execution time from **~31.0s–41.0s (manual baseline) to 0.045 seconds per case**. Crucially, as emphasized in the problem brief, test environment logs feature shorter waiting times than real operations; this benchmark demonstrates deterministic compute and submission velocity rather than a naive 730× reduction in end-to-end production cycle time (which remains bounded by human review queues, network RTT, and operational checks). Strict financial governance is enforced via automatic review routing for items >¥100,000 JPY and cryptographic duplicate prevention.
+* **Empirical Prototype Benchmark & Governance:** In the prototype benchmark, the deterministic engine reduced execution time from **~31.0s–41.0s (manual baseline) to 0.045 seconds per case** (a >730× prototype compute speedup). *This benchmark measures prototype processing time rather than end-to-end production cycle time; production savings will depend on system latency, human review, exception handling, and integration overhead.* Strict financial governance is enforced via automatic review routing for items >¥100,000 JPY and cryptographic duplicate prevention.
 
 ---
 
@@ -68,10 +68,13 @@ Across 15 sessions recorded on 4 separate worker machines, staff executed 346 bu
 | — | *Minor Tasks & Context Switches (14 types)* | 30 | 13.5 | 7.8% | 20.0s avg | — | — | — | — | Ad-hoc / Long-tail Operations |
 | — | **Total** | **346** | **174.7** | **100.0%** | **22.0s med / 30.3s avg** | — | — | — | — | **Full Dataset B Coverage** |
 
-### 3.2 Transparent Multi-Criteria Automation Opportunity Framework
-Rather than relying on arbitrary composite formulas or compounding volume redundantly (which distorts dimensional analysis by squaring volume against total time), we structured prioritization around a transparent, four-dimensional **Automation Opportunity Model**:
+### 3.2 Heuristic Automation-Priority Framework
+Rather than claiming an arbitrary "objective financial ROI" on limited exploratory logs, we evaluate candidate workflows using a transparent **heuristic automation-priority score**.
 
-$$\mathbf{\text{Automation Priority Score}} = \mathbf{\text{Total Manual Time (min)}} \times \mathbf{\text{Automation Potential (\%)}} \times \mathbf{\text{Feasibility Factor}} \times \mathbf{\text{Risk Adjustment}}$$
+> **Note on Metric Definition:**  
+> This heuristic automation-priority score is a relative prioritization metric designed to rank candidate workflows by operational friction, repetitive manual effort, and technical feasibility. It is an operational prioritization tool to sequence engineering resources, rather than a formal accounting or financial ROI calculation.
+
+$$\mathbf{\text{Heuristic Automation-Priority Score}} = \mathbf{\text{Total Manual Time (min)}} \times \mathbf{\text{Automation Potential (\%)}} \times \mathbf{\text{Feasibility Factor}} \times \mathbf{\text{Risk Adjustment}}$$
 
 #### Definition and Operational Justification of Criteria:
 1. **Total Manual Time (Scale of Opportunity):**
@@ -127,7 +130,7 @@ We selected a **Deterministic Hybrid Python Architecture** (combining localized 
   3. **Monthly Audit Verification:** A 15-minute monthly reconciliation of the generated `audit_trail.json` against the enterprise ledger.
 * **Realistic Business Impact:**
   - **Zero-Touch Automation Rate:** **85–90% of routine cases** process end-to-end without human intervention (with 5–10% routed to the manager review queue).
-  - **Engine Processing Velocity:** In the prototype benchmark, the deterministic automation engine reduced its own processing time from **~31.0s–41.0s to 0.045 seconds per case**. *Note on Production Interpretation:* As highlighted in the project brief, test logs have artificially short waiting times compared with real production. This should not be interpreted as a literal 730× reduction in end-to-end employee cycle time, because production network latency, human review queues, ERP response times, and exception handling are not represented in the test environment.
+  - **Engine Processing Velocity:** In the prototype benchmark, the deterministic automation engine reduced its own processing time from **~31.0s–41.0s to 0.045 seconds per case** (a >730× prototype compute speedup). *This benchmark measures prototype processing time rather than end-to-end production cycle time; production savings will depend on system latency, human review, exception handling, and integration overhead.*
   - **Error Rate Elimination:** Decreased from ~2.5% manual typing/clipboard errors to **0.0% machine entry error** for all approved transactions.
   - **Net Capacity Creation (Explicit Mathematical Derivation):**
     To ensure complete business transparency, time savings are derived using the standard labor-recovery equation:
@@ -143,7 +146,7 @@ We selected a **Deterministic Hybrid Python Architecture** (combining localized 
       2. **Dedicated Closing-Clerk Scenario (~25.1 Hours / Month per Clerk):**
          If an individual payroll specialist is assigned full-time to high-volume monthly closing adjustments during cut-off periods (~2,500 transactions/month, or ~125 cases/day during closing week):
          $$\frac{2,500 \text{ cases/month} \times 41.0 \text{ s/case} \times 0.88}{3,600 \text{ s/hour}} = \frac{90,200 \text{ seconds}}{3,600} \approx \mathbf{25.1 \text{ hours saved / clerk / month}}.$$
-    - *Production Volume Validation Note:* The observed dataset indicates substantial potential for reducing repetitive payroll-entry effort. The above baseline is derived from the empirical 41.0s mean case duration in Dataset B; actual production savings should be validated against enterprise monthly transaction volumes and ERP cut-off calendars during the Phase 1 pilot rollout.
+    - *Production Volume Validation Note:* The observed workload indicates substantial potential for reducing repetitive payroll-entry effort; actual monthly capacity savings should be validated using production transaction volumes and ERP cut-off calendars during the Phase 1 pilot rollout.
 
 ### Question 4: Anticipated implementation and rollout risks, and mitigation strategy
 Drawing direct evidence from Dataset B event logs, we identified 4 realistic operational risks:
