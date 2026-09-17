@@ -21,23 +21,59 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Custom Styling
+# Custom Typography & Styling with Noto Sans JP + Inter
 st.markdown("""
 <style>
-    .main-header { font-size: 2.1rem; font-weight: 700; color: #1E293B; margin-bottom: 0.2rem; }
-    .sub-header { font-size: 1.0rem; color: #64748B; margin-bottom: 1.5rem; }
-    .kpi-card { background-color: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 10px; padding: 16px; text-align: center; }
-    .badge-synced { background-color: #DEF7EC; color: #03543F; padding: 4px 10px; border-radius: 12px; font-weight: 600; font-size: 0.85rem; }
-    .badge-review { background-color: #FEF08A; color: #854D0E; padding: 4px 10px; border-radius: 12px; font-weight: 600; font-size: 0.85rem; }
-    .stTabs [data-baseweb="tab-list"] { gap: 16px; }
-    .stTabs [data-baseweb="tab"] { font-size: 1.05rem; font-weight: 600; }
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+JP:wght@400;500;700;900&display=swap');
+
+    html, body, [class*="css"], .stMarkdown, .stText, h1, h2, h3, h4, p, span {
+        font-family: 'Inter', 'Noto Sans JP', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Hiragino Sans', 'Meiryo', sans-serif !important;
+        -webkit-font-smoothing: antialiased;
+    }
+
+    .main-header {
+        font-size: 2.25rem;
+        font-weight: 800;
+        letter-spacing: -0.02em;
+        line-height: 1.35;
+        margin-bottom: 0.35rem;
+        background: linear-gradient(135deg, #60A5FA 0%, #A78BFA 50%, #F472B6 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        display: inline-block;
+    }
+
+    .sub-header {
+        font-size: 1.05rem;
+        font-weight: 400;
+        color: #94A3B8 !important;
+        margin-bottom: 1.6rem;
+        line-height: 1.5;
+        letter-spacing: 0.01em;
+    }
+
+    /* Fallback for light mode if user switches theme */
+    @media (prefers-color-scheme: light) {
+        .sub-header {
+            color: #475569 !important;
+        }
+    }
+
+    .stTabs [data-baseweb="tab-list"] {
+        gap: 14px;
+    }
+    .stTabs [data-baseweb="tab"] {
+        font-size: 1.0rem;
+        font-weight: 600;
+        padding: 8px 16px;
+    }
 </style>
 """, unsafe_allow_html=True)
 
 # Language Definitions Dictionary
 TEXTS = {
     "Smart Hybrid (日英併記)": {
-        "title": "AutoPay-HR: HR人事給与 自動化 & 業務分析プラットフォーム",
+        "title": "AutoPay-HR | 人事給与業務 自動化 & 分析プラットフォーム",
         "subtitle": "Enterprise Operational Intelligence & Zero-Touch Automation (Dataset B: 13,300 Events)",
         "tab1": "⚡ AutoPay-HR 自動化ツール (Step 3: Live Simulator)",
         "tab2": "📊 業務分析・ROI優先度 (Step 2: ROI Ranking)",
@@ -85,7 +121,7 @@ TEXTS = {
         """
     },
     "日本語 (Japanese)": {
-        "title": "HR人事給与システム 自動化・業務分析プラットフォーム",
+        "title": "AutoPay-HR | 人事給与業務 自動化・分析プラットフォーム",
         "subtitle": "PC操作ログ解析 (Dataset B: 13,300イベント) に基づくROI最適化ソリューション",
         "tab1": "⚡ 給与備考自動登録ツール (Step 3)",
         "tab2": "📊 業務工数分析・ROI優先度 (Step 2)",
@@ -133,7 +169,7 @@ TEXTS = {
         """
     },
     "English": {
-        "title": "AutoPay-HR: Enterprise Payroll Automation & Analytics",
+        "title": "AutoPay-HR | Enterprise Payroll Automation & Analytics",
         "subtitle": "Data-Driven Workforce Analysis & Robotic Process Automation (Dataset B: 13,300 Events)",
         "tab1": "⚡ AutoPay-HR Live Automation Tool (Step 3)",
         "tab2": "📊 Process Intelligence & ROI Ranking (Step 2)",
@@ -207,7 +243,7 @@ if "processed_cases" not in st.session_state:
         {"case_id": "P1-07080388-003", "employee": "高橋 健司", "category": "通勤交通費", "amount": 57500, "remark": "定期券6ヶ月分一括支給", "status": "SYNCED", "txn_id": "TXN-INIT-03", "time": "2026-09-15 10:12"},
     ]
 
-# App Header
+# App Header with Sleek Gradient & Noto Sans JP
 st.markdown(f'<div class="main-header">{T["title"]}</div>', unsafe_allow_html=True)
 st.markdown(f'<div class="sub-header">{T["subtitle"]}</div>', unsafe_allow_html=True)
 
@@ -378,7 +414,7 @@ with tab2:
             {"Process / 業務名": "benefit_enrollment (福利厚生加入)", "Cases": 21, "Total Time (min)": 5.4, "Share": "3.1%", "Clicks": 9, "Complexity / 難易度": "Medium (中)", "ROI Score": 136.1, "Rank": "#7"},
             {"Process / 業務名": "bank_account_change (口座変更)", "Cases": 18, "Total Time (min)": 3.9, "Share": "2.2%", "Clicks": 11, "Complexity / 難易度": "High (高)", "ROI Score": 84.2, "Rank": "#8"},
             {"Process / 業務名": "commuting_pass (定期券再申請)", "Cases": 14, "Total Time (min)": 1.9, "Share": "1.1%", "Clicks": 7, "Complexity / 難易度": "Low (低)", "ROI Score": 31.9, "Rank": "#9"},
-            {"Process / 業務名": "year_end_adjust (年末調整控除)", "Cases": 10, "Total Time (min)": 0.8, "Share": "0.5%", "Clicks": 15, "Complexity / 難易度": "High (高)", "ROI Score": 9.6, "Rank": "#10"}
+            {"Process / 業務名": "year_end_adjust (年末調整控除)", "Cases": 10, "Total Time (min)": 0.8, "Share": "0.5%", "Clicks": 15, "Complexity / 提案難易度": "High (高)", "ROI Score": 9.6, "Rank": "#10"}
         ]
         proc_col = "Process / 業務名"
         score_col = "ROI Score"
