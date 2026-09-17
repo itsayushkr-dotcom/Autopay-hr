@@ -5,7 +5,7 @@ Directly grounded in the actual Japanese operation logs from Dataset B.
 import os
 import json
 
-DATA_DIR = r"C:\Users\itsay\AI_Engineer\data\sample_memos"
+DATA_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "sample_memos")
 os.makedirs(DATA_DIR, exist_ok=True)
 
 # 1. Standard Compliant Batch (Routine Daily Paperwork)

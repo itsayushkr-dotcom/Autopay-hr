@@ -15,35 +15,40 @@
 
 A live, interactive executive dashboard and automation simulator is deployed and running:
 
-- **🌐 Live Cloud URL (Direct Public Access):** [https://autopay-hr.streamlit.app/](https://autopay-hr.streamlit.app/)
+- **🌐 Live Cloud URL (Direct Public Access):** [https://autopay-hr.streamlit.app/](https://autopay-hr.streamlit.app/)  
   *(Open directly in any browser — publicly accessible with zero login or setup required)*
 
-### 1. Run Interactive Streamlit Dashboard (Step 1, Step 2 & Step 3 in One UI)
-`ash
+---
+
+### 1. Local Setup & Interactive Streamlit Dashboard (Step 1, Step 2 & Step 3 in One UI)
+```bash
+git clone https://github.com/itsayushkr-dotcom/fde-intern-selection-task.git
+cd fde-intern-selection-task
 pip install -r requirements.txt
-streamlit run streamlit_app.py --server.port 8502
-`
-* Then open **http://localhost:8502** in your browser.
+streamlit run streamlit_app.py
+```
+* Then open **http://localhost:8501** (or `http://localhost:8502` if port 8501 is occupied) in your browser.
 * **Features:** Dynamic 3-way language toggle (**日本語 (Japanese)**, **English**, and **Smart Hybrid (日英併記)**), live batch simulation, ¥100k risk governance testing, and audit trail download.
 
 ### 2. Run via Docker (Enterprise Containerized Deployment)
-`ash
+```bash
 docker build -t autopay-hr .
 docker run -p 8501:8501 autopay-hr
-`
+```
 * Then open **http://localhost:8501** in your browser.
 
 ### 3. Run Automated Unit Tests (5/5 Passing)
-`ash
+```bash
 python -m unittest tests/test_automation_tool.py -v
-`
+```
 
 ### 4. Key Deliverables in this Repository:
-- **segments.jsonl**: Step 1 task segmentation across all 15 sessions in Dataset B (346 tasks, F1: 0.884).
-- **inal_report.md**: Executive report addressing Step 2 ROI analysis and the 4 mandated strategic questions.
-- **work_log.md**: Detailed 4-day engineering journal documenting all iterations, benchmarks, and architectural decisions.
-- **streamlit_app.py**: Streamlit executive control plane.
-- **src/automation_tool/**: Core AutoPay-HR automation engine and deterministic governance guards.
+- **`segments.jsonl`**: Step 1 task segmentation across all 15 sessions in Dataset B (346 tasks, F1: 0.884).
+- **`final_report.md`**: Executive report addressing Step 2 ROI analysis and the 4 mandated strategic questions.
+- **`work_log.md`**: Detailed 7-day engineering journal documenting all iterations, benchmarks, and architectural decisions.
+- **`streamlit_app.py`**: Streamlit executive control plane.
+- **`src/automation_tool/`**: Core AutoPay-HR automation engine and deterministic governance guards.
+
 ---
 
 **Duration:** 7 days

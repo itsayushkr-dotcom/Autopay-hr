@@ -15,7 +15,8 @@ if sys.stdout.encoding != 'utf-8':
     sys.stdout.reconfigure(encoding='utf-8', errors='replace')
 
 DATASET_B_PATH = r"G:\.shortcut-targets-by-id\1WSBZQxOODKFDzYBkIik5g90NWKS7Gwl0\AI Engineer\dataset_b"
-SEGMENTS_FILE = r"C:\Users\itsay\AI_Engineer\segments.jsonl"
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+SEGMENTS_FILE = os.path.join(BASE_DIR, "segments.jsonl")
 
 def parse_iso(ts_str):
     if not ts_str:

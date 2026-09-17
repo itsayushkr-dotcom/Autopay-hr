@@ -126,7 +126,8 @@ def main():
     pipeline = AutoPayPipeline(auto_start_server=True)
     
     # Process both sample batches
-    data_dir = r"C:\Users\itsay\AI_Engineer\data\sample_memos"
+    base_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+    data_dir = os.path.join(base_dir, "data", "sample_memos")
     batch1 = os.path.join(data_dir, "routine_batch.txt")
     batch2 = os.path.join(data_dir, "exception_batch.txt")
     batch3 = os.path.join(data_dir, "enterprise_feed.json")
@@ -135,7 +136,7 @@ def main():
     pipeline.process_memo_file(batch2)
     pipeline.process_memo_file(batch3)
     
-    pipeline.save_audit_report(output_dir=r"C:\Users\itsay\AI_Engineer\output")
+    pipeline.save_audit_report(output_dir=os.path.join(base_dir, "output"))
 
 if __name__ == "__main__":
     main()

@@ -12,7 +12,7 @@
 - Build an initial boundary detection algorithm and establish rigorous evaluation metrics (IoU, boundary precision/recall, label alignment).
 
 ### 2. Engineering Decisions & Architecture Rationale
-- **Storage Architecture:** Established working repository at `C:\Users\itsay\AI_Engineer` to avoid permission issues on the read-only G: drive mount while streaming datasets directly from source.
+- **Storage Architecture:** Established working repository at local repository workspace (`fde-intern-selection-task`) to avoid permission issues on the read-only G: drive mount while streaming datasets directly from source.
 - **Dataset A Insights:** Median task execution duration is 31.7s. 86.8% of transitions are interleaved switches between different processes. Processes are cross-application (Chrome + Excel / Word).
 - **Dataset B Insights:** Production data shifts to Microsoft Edge and uses distinct URL hash routes (`#/payroll-items`, `#/leave-applications`, `#/onboarding`, `#/social-insurance`, `#/resident-tax`).
 
@@ -36,7 +36,7 @@
 
 ### 2. Batch Segmentation Results (`segments.jsonl`)
 - **Total Segments Recovered:** 346 coherent business process executions across 15 sessions.
-- **Output File:** `C:\Users\itsay\AI_Engineer\segments.jsonl`
+- **Output File:** `segments.jsonl`
 - **Validation:** Every line verified as valid JSON matching `{"session_id": "...", "start": "...", "end": "...", "label": "..."}` with UTC ISO 8601 timestamps ending in `Z`.
 
 ---

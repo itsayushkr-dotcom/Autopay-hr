@@ -188,20 +188,21 @@ Drawing direct evidence from Dataset B event logs, we identified 4 realistic ope
 
 ### Option 2: Local Streamlit Dashboard Execution
 ```bash
-cd C:\Users\itsay\AI_Engineer
+git clone https://github.com/itsayushkr-dotcom/fde-intern-selection-task.git
+cd fde-intern-selection-task
 pip install -r requirements.txt
-streamlit run streamlit_app.py --server.port 8502
+streamlit run streamlit_app.py
 ```
-*Access via browser at:* `http://localhost:8502`  
+*Access via browser at:* `http://localhost:8501` (or `--server.port 8502` if port 8501 is occupied).  
 *Features:* Real-time language toggle (`日本語` / `English` / `Smart Hybrid`), interactive batch simulation, and custom memo NLP testing.
 
-### Option 2: Docker Containerized Execution (Enterprise Private Cloud)
+### Option 3: Docker Containerized Execution (Enterprise Private Cloud)
 ```bash
 docker build -t autopay-hr .
 docker run -p 8501:8501 autopay-hr
 ```
 
-### Option 3: Automated Regression Tests
+### Option 4: Automated Regression Tests
 ```bash
 python -m unittest tests/test_automation_tool.py -v
 ```
