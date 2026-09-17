@@ -15,232 +15,255 @@ except ImportError:
     pass
 
 st.set_page_config(
-    page_title="AutoPay-HR | Enterprise Payroll Automation & Analytics",
-    page_icon="🏢",
+    page_title="AutoPay-HR | Enterprise Payroll Automation",
     layout="wide",
     initial_sidebar_state="expanded"
 )
 
-# Minimalistic Enterprise Typography & Solid Color Styling
+# Ultra-Minimalist Enterprise Design System
 st.markdown("""
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;600;700&display=swap');
 
     html, body, [class*="css"], .stMarkdown, .stText, h1, h2, h3, h4, p, span {
-        font-family: 'Inter', 'Noto Sans JP', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Hiragino Sans', 'Meiryo', sans-serif !important;
+        font-family: 'Inter', 'Noto Sans JP', -apple-system, BlinkMacSystemFont, sans-serif !important;
         -webkit-font-smoothing: antialiased;
     }
 
-    /* Minimalist Solid Enterprise Header */
-    .main-header {
-        font-size: 1.95rem;
-        font-weight: 700;
-        letter-spacing: -0.015em;
-        line-height: 1.3;
-        margin-bottom: 0.25rem;
-        color: #FFFFFF !important;
+    /* Clean, Generous Whitespace */
+    .block-container {
+        padding-top: 2rem !important;
+        padding-bottom: 3rem !important;
+        max-width: 1200px !important;
     }
 
-    .sub-header {
-        font-size: 0.95rem;
+    /* Minimalist Header */
+    .app-title {
+        font-size: 1.75rem;
+        font-weight: 700;
+        color: #F8FAFC !important;
+        margin-bottom: 0.2rem;
+        letter-spacing: -0.02em;
+    }
+    .app-subtitle {
+        font-size: 0.9rem;
         font-weight: 400;
         color: #94A3B8 !important;
-        margin-bottom: 1.5rem;
-        line-height: 1.5;
+        margin-bottom: 1.8rem;
     }
 
-    /* Light Theme Compatibility */
+    /* Light Mode */
     @media (prefers-color-scheme: light) {
-        .main-header {
-            color: #0F172A !important;
-        }
-        .sub-header {
-            color: #475569 !important;
-        }
+        .app-title { color: #0F172A !important; }
+        .app-subtitle { color: #64748B !important; }
     }
 
-    /* Clean, Professional Tab Design */
+    /* Tab Design - Understated & Clean */
     .stTabs [data-baseweb="tab-list"] {
-        gap: 8px;
-        border-bottom: 1px solid #334155;
-        padding-bottom: 4px;
-        margin-bottom: 16px;
+        gap: 24px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        padding-bottom: 6px;
+        margin-bottom: 24px;
     }
     .stTabs [data-baseweb="tab"] {
-        font-size: 0.95rem;
+        font-size: 0.9rem;
         font-weight: 600;
-        padding: 8px 16px;
+        padding: 6px 4px;
+        background: transparent !important;
+        border: none !important;
+    }
+
+    /* Section Subheadings */
+    .section-label {
+        font-size: 0.85rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: #94A3B8;
+        margin-top: 1.5rem;
+        margin-bottom: 0.8rem;
+    }
+
+    /* Minimal Button Overrides */
+    .stButton > button {
         border-radius: 6px;
+        font-size: 0.85rem;
+        font-weight: 500;
+        padding: 0.45rem 1rem;
     }
 </style>
 """, unsafe_allow_html=True)
 
-# Language Definitions Dictionary
+# Minimal Localization: Clean, concise terms without clutter
 TEXTS = {
-    "Smart Hybrid (日英併記)": {
-        "title": "AutoPay-HR | 人事給与業務 自動化 & 分析システム",
-        "subtitle": "Enterprise Operational Intelligence & Zero-Touch Automation (Dataset B: 13,300 Events)",
-        "tab1": "⚡ AutoPay-HR 自動化ツール (Step 3: Live Simulator)",
-        "tab2": "📊 業務分析・ROI優先度 (Step 2: ROI Ranking)",
-        "tab3": "🔍 セグメンテーション解析 (Step 1: Task Analytics)",
-        "kpi_total": "Total Memos / 総処理件数",
-        "kpi_synced": "Auto-Synced / 自動連携完了",
-        "kpi_synced_delta": "自動連携率 (Zero-Touch)",
-        "kpi_flagged": "Human Review / 例外保留 (>¥100k)",
-        "kpi_flagged_delta": "リスク検知・安全ガード",
-        "kpi_time": "Staff Time Saved / 削減時間",
-        "kpi_time_delta": "99.8% 工数短縮",
-        "control_title": "⚡ Interactive Execution Control / 操作パネル",
-        "btn_routine": "▶ 定常バッチ実行 (Run Routine Batch)",
-        "btn_risk": "⚠️ リスク・例外バッチ検証 (Run Risk Batch: >¥100k, Dup)",
-        "btn_reset": "🔄 履歴リセット (Reset Log)",
-        "routine_success": "✅ 定常バッチを0.038秒で処理完了！3件が自動連携されました。",
-        "risk_warning": "🛡️ ガバナンス発動: 10万円超の案件を承認保留、重複案件を差戻し完了！",
-        "custom_expander": "📝 日本語メモ即時解析テスト (Custom Memo Ingestion)",
-        "custom_prompt": "給与メモ・チケットのテキストを入力 (Raw Text):",
-        "btn_parse": "AutoPay-HRでメモを解析・登録 (Process Memo)",
-        "table_title": "📋 給与備考・控除整備 連携データベース (Registered Payroll Items)",
-        "btn_download": "📥 監査証跡(JSON)をダウンロード (Download Audit Trail)",
-        "col_case_id": "ケースID (Case ID)",
-        "col_employee": "社員名 (Employee)",
-        "col_category": "区分 (Category)",
-        "col_amount": "金額 (Amount JPY)",
-        "col_remark": "摘要・備考 (Remark)",
-        "col_status": "連携状態 (Status)",
-        "col_txnid": "取引ID (Transaction ID)",
-        "col_time": "処理日時 (Timestamp)",
-        "status_synced": "SYNCED (自動連携完了)",
-        "status_review": "HELD FOR REVIEW (10万円超過・例外審査)",
-        "status_dup": "REJECTED (重複申請検知・差戻し)",
-        "tab2_title": "📊 Step 2 業務分析 & ROI自動化優先順位マトリクス",
-        "tab2_caption": "Dataset B (全15セッション / 13,300イベント / 4台のPC端末) の実測ログ分析結果",
-        "tab2_chart1": "バックオフィス業務時間配分 (全174.9分)",
-        "tab2_chart2": "ROIスコア比較 (上位プロセス)",
-        "tab2_finding": "💡 分析結果: payroll_items (給与備考・控除整備) が全体の36.3% (63.5分) を占め、ROIスコア 4,281.5 で圧倒的1位です。このプロセスの自動化がクライアントのROIを最大化します。",
-        "tab3_title": "🔍 Step 1 タスクセグメンテーション手法 & Dataset A精度検証",
+    "English": {
+        "title": "AutoPay-HR",
+        "subtitle": "Enterprise Payroll Automation & Operation Intelligence (Dataset B: 13,300 Events)",
+        "tab1": "Automation Tool",
+        "tab2": "ROI Analysis",
+        "tab3": "Task Segmentation",
+        "kpi_total": "Total Processed",
+        "kpi_synced": "Auto-Synced",
+        "kpi_synced_delta": "Zero-Touch Rate",
+        "kpi_flagged": "Review Queue",
+        "kpi_flagged_delta": ">¥100k Threshold",
+        "kpi_time": "Time Saved",
+        "kpi_time_delta": "99.8% Speedup",
+        "sec_control": "Execution Controls",
+        "btn_routine": "Run Routine Batch",
+        "btn_risk": "Run Risk & Exception Batch",
+        "btn_reset": "Reset Log",
+        "routine_success": "Routine batch processed: 3 cases registered in 0.038s.",
+        "risk_warning": "Risk rules active: High-value case (>¥100k) held; duplicate blocked.",
+        "custom_expander": "Custom Memo Ingestion",
+        "custom_prompt": "Paste raw HR memo text:",
+        "btn_parse": "Process Memo",
+        "sec_table": "Registered Payroll Adjustments",
+        "btn_download": "Download Audit Trail (JSON)",
+        "col_case_id": "Case ID",
+        "col_employee": "Employee",
+        "col_category": "Category",
+        "col_amount": "Amount (JPY)",
+        "col_remark": "Remark",
+        "col_status": "Status",
+        "col_txnid": "Transaction ID",
+        "col_time": "Timestamp",
+        "status_synced": "SYNCED",
+        "status_review": "HELD FOR REVIEW",
+        "status_dup": "REJECTED (Duplicate)",
+        "tab2_title": "Process Breakdown & ROI Priority",
+        "tab2_caption": "Empirical workload analysis across 15 sessions in Dataset B (4 worker machines, 174.9 minutes total)",
+        "tab2_chart1": "Staff Time Distribution (Minutes)",
+        "tab2_chart2": "ROI Impact Score",
+        "tab2_finding": "Finding: payroll_items accounts for 36.3% of total back-office workload (63.5 minutes) and ranks #1 with an ROI score of 4,281.5.",
+        "tab3_title": "Segmentation Architecture & Validation",
         "tab3_bullets": """
-        * **検出エンジン:** イベント駆動型マルチシグナル境界判定 (`src/segmentation_engine.py`)
-        * **Dataset B 実行結果:** 全15セッションから **346タスク** を正確に抽出 (`segments.jsonl`)
-        * **Edgeブラウザ適応:** Dataset A (Chrome) から Dataset B (Edge / 13,300イベント) への環境変化を自動検知。URLハッシュ (`#/payroll-items`) とウィンドウタイトル正規化により環境依存を完全排除。
-        * **Dataset A 正解データ(GT)検証:** F1スコア **0.884** (ベースライン 0.528から大幅向上)、境界誤差 **±1.2秒**
+        * **Engine:** Event-driven multi-signal boundary detection (`src/segmentation_engine.py`)
+        * **Dataset B Output:** 346 tasks extracted across 15 sessions (`segments.jsonl`)
+        * **Environment Resilience:** Dynamic routing detection via URL hash fragments (`#/payroll-items`) adapting to the shift from Chrome to Microsoft Edge.
+        * **Dataset A Benchmark:** F1 Score: 0.884 (vs baseline 0.528), Temporal Precision: ±1.2s.
         """
     },
     "日本語 (Japanese)": {
-        "title": "AutoPay-HR | 人事給与業務 自動化・分析システム",
-        "subtitle": "PC操作ログ解析 (Dataset B: 13,300イベント) に基づくROI最適化ソリューション",
-        "tab1": "⚡ 給与備考自動登録ツール (Step 3)",
-        "tab2": "📊 業務工数分析・ROI優先度 (Step 2)",
-        "tab3": "🔍 タスク自動分割・精度検証 (Step 1)",
+        "title": "AutoPay-HR",
+        "subtitle": "人事給与業務 自動化・ログ解析プラットフォーム (Dataset B: 13,300イベント)",
+        "tab1": "自動化ツール",
+        "tab2": "ROI業務分析",
+        "tab3": "セグメンテーション",
         "kpi_total": "総処理件数",
-        "kpi_synced": "自動連携完了 (タッチレス)",
-        "kpi_synced_delta": "自動連携率",
-        "kpi_flagged": "人的承認保留 (10万円超)",
-        "kpi_flagged_delta": "内部統制・例外審査",
-        "kpi_time": "削減作業時間",
-        "kpi_time_delta": "99.8% 作業時間短縮",
-        "control_title": "⚡ 自動化実行コントロールパネル",
-        "btn_routine": "▶ 定常業務バッチ実行 (正常系)",
-        "btn_risk": "⚠️ 例外・リスク検証バッチ (10万円超過・重複)",
-        "btn_reset": "🔄 履歴データをリセット",
-        "routine_success": "✅ 定常バッチを0.038秒で処理完了！3件の給与備考が自動連携されました。",
-        "risk_warning": "🛡️ 統制ルール発動: 10万円超の申請は承認保留とし、重複申請を自動で差戻しました。",
-        "custom_expander": "📝 任意の給与メモ・チケット即時解析テスト (クリックして展開)",
-        "custom_prompt": "解析対象の社内連絡・チケットテキストを入力:",
-        "btn_parse": "メモを解析してシステムに自動登録",
-        "table_title": "📋 給与備考・控除整備 連携登録台帳",
-        "btn_download": "📥 監査ログ(JSON)をダウンロード",
+        "kpi_synced": "自動連携完了",
+        "kpi_synced_delta": "タッチレス率",
+        "kpi_flagged": "要確認・保留",
+        "kpi_flagged_delta": "10万円上限適用",
+        "kpi_time": "削減時間",
+        "kpi_time_delta": "99.8% 短縮",
+        "sec_control": "実行コントロール",
+        "btn_routine": "定常バッチ実行",
+        "btn_risk": "例外・リスク検証",
+        "btn_reset": "履歴リセット",
+        "routine_success": "定常バッチ完了: 3件を0.038秒で自動連携しました。",
+        "risk_warning": "統制ルール発動: 10万円超を保留、重複申請を自動差戻ししました。",
+        "custom_expander": "個別メモ解析入力",
+        "custom_prompt": "給与連絡テキストを入力:",
+        "btn_parse": "メモを解析・登録",
+        "sec_table": "給与備考・控除 連携台帳",
+        "btn_download": "監査ログ (JSON) 出力",
         "col_case_id": "案件番号",
         "col_employee": "社員氏名",
         "col_category": "申請項目",
-        "col_amount": "支給・控除金額",
-        "col_remark": "摘要・備考内容",
+        "col_amount": "金額 (円)",
+        "col_remark": "摘要・備考",
         "col_status": "処理状況",
-        "col_txnid": "連携トランザクションID",
+        "col_txnid": "取引ID",
         "col_time": "登録日時",
-        "status_synced": "連携完了 (自動登録)",
-        "status_review": "承認待ち (10万円超過・審査)",
-        "status_dup": "差戻し (重複申請検知)",
-        "tab2_title": "📊 業務プロセス分析と自動化ROI優先順位",
-        "tab2_caption": "Dataset B (全15セッション / 13,300イベント / 4台のPC端末) の実測ログ解析",
-        "tab2_chart1": "バックオフィス業務時間配分 (総作業時間: 174.9分)",
-        "tab2_chart2": "自動化ROIスコアランキング",
-        "tab2_finding": "💡 分析結果: 「給与備考・控除整備」(payroll_items) が全作業時間の36.3% (63.5分) を消費しており、ROIスコア 4,281.5 で全10業務中最優先と判定されました。",
-        "tab3_title": "🔍 業務セグメンテーション技術と精度検証結果",
+        "status_synced": "連携完了",
+        "status_review": "審査保留 (10万円超)",
+        "status_dup": "差戻し (重複)",
+        "tab2_title": "業務工数分析と自動化ROI順位",
+        "tab2_caption": "Dataset B (全15セッション / 13,300イベント / 4台のPC端末) の実測分析",
+        "tab2_chart1": "業務時間配分 (分)",
+        "tab2_chart2": "ROIスコア",
+        "tab2_finding": "分析結果: 「給与備考・控除整備」が全作業時間の36.3% (63.5分) を占め、ROIスコア 4,281.5 で最優先と判定。",
+        "tab3_title": "セグメンテーション技術と精度検証",
         "tab3_bullets": """
-        * **分析アルゴリズム:** マルチシグナル境界判定エンジン (`src/segmentation_engine.py`)
-        * **Dataset B 抽出成果:** 15セッションから **346件** の業務単位を自動復元 (`segments.jsonl`)
-        * **Microsoft Edge環境適応:** Dataset A (Chrome) から Dataset B (Edge: 13,300件) へのブラウザ移行を自動検知。URLハッシュ (`#/payroll-items`) 解析により、ブラウザ差異に左右されない高精度な判定を実現。
-        * **正解データ(Dataset A)精度検証:** F1スコア **0.884** (基準値 0.528から向上)、境界判定誤差 **±1.2秒以内**
+        * **分析エンジン:** マルチシグナル境界判定 (`src/segmentation_engine.py`)
+        * **Dataset B 抽出結果:** 15セッションから 346件 の業務単位を自動復元 (`segments.jsonl`)
+        * **Edgeブラウザ適応:** URLハッシュ (`#/payroll-items`) 解析により、ChromeからEdgeへの環境変更に完全適応。
+        * **正解データ検証:** F1スコア 0.884 (基準値 0.528)、境界誤差 ±1.2秒以内。
         """
     },
-    "English": {
-        "title": "AutoPay-HR | Enterprise Payroll Automation & Analytics",
-        "subtitle": "Data-Driven Workforce Analysis & Robotic Process Automation (Dataset B: 13,300 Events)",
-        "tab1": "⚡ AutoPay-HR Live Automation Tool (Step 3)",
-        "tab2": "📊 Process Intelligence & ROI Ranking (Step 2)",
-        "tab3": "🔍 Task Segmentation Analytics (Step 1)",
-        "kpi_total": "Total Cases Processed",
-        "kpi_synced": "Zero-Touch Auto-Synced",
-        "kpi_synced_delta": "Automation Rate",
-        "kpi_flagged": "Human Review Held (>¥100k)",
-        "kpi_flagged_delta": "Risk Shield Active",
-        "kpi_time": "Staff Time Saved",
-        "kpi_time_delta": ">99.8% Speedup",
-        "control_title": "⚡ Interactive Execution Control Panel",
-        "btn_routine": "▶ Run Routine Compliant Batch",
-        "btn_risk": "⚠️ Run Risk & Exception Batch (>¥100k, Dup)",
-        "btn_reset": "🔄 Reset Transaction Log",
-        "routine_success": "✅ Routine Batch processed in 0.038s! 3 cases auto-synced to portal.",
-        "risk_warning": "🛡️ Risk Rules Triggered: Cases >¥100k held for human review, duplicates blocked!",
-        "custom_expander": "📝 Live Custom Japanese Memo Ingestion Test (Click to Expand)",
-        "custom_prompt": "Paste raw HR memo or ticket text:",
-        "btn_parse": "Process Memo with AutoPay-HR",
-        "table_title": "📋 Live Enterprise Payroll Items Database",
-        "btn_download": "📥 Download Full Audit Trail (JSON)",
+    "Smart Hybrid (日英併記)": {
+        "title": "AutoPay-HR",
+        "subtitle": "Enterprise Payroll Automation & Operation Intelligence | 人事給与業務自動化",
+        "tab1": "Automation Tool (給与自動化)",
+        "tab2": "ROI Analysis (業務分析)",
+        "tab3": "Segmentation (タスク抽出)",
+        "kpi_total": "Total Processed (総件数)",
+        "kpi_synced": "Auto-Synced (自動連携)",
+        "kpi_synced_delta": "Zero-Touch Rate",
+        "kpi_flagged": "Review Queue (保留)",
+        "kpi_flagged_delta": ">¥100k Limit",
+        "kpi_time": "Time Saved (削減工数)",
+        "kpi_time_delta": "99.8% Speedup",
+        "sec_control": "Execution Controls (操作)",
+        "btn_routine": "Run Routine Batch",
+        "btn_risk": "Run Risk & Exception Batch",
+        "btn_reset": "Reset Log",
+        "routine_success": "Routine batch completed: 3 cases synced in 0.038s.",
+        "risk_warning": "Governance active: Case >¥100k held for review, duplicate rejected.",
+        "custom_expander": "Custom Memo Ingestion (個別メモ入力)",
+        "custom_prompt": "Paste raw HR memo text:",
+        "btn_parse": "Process Memo",
+        "sec_table": "Registered Payroll Adjustments (登録台帳)",
+        "btn_download": "Download Audit Trail (JSON)",
         "col_case_id": "Case ID",
-        "col_employee": "Employee Name",
-        "col_category": "Category",
-        "col_amount": "Amount (JPY)",
-        "col_remark": "Remark / Description",
-        "col_status": "Sync Status",
+        "col_employee": "社員名 (Employee)",
+        "col_category": "区分 (Category)",
+        "col_amount": "金額 (Amount)",
+        "col_remark": "備考 (Remark)",
+        "col_status": "Status",
         "col_txnid": "Transaction ID",
-        "col_time": "Processed Timestamp",
-        "status_synced": "SYNCED (Zero-Touch)",
-        "status_review": "HELD FOR REVIEW (>¥100k)",
+        "col_time": "Timestamp",
+        "status_synced": "SYNCED",
+        "status_review": "HELD FOR REVIEW",
         "status_dup": "REJECTED (Duplicate)",
-        "tab2_title": "📊 Step 2 Process Intelligence & ROI Prioritization Matrix",
-        "tab2_caption": "Empirical analysis across all 15 sessions in Dataset B (13,300 events, 4 worker machines)",
-        "tab2_chart1": "Back-Office Staff Time Distribution (Total 174.9 mins)",
-        "tab2_chart2": "ROI Impact Score Comparison",
-        "tab2_finding": "💡 Key Finding: payroll_items accounts for 36.3% of total back-office time (63.5 min) and ranks #1 by a massive margin (Score: 4,281.5 vs Runner-up: 1,520.0). Automating this process delivers the highest client ROI.",
-        "tab3_title": "🔍 Step 1 Task Segmentation Architecture & Validation",
+        "tab2_title": "Process Breakdown & ROI Priority",
+        "tab2_caption": "Empirical workload analysis across 15 sessions in Dataset B (174.9 minutes total)",
+        "tab2_chart1": "Staff Time Distribution (Minutes)",
+        "tab2_chart2": "ROI Impact Score",
+        "tab2_finding": "Finding: payroll_items accounts for 36.3% of total workload (63.5 minutes) and ranks #1 with ROI Score 4,281.5.",
+        "tab3_title": "Segmentation Architecture & Validation",
         "tab3_bullets": """
         * **Engine:** Event-driven multi-signal boundary detection (`src/segmentation_engine.py`)
-        * **Dataset B Output:** Generated `segments.jsonl` containing **346 tasks** across 15 sessions.
-        * **Browser Adaptation:** Detected that the client transitioned from Google Chrome to Microsoft Edge (13,300 events). Our engine extracts routing state dynamically from URL hash fragments (`#/payroll-items`) and normalized titles.
-        * **Ground Truth Validation (Dataset A):** F1 Score **0.884** (vs baseline 0.528), Boundary Temporal Precision within **±1.2 seconds**.
+        * **Dataset B Output:** 346 tasks extracted across 15 sessions (`segments.jsonl`)
+        * **Edge Adaptation:** Dynamic URL hash routing (`#/payroll-items`) overcoming browser migration.
+        * **Dataset A Benchmark:** F1 Score: 0.884, Temporal Precision: ±1.2s.
         """
     }
 }
 
-# Sidebar Controls
+# Clean Minimal Sidebar
 with st.sidebar:
-    st.image("https://img.icons8.com/fluency/96/bot.png", width=64)
-    st.title("AutoPay-HR")
-    st.caption("Autonomous HR Back-Office Automation\n\n**Candidate:** Ayush Kumar\n**Institute:** IIT Kharagpur\n**Major:** Chemical Engg (AI Micro-spec)\n**Email:** itsayushkr7@gmail.com")
+    st.markdown("### AutoPay-HR")
+    st.caption("Enterprise Back-Office Automation Engine")
     
-    st.divider()
-    lang = st.radio("Language / 表示言語", ["Smart Hybrid (日英併記)", "日本語 (Japanese)", "English"])
-    
-    # Active localized strings
+    st.markdown("---")
+    lang = st.radio("Language / 言語", ["English", "日本語 (Japanese)", "Smart Hybrid (日英併記)"])
     T = TEXTS[lang]
     
-    st.divider()
-    st.subheader("System Telemetry" if lang != "日本語 (Japanese)" else "システム稼働状態")
-    st.success("● Engine: Online" if lang != "日本語 (Japanese)" else "● 自動化エンジン: 稼働中")
-    st.success("● Guard: ¥100k Limit" if lang != "日本語 (Japanese)" else "● 統制ルール: 10万円上限適用")
+    st.markdown("---")
+    st.markdown("**Candidate Profile**")
+    st.markdown("""
+    * **Name:** Ayush Kumar
+    * **University:** IIT Kharagpur
+    * **Major:** Chemical Engg (AI Micro-spec)
+    * **Email:** itsayushkr7@gmail.com
+    """)
+    
+    st.markdown("---")
+    st.caption("System Status: ● Online (¥100k Guard Active)")
 
-# Initialize Session State with localized initial items
+# Initialize Session State
 if "processed_cases" not in st.session_state:
     st.session_state.processed_cases = [
         {"case_id": "P1-07080388-001", "employee": "山田 太郎", "category": "住宅手当", "amount": 18500, "remark": "9月度住宅手当", "status": "SYNCED", "txn_id": "TXN-INIT-01", "time": "2026-09-15 10:00"},
@@ -248,20 +271,21 @@ if "processed_cases" not in st.session_state:
         {"case_id": "P1-07080388-003", "employee": "高橋 健司", "category": "通勤交通費", "amount": 57500, "remark": "定期券6ヶ月分一括支給", "status": "SYNCED", "txn_id": "TXN-INIT-03", "time": "2026-09-15 10:12"},
     ]
 
-# App Header - Solid Clean Typography
-st.markdown(f'<div class="main-header">{T["title"]}</div>', unsafe_allow_html=True)
-st.markdown(f'<div class="sub-header">{T["subtitle"]}</div>', unsafe_allow_html=True)
+# Header
+st.markdown(f'<div class="app-title">{T["title"]}</div>', unsafe_allow_html=True)
+st.markdown(f'<div class="app-subtitle">{T["subtitle"]}</div>', unsafe_allow_html=True)
 
-# Top Tabs
+# Tabs
 tab1, tab2, tab3 = st.tabs([T["tab1"], T["tab2"], T["tab3"]])
 
-# ----------------- TAB 1: LIVE AUTOMATION TOOL -----------------
+# ----------------- TAB 1: AUTOMATION TOOL -----------------
 with tab1:
     total_count = len(st.session_state.processed_cases)
     synced_count = sum(1 for c in st.session_state.processed_cases if c["status"] == "SYNCED")
     flagged_count = sum(1 for c in st.session_state.processed_cases if c["status"] in ["REVIEW", "HELD"])
     time_saved_min = round(synced_count * 33.0 / 60.0, 1)
 
+    # Clean KPI Row
     c1, c2, c3, c4 = st.columns(4)
     with c1:
         st.metric(T["kpi_total"], f"{total_count}")
@@ -272,9 +296,8 @@ with tab1:
     with c4:
         st.metric(T["kpi_time"], f"{time_saved_min} min", delta=T["kpi_time_delta"])
 
-    st.divider()
-
-    st.subheader(T["control_title"])
+    st.markdown('<div class="section-label">' + T["sec_control"] + '</div>', unsafe_allow_html=True)
+    
     col_btn1, col_btn2, col_btn3 = st.columns([1, 1, 1])
 
     with col_btn1:
@@ -308,12 +331,12 @@ with tab1:
             st.session_state.processed_cases = st.session_state.processed_cases[:3]
             st.rerun()
 
-    # Custom Memo Input
+    # Minimalist Custom Memo Input
     with st.expander(T["custom_expander"], expanded=False):
         memo_text = st.text_area(
             T["custom_prompt"],
             value="""業務連絡\nP1-07080388-088\n社員名: 井上 陽子\n給与備考控除申請: 住宅手当 金額: 38,000円 本社異動に伴う社宅控除""",
-            height=100
+            height=85
         )
         if st.button(T["btn_parse"]):
             try:
@@ -331,15 +354,14 @@ with tab1:
                         "txn_id": f"TXN-{datetime.now().strftime('%H%M%S%f')[:10]}",
                         "time": datetime.now().strftime("%Y-%m-%d %H:%M")
                     })
-                    st.success(f"Parsed: {item.employee_name} | ¥{item.amount:,} | Status: {status_val}")
+                    st.success(f"Processed: {item.employee_name} | ¥{item.amount:,} | Status: {status_val}")
                     st.rerun()
             except Exception as e:
                 st.error(f"Error parsing memo: {e}")
 
     # Table Display
-    st.subheader(T["table_title"])
+    st.markdown('<div class="section-label">' + T["sec_table"] + '</div>', unsafe_allow_html=True)
     
-    # Format table for current language
     display_rows = []
     for c in st.session_state.processed_cases:
         st_text = T["status_synced"] if c["status"] == "SYNCED" else (T["status_review"] if c["status"] == "REVIEW" else T["status_dup"])
@@ -364,7 +386,7 @@ with tab1:
         hide_index=True
     )
 
-    # Download Audit Trail
+    # Download Button
     json_bytes = json.dumps(st.session_state.processed_cases, ensure_ascii=False, indent=2).encode('utf-8')
     st.download_button(
         label=T["btn_download"],
@@ -373,63 +395,48 @@ with tab1:
         mime="application/json"
     )
 
-# ----------------- TAB 2: STEP 2 ROI ANALYSIS -----------------
+# ----------------- TAB 2: ROI ANALYSIS -----------------
 with tab2:
-    st.subheader(T["tab2_title"])
+    st.markdown('<div class="section-label">' + T["tab2_title"] + '</div>', unsafe_allow_html=True)
     st.caption(T["tab2_caption"])
 
     if lang == "日本語 (Japanese)":
         process_data = [
-            {"業務プロセス": "給与備考・控除整備 (payroll_items)", "処理件数": 93, "所要時間(分)": 63.5, "時間割合": "36.3%", "クリック数": 12, "開発難易度": "中 (実現性高)", "ROIスコア": 4281.5, "優先順位": "第1位 (選定)"},
-            {"業務プロセス": "源泉徴収税更新 (tax_withholding)", "処理件数": 41, "所要時間(分)": 32.1, "時間割合": "18.4%", "クリック数": 14, "開発難易度": "高 (税法計算)", "ROIスコア": 1520.0, "優先順位": "第2位"},
-            {"業務プロセス": "休暇届出承認 (leave_applications)", "処理件数": 58, "所要時間(分)": 24.8, "時間割合": "14.2%", "クリック数": 8, "開発難易度": "低", "ROIスコア": 1438.4, "優先順位": "第3位"},
-            {"業務プロセス": "勤怠打刻修正 (attendance_correction)", "処理件数": 37, "所要時間(分)": 18.2, "時間割合": "10.4%", "クリック数": 10, "開発難易度": "中", "ROIスコア": 808.9, "優先順位": "第4位"},
-            {"業務プロセス": "社員マスタ更新 (employee_master)", "処理件数": 29, "所要時間(分)": 14.5, "時間割合": "8.3%", "クリック数": 16, "開発難易度": "高 (個人情報)", "ROIスコア": 503.2, "優先順位": "第5位"},
-            {"業務プロセス": "時間外勤務承認 (overtime_cert)", "処理件数": 25, "所要時間(分)": 9.8, "時間割合": "5.6%", "クリック数": 6, "開発難易度": "低", "ROIスコア": 343.0, "優先順位": "第6位"},
-            {"業務プロセス": "福利厚生加入 (benefit_enrollment)", "処理件数": 21, "所要時間(分)": 5.4, "時間割合": "3.1%", "クリック数": 9, "開発難易度": "中", "ROIスコア": 136.1, "優先順位": "第7位"},
-            {"業務プロセス": "振込口座変更 (bank_account_change)", "処理件数": 18, "所要時間(分)": 3.9, "時間割合": "2.2%", "クリック数": 11, "開発難易度": "高 (厳格KYC)", "ROIスコア": 84.2, "優先順位": "第8位"},
-            {"業務プロセス": "定期券再申請 (commuting_pass)", "処理件数": 14, "所要時間(分)": 1.9, "時間割合": "1.1%", "クリック数": 7, "開発難易度": "低", "ROIスコア": 31.9, "優先順位": "第9位"},
-            {"業務プロセス": "年末調整控除 (year_end_adjust)", "処理件数": 10, "所要時間(分)": 0.8, "時間割合": "0.5%", "クリック数": 15, "開発難易度": "高 (季節性)", "ROIスコア": 9.6, "優先順位": "第10位"}
+            {"業務プロセス": "給与備考・控除整備", "件数": 93, "所要時間(分)": 63.5, "時間割合": "36.3%", "クリック": 12, "難易度": "中", "ROIスコア": 4281.5, "順位": "#1 (選定)"},
+            {"業務プロセス": "源泉徴収税更新", "件数": 41, "所要時間(分)": 32.1, "時間割合": "18.4%", "クリック": 14, "難易度": "高", "ROIスコア": 1520.0, "順位": "#2"},
+            {"業務プロセス": "休暇届出承認", "件数": 58, "所要時間(分)": 24.8, "時間割合": "14.2%", "クリック": 8, "難易度": "低", "ROIスコア": 1438.4, "順位": "#3"},
+            {"業務プロセス": "勤怠打刻修正", "件数": 37, "所要時間(分)": 18.2, "時間割合": "10.4%", "クリック": 10, "難易度": "中", "ROIスコア": 808.9, "順位": "#4"},
+            {"業務プロセス": "社員マスタ更新", "件数": 29, "所要時間(分)": 14.5, "時間割合": "8.3%", "クリック": 16, "難易度": "高", "ROIスコア": 503.2, "順位": "#5"},
+            {"業務プロセス": "時間外勤務承認", "件数": 25, "所要時間(分)": 9.8, "時間割合": "5.6%", "クリック": 6, "難易度": "低", "ROIスコア": 343.0, "順位": "#6"},
+            {"業務プロセス": "福利厚生加入", "件数": 21, "所要時間(分)": 5.4, "時間割合": "3.1%", "クリック": 9, "難易度": "中", "ROIスコア": 136.1, "順位": "#7"},
+            {"業務プロセス": "口座変更", "件数": 18, "所要時間(分)": 3.9, "時間割合": "2.2%", "クリック": 11, "難易度": "高", "ROIスコア": 84.2, "順位": "#8"},
+            {"業務プロセス": "定期券再申請", "件数": 14, "所要時間(分)": 1.9, "時間割合": "1.1%", "クリック": 7, "難易度": "低", "ROIスコア": 31.9, "順位": "#9"},
+            {"業務プロセス": "年末調整控除", "件数": 10, "所要時間(分)": 0.8, "時間割合": "0.5%", "クリック": 15, "難易度": "高", "ROIスコア": 9.6, "順位": "#10"}
         ]
         proc_col = "業務プロセス"
-        score_col = "ROIスコア"
-    elif lang == "English":
-        process_data = [
-            {"Process Label": "payroll_items", "Cases": 93, "Total Time (min)": 63.5, "Share": "36.3%", "Clicks": 12, "Complexity": "Medium", "ROI Score": 4281.5, "Rank": "#1 (Selected)"},
-            {"Process Label": "tax_withholding", "Cases": 41, "Total Time (min)": 32.1, "Share": "18.4%", "Clicks": 14, "Complexity": "High", "ROI Score": 1520.0, "Rank": "#2"},
-            {"Process Label": "leave_applications", "Cases": 58, "Total Time (min)": 24.8, "Share": "14.2%", "Clicks": 8, "Complexity": "Low", "ROI Score": 1438.4, "Rank": "#3"},
-            {"Process Label": "attendance_correction", "Cases": 37, "Total Time (min)": 18.2, "Share": "10.4%", "Clicks": 10, "Complexity": "Medium", "ROI Score": 808.9, "Rank": "#4"},
-            {"Process Label": "employee_master", "Cases": 29, "Total Time (min)": 14.5, "Share": "8.3%", "Clicks": 16, "Complexity": "High", "ROI Score": 503.2, "Rank": "#5"},
-            {"Process Label": "overtime_cert", "Cases": 25, "Total Time (min)": 9.8, "Share": "5.6%", "Clicks": 6, "Complexity": "Low", "ROI Score": 343.0, "Rank": "#6"},
-            {"Process Label": "benefit_enrollment", "Cases": 21, "Total Time (min)": 5.4, "Share": "3.1%", "Clicks": 9, "Complexity": "Medium", "ROI Score": 136.1, "Rank": "#7"},
-            {"Process Label": "bank_account_change", "Cases": 18, "Total Time (min)": 3.9, "Share": "2.2%", "Clicks": 11, "Complexity": "High", "ROI Score": 84.2, "Rank": "#8"},
-            {"Process Label": "commuting_pass", "Cases": 14, "Total Time (min)": 1.9, "Share": "1.1%", "Clicks": 7, "Complexity": "Low", "ROI Score": 31.9, "Rank": "#9"},
-            {"Process Label": "year_end_adjust", "Cases": 10, "Total Time (min)": 0.8, "Share": "0.5%", "Clicks": 15, "Complexity": "High", "ROI Score": 9.6, "Rank": "#10"}
-        ]
-        proc_col = "Process Label"
-        score_col = "ROI Score"
+    elif lang == "日本語 (Japanese)":
+        pass
     else:
         process_data = [
-            {"Process / 業務名": "payroll_items (給与備考・控除整備)", "Cases": 93, "Total Time (min)": 63.5, "Share": "36.3%", "Clicks": 12, "Complexity / 難易度": "Medium (中)", "ROI Score": 4281.5, "Rank": "#1 (Selected/選定)"},
-            {"Process / 業務名": "tax_withholding (源泉徴収税更新)", "Cases": 41, "Total Time (min)": 32.1, "Share": "18.4%", "Clicks": 14, "Complexity / 難易度": "High (高)", "ROI Score": 1520.0, "Rank": "#2"},
-            {"Process / 業務名": "leave_applications (休暇届出承認)", "Cases": 58, "Total Time (min)": 24.8, "Share": "14.2%", "Clicks": 8, "Complexity / 難易度": "Low (低)", "ROI Score": 1438.4, "Rank": "#3"},
-            {"Process / 業務名": "attendance_correction (勤怠打刻修正)", "Cases": 37, "Total Time (min)": 18.2, "Share": "10.4%", "Clicks": 10, "Complexity / 難易度": "Medium (中)", "ROI Score": 808.9, "Rank": "#4"},
-            {"Process / 業務名": "employee_master (社員マスタ更新)", "Cases": 29, "Total Time (min)": 14.5, "Share": "8.3%", "Clicks": 16, "Complexity / 難易度": "High (高)", "ROI Score": 503.2, "Rank": "#5"},
-            {"Process / 業務名": "overtime_cert (時間外勤務承認)", "Cases": 25, "Total Time (min)": 9.8, "Share": "5.6%", "Clicks": 6, "Complexity / 難易度": "Low (低)", "ROI Score": 343.0, "Rank": "#6"},
-            {"Process / 業務名": "benefit_enrollment (福利厚生加入)", "Cases": 21, "Total Time (min)": 5.4, "Share": "3.1%", "Clicks": 9, "Complexity / 難易度": "Medium (中)", "ROI Score": 136.1, "Rank": "#7"},
-            {"Process / 業務名": "bank_account_change (口座変更)", "Cases": 18, "Total Time (min)": 3.9, "Share": "2.2%", "Clicks": 11, "Complexity / 難易度": "High (高)", "ROI Score": 84.2, "Rank": "#8"},
-            {"Process / 業務名": "commuting_pass (定期券再申請)", "Cases": 14, "Total Time (min)": 1.9, "Share": "1.1%", "Clicks": 7, "Complexity / 難易度": "Low (低)", "ROI Score": 31.9, "Rank": "#9"},
-            {"Process / 業務名": "year_end_adjust (年末調整控除)", "Cases": 10, "Total Time (min)": 0.8, "Share": "0.5%", "Clicks": 15, "Complexity / 提案難易度": "High (高)", "ROI Score": 9.6, "Rank": "#10"}
+            {"Process": "payroll_items", "Cases": 93, "Time (min)": 63.5, "Share": "36.3%", "Clicks": 12, "Complexity": "Medium", "ROI Score": 4281.5, "Rank": "#1 (Selected)"},
+            {"Process": "tax_withholding", "Cases": 41, "Time (min)": 32.1, "Share": "18.4%", "Clicks": 14, "Complexity": "High", "ROI Score": 1520.0, "Rank": "#2"},
+            {"Process": "leave_applications", "Cases": 58, "Time (min)": 24.8, "Share": "14.2%", "Clicks": 8, "Complexity": "Low", "ROI Score": 1438.4, "Rank": "#3"},
+            {"Process": "attendance_correction", "Cases": 37, "Time (min)": 18.2, "Share": "10.4%", "Clicks": 10, "Complexity": "Medium", "ROI Score": 808.9, "Rank": "#4"},
+            {"Process": "employee_master", "Cases": 29, "Time (min)": 14.5, "Share": "8.3%", "Clicks": 16, "Complexity": "High", "ROI Score": 503.2, "Rank": "#5"},
+            {"Process": "overtime_cert", "Cases": 25, "Time (min)": 9.8, "Share": "5.6%", "Clicks": 6, "Complexity": "Low", "ROI Score": 343.0, "Rank": "#6"},
+            {"Process": "benefit_enrollment", "Cases": 21, "Time (min)": 5.4, "Share": "3.1%", "Clicks": 9, "Complexity": "Medium", "ROI Score": 136.1, "Rank": "#7"},
+            {"Process": "bank_account_change", "Cases": 18, "Time (min)": 3.9, "Share": "2.2%", "Clicks": 11, "Complexity": "High", "ROI Score": 84.2, "Rank": "#8"},
+            {"Process": "commuting_pass", "Cases": 14, "Time (min)": 1.9, "Share": "1.1%", "Clicks": 7, "Complexity": "Low", "ROI Score": 31.9, "Rank": "#9"},
+            {"Process": "year_end_adjust", "Cases": 10, "Time (min)": 0.8, "Share": "0.5%", "Clicks": 15, "Complexity": "High", "ROI Score": 9.6, "Rank": "#10"}
         ]
-        proc_col = "Process / 業務名"
-        score_col = "ROI Score"
+        proc_col = "Process"
     df_proc = pd.DataFrame(process_data)
 
     col_chart1, col_chart2 = st.columns([1, 1])
     with col_chart1:
         st.write(f"**{T['tab2_chart1']}**")
         chart_df = pd.DataFrame({
-            "Process": [p[proc_col].split(" ")[0] for p in process_data[:5]] + (["その他 (5業務)"] if lang == "日本語 (Japanese)" else ["Other (5 processes)"]),
+            "Process": [p[proc_col] for p in process_data[:5]] + (["その他"] if lang == "日本語 (Japanese)" else ["Other"]),
             "Minutes": [63.5, 32.1, 24.8, 18.2, 14.5, 21.8]
         }).set_index("Process")
         st.bar_chart(chart_df)
@@ -437,42 +444,24 @@ with tab2:
     with col_chart2:
         st.write(f"**{T['tab2_chart2']}**")
         roi_df = pd.DataFrame({
-            "Process": [p[proc_col].split(" ")[0] for p in process_data[:6]],
+            "Process": [p[proc_col] for p in process_data[:6]],
             "ROI Score": [4281.5, 1520.0, 1438.4, 808.9, 503.2, 343.0]
         }).set_index("Process")
         st.bar_chart(roi_df)
 
-    st.write(f"**{T['tab2_title']}**")
     st.dataframe(df_proc, use_container_width=True, hide_index=True)
     st.info(T["tab2_finding"])
 
-# ----------------- TAB 3: STEP 1 SEGMENTATION -----------------
+# ----------------- TAB 3: TASK SEGMENTATION -----------------
 with tab3:
-    st.subheader(T["tab3_title"])
+    st.markdown('<div class="section-label">' + T["tab3_title"] + '</div>', unsafe_allow_html=True)
     st.markdown(T["tab3_bullets"])
     
-    if lang == "日本語 (Japanese)":
-        session_summary = pd.DataFrame([
-            {"セッションID": "B_machine1_session1", "総イベント数": 892, "検出タスク数": 24, "最多発生業務": "給与備考・控除整備 (41%)"},
-            {"セッションID": "B_machine1_session2", "総イベント数": 934, "検出タスク数": 25, "最多発生業務": "給与備考・控除整備 (38%)"},
-            {"セッションID": "B_machine2_session1", "総イベント数": 1102, "検出タスク数": 29, "最多発生業務": "源泉徴収税更新 (32%)"},
-            {"セッションID": "B_machine3_session1", "総イベント数": 785, "検出タスク数": 21, "最多発生業務": "休暇届出承認 (45%)"},
-            {"セッションID": "B_machine4_session1", "総イベント数": 1054, "検出タスク数": 28, "最多発生業務": "給与備考・控除整備 (35%)"},
-        ])
-    elif lang == "English":
-        session_summary = pd.DataFrame([
-            {"Session ID": "B_machine1_session1", "Total Events": 892, "Detected Tasks": 24, "Dominant Process": "payroll_items (41%)"},
-            {"Session ID": "B_machine1_session2", "Total Events": 934, "Detected Tasks": 25, "Dominant Process": "payroll_items (38%)"},
-            {"Session ID": "B_machine2_session1", "Total Events": 1102, "Detected Tasks": 29, "Dominant Process": "tax_withholding (32%)"},
-            {"Session ID": "B_machine3_session1", "Total Events": 785, "Detected Tasks": 21, "Dominant Process": "leave_applications (45%)"},
-            {"Session ID": "B_machine4_session1", "Total Events": 1054, "Detected Tasks": 28, "Dominant Process": "payroll_items (35%)"},
-        ])
-    else:
-        session_summary = pd.DataFrame([
-            {"Session ID": "B_machine1_session1", "Events / イベント数": 892, "Tasks / タスク数": 24, "Dominant / 主業務": "payroll_items (給与備考) 41%"},
-            {"Session ID": "B_machine1_session2", "Events / イベント数": 934, "Tasks / タスク数": 25, "Dominant / 主業務": "payroll_items (給与備考) 38%"},
-            {"Session ID": "B_machine2_session1", "Events / イベント数": 1102, "Tasks / タスク数": 29, "Dominant / 主業務": "tax_withholding (源泉税) 32%"},
-            {"Session ID": "B_machine3_session1", "Events / イベント数": 785, "Tasks / タスク数": 21, "Dominant / 主業務": "leave_applications (休暇届) 45%"},
-            {"Session ID": "B_machine4_session1", "Events / イベント数": 1054, "Tasks / タスク数": 28, "Dominant / 主業務": "payroll_items (給与備考) 35%"},
-        ])
+    session_summary = pd.DataFrame([
+        {"Session ID": "B_machine1_session1", "Events": 892, "Tasks": 24, "Dominant Process": "payroll_items (41%)"},
+        {"Session ID": "B_machine1_session2", "Events": 934, "Tasks": 25, "Dominant Process": "payroll_items (38%)"},
+        {"Session ID": "B_machine2_session1", "Events": 1102, "Tasks": 29, "Dominant Process": "tax_withholding (32%)"},
+        {"Session ID": "B_machine3_session1", "Events": 785, "Tasks": 21, "Dominant Process": "leave_applications (45%)"},
+        {"Session ID": "B_machine4_session1", "Events": 1054, "Tasks": 28, "Dominant Process": "payroll_items (35%)"},
+    ])
     st.dataframe(session_summary, use_container_width=True, hide_index=True)
