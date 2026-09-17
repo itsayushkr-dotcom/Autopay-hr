@@ -25,9 +25,19 @@ st.markdown("""
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;600;700&display=swap');
 
-    html, body, [class*="css"], .stMarkdown, .stText, h1, h2, h3, h4, p, span {
-        font-family: 'Inter', 'Noto Sans JP', -apple-system, BlinkMacSystemFont, sans-serif !important;
+    /* Clean Base Typography without breaking Streamlit icon fonts */
+    .stApp {
+        font-family: 'Inter', 'Noto Sans JP', -apple-system, BlinkMacSystemFont, sans-serif;
         -webkit-font-smoothing: antialiased;
+    }
+
+    h1, h2, h3, h4, p, label, .app-title, .app-subtitle, .section-label, .stMarkdown p {
+        font-family: 'Inter', 'Noto Sans JP', -apple-system, BlinkMacSystemFont, sans-serif !important;
+    }
+
+    /* Preserve Streamlit icon font ligatures like expander arrow */
+    [data-testid*="stIcon"], [class*="material-symbols"] {
+        font-family: 'Material Symbols Rounded', 'Material Icons' !important;
     }
 
     /* Clean, Generous Whitespace */
