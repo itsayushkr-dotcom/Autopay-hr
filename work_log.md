@@ -129,7 +129,7 @@ $$\mathbf{\text{Automation Priority Score}} = \mathbf{\text{Total Manual Time (m
 ## Day 3 — Step 3 Automation Prototype Build (`AutoPay-HR`)
 
 ### 1. Objective
-- Build a working, production-grade automation prototype for the #1 candidate identified in Step 2 (`payroll_items` / 給与備考・控除整備).
+- Build a production-oriented working prototype demonstrating the end-to-end automation architecture for the #1 candidate identified in Step 2 (`payroll_items` / 給与備考・控除整備).
 - Address client requirements: "Show us something that actually works."
 - Implement robust financial business controls: automatic validation, threshold-based human approval routing (> ¥100,000), duplicate prevention, live portal synchronization, and cryptographic audit trail generation.
 - Build automated test suite and CLI runner.

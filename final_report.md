@@ -19,7 +19,7 @@ This report delivers a data-driven operational intelligence analysis and working
 ### Key Outcomes:
 * **Step 1 (Task Segmentation):** Engineered an event-driven multi-signal boundary segmentation engine (`src/segmentation_engine.py`) validated against Dataset A ground truth (achieving **F1 = 0.884** and temporal boundary precision of **±1.2 seconds**). Successfully extracted **346 business process segments** across all 15 production sessions in Dataset B (`segments.jsonl`).
 * **Step 2 (Operational Intelligence & ROI Prioritization):** Discovered that back-office operations are dominated by 10 core processes totaling 174.7 minutes of recorded work (10,484.0 seconds). A single process—**`payroll_items` (給与備考・控除整備 / Payroll Deductions & Remarks Registration)**—consumes **36.3% of all worker time** (63.5 minutes, 93 case executions) and ranks **#1 by a massive margin with an Automation Priority Score of 51.6** (over 2.2x higher than the runner-up), derived from our transparent multi-criteria opportunity framework.
-* **Step 3 (Software Prototype - AutoPay-HR):** Built and verified `AutoPay-HR`, an enterprise hybrid Python automation engine with dual interfaces:
+* **Step 3 (Software Prototype - AutoPay-HR):** Built and verified `AutoPay-HR`, a production-shaped working prototype demonstrating the proposed automation architecture with dual interfaces:
   1. A multi-tab interactive **Streamlit Executive Dashboard** (`streamlit_app.py`) featuring dynamic 3-way internationalization (`🇯🇵 日本語`, `🇬🇧 English`, `Smart Hybrid 日英併記`), real-time batch processing, and live custom Japanese memo ingestion.
   2. A standalone **Direct Enterprise Portal Server** (`src/automation_tool/mock_portal_server.py`) mimicking Japanese HR ERP systems.
 * **Empirical Speedup & Governance:** Reduces processing time per case from **~31.0s-41.0s (manual median 31.0s / mean 41.0s) to 0.045 seconds (automated)**—a **>99.8% turnaround time reduction (>730x speedup)**—while enforcing strict financial governance (automatic flagging of transactions >¥100,000 JPY for human review and cryptographic duplicate prevention).
@@ -154,7 +154,7 @@ To ensure delivery within a compressed 3-4 day timeline, effort was structured a
 [Day 4] 20% Effort: Streamlit Internationalized UI (JA/EN/Hybrid), Docker Packaging & Final Report
 ```
 
-* **Trade-off Decision:** Rather than building superficial, shallow scripts across 5 different processes, we intentionally directed engineering resources toward building a **fully production-grade, hardened prototype for the #1 highest-impact process (`payroll_items`)**, complete with governance guards, automated regression tests, and an interactive executive control plane.
+* **Trade-off Decision:** Rather than building superficial, shallow scripts across 5 different processes, we intentionally directed engineering resources toward building a **production-shaped working prototype demonstrating the proposed automation architecture for the #1 highest-impact process (`payroll_items`)**, complete with human-in-the-loop governance guards, automated regression tests, a simulated ERP portal environment, and an interactive executive control plane.
 
 ---
 
