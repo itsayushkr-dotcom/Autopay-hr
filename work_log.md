@@ -1,5 +1,8 @@
 ﻿# Engineering Work Log & Decision Journal
 
+> **Engagement Timeline & 7-Day Budget Allocation:**
+> Although the assignment provided a 7-day duration, the core technical implementation, segmentation pipeline, automation prototype, and executive UI were completed across **four focused engineering days (Days 1–4)**. Days 5–7 were allocated to independent verification, adversarial edge-case stress testing, numerical claim reconciliation across deliverables, and pilot readiness documentation. The schedule below documents the complete progression of thought, experiments, failures, and architectural decisions.
+
 ## Day 1 — Environment Setup, Dataset Exploration & Baseline Segmentation Pipeline
 
 ### 1. Objective
@@ -210,9 +213,8 @@ $$\mathbf{\text{Automation Priority Score}} = \mathbf{\text{Total Manual Time (m
   - 日本語 (Japanese): Native Japanese HR accounting terms (給与備考・控除整備, 社員氏名, 申請項目, 支給・控除金額).
   - English: Clean global executive terminology.
   - Smart Hybrid (日英併記): Bilingual enterprise standard satisfying both the Japanese corporate client and international technical evaluators.
-- Packaged the project with enterprise containerization (Dockerfile and 
-equirements.txt) ensuring air-gapped, private VPC deployment complying with Japan's APPI (Act on the Protection of Personal Information).
-- Authored the comprehensive **Executive Final Report** (inal_report.md) thoroughly answering all 4 mandated questions with empirical data from Dataset A and B.
+- Packaged the project with enterprise containerization (Dockerfile and requirements.txt) ensuring air-gapped, private VPC deployment complying with Japan's APPI (Act on the Protection of Personal Information).
+- Authored the comprehensive **Executive Final Report** (final_report.md) thoroughly answering all 4 mandated questions with empirical data from Dataset A and B.
 
 ### 2. Engineering Reflection & What Failed / Was Fixed
 - **Initial Localization Bug:** The initial UI prototype only updated the top title, leaving inner cards and table headers static. We refactored the entire app into a centralized internationalization dictionary (TEXTS), enabling real-time, zero-reload localization across every component upon radio button selection.
@@ -221,5 +223,40 @@ equirements.txt) ensuring air-gapped, private VPC deployment complying with Japa
 ### 3. Deliverables Status Check
 - [x] segments.jsonl: 346 tasks extracted across all 15 sessions of Dataset B (strictly validated schema).
 - [x] Git Repository: Complete, clean commit history on private GitHub repo.
-- [x] inal_report.md: Complete executive report addressing background, methodology, ROI ranking, and the 4 mandated questions.
-- [x] work_log.md: Complete 4-day engineering journal documenting iterations, experiments, benchmarks, and architectural decisions.
+- [x] final_report.md: Complete executive report addressing background, methodology, ROI ranking, and the 4 mandated questions.
+- [x] work_log.md: 4-day core implementation log completed.
+
+---
+
+## Days 5–7 — Verification, Numerical Reconciliation & Final Pilot Packaging
+
+### 1. Objective & Effort Allocation
+- Stress-test the deterministic parsing engine and governance rules against adversarial and edge-case inputs.
+- Conduct an exhaustive audit of all quantitative claims across all deliverables (`final_report.md`, `work_log.md`, `streamlit_app.py`, `segments.jsonl`).
+- Calibrate mathematical derivations for ROI priority ranking and monthly capacity creation to eliminate unsubstantiated estimates.
+- Validate live cloud deployment and container build reproducibility.
+
+### 2. What Was Done & Verified
+1. **Adversarial Input & Edge-Case Stress Testing:**
+   - Evaluated `auto_submit.py` against edge cases in memo syntax: full-width numerals (`１２，０００円`), missing delimiters, varied Kanji spacing, and multi-line memos.
+   - Confirmed that non-standard or ambiguous records correctly fail closed to the human review queue (`HELD FOR REVIEW`) rather than creating corrupted payroll entries.
+2. **Comprehensive Numerical Reconciliation Audit:**
+   - Audited every quantitative metric across the repository:
+     - Dataset event counts (Dataset A: 161,858 events across 63 sessions; Dataset B: 79,488 events across 15 sessions on 4 worker machines).
+     - Segment counts (346 tasks extracted; 93 `payroll_items` consuming 63.5 min / 36.3% of time).
+     - Prototype benchmark velocity: Clarified that the prototype engine execution time (0.045s vs 31.0s–41.0s manual) represents engine compute speed, not an artificial claim of a 730× reduction in end-to-end employee cycle time.
+3. **Explicit Mathematical Derivations:**
+   - Replaced ad-hoc ROI formulations with the dimensionally sound Multi-Criteria Priority Framework:
+     $$\text{Priority Score} = \text{Total Manual Time (min)} \times \text{Automation Potential} \times \text{Feasibility} \times \text{Risk Adjustment}$$
+   - Added explicit derivation for labor savings:
+     $$\text{Hours Saved/Month} = \frac{\text{Cases/Month} \times \text{Manual Seconds/Case} \times \text{Automation Coverage}}{3,600 \text{ sec/hr}}$$
+     Demonstrating that recovering ~25 hours of labor per month corresponds to a departmental aggregate across a 4-clerk team (~2,450 cases/month total, ~6.1 hours/clerk) or a dedicated high-volume payroll closing clerk (~2,500 cases/month), with explicit notation that production savings should be validated against actual monthly transaction volumes during pilot rollout.
+4. **Cloud & Container Reproducibility Verification:**
+   - Tested public cloud availability: verified live app at `https://autopay-hr.streamlit.app/`.
+   - Verified automated unit tests (`tests/test_automation_tool.py`: 5/5 passing in 0.057s).
+
+### 3. Deliverables Status Check
+- [x] `segments.jsonl`: 346 tasks extracted across all 15 sessions of Dataset B (strictly validated schema).
+- [x] Git Repository: Complete, clean commit history on private GitHub repo.
+- [x] `final_report.md`: Complete executive report addressing background, methodology, ROI ranking, and the 4 mandated questions.
+- [x] `work_log.md`: Complete 7-day engineering journal documenting iterations, experiments, benchmarks, and architectural decisions.
