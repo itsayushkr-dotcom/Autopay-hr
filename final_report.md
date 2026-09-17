@@ -191,9 +191,9 @@ Drawing direct evidence from Dataset B event logs, we identified 4 realistic ope
 git clone https://github.com/itsayushkr-dotcom/fde-intern-selection-task.git
 cd fde-intern-selection-task
 pip install -r requirements.txt
-streamlit run streamlit_app.py
+streamlit run streamlit_app.py --server.port 8502
 ```
-*Access via browser at:* `http://localhost:8501` (or `--server.port 8502` if port 8501 is occupied).  
+*Access via browser at:* http://localhost:8502  
 *Features:* Real-time language toggle (`日本語` / `English` / `Smart Hybrid`), interactive batch simulation, and custom memo NLP testing.
 
 ### Option 3: Docker Containerized Execution (Enterprise Private Cloud)

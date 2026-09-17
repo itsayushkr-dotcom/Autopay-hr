@@ -25,9 +25,9 @@ A live, interactive executive dashboard and automation simulator is deployed and
 git clone https://github.com/itsayushkr-dotcom/fde-intern-selection-task.git
 cd fde-intern-selection-task
 pip install -r requirements.txt
-streamlit run streamlit_app.py
+streamlit run streamlit_app.py --server.port 8502
 ```
-* Then open **http://localhost:8501** (or `http://localhost:8502` if port 8501 is occupied) in your browser.
+* Then open **http://localhost:8502** in your browser.
 * **Features:** Dynamic 3-way language toggle (**日本語 (Japanese)**, **English**, and **Smart Hybrid (日英併記)**), live batch simulation, ¥100k risk governance testing, and audit trail download.
 
 ### 2. Run via Docker (Enterprise Containerized Deployment)
