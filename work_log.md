@@ -173,9 +173,10 @@ $$\mathbf{\text{Automation Priority Score}} = \mathbf{\text{Total Manual Time (m
   - Duplicate case prevention: PASS (Rejected)
   - Live portal HTTP sync: PASS (HTTP 201 Created with transaction ID)
 - **Batch Processing Performance:**
-  - Ingested 10 cases across 3 batches in < 0.1 seconds.
-  - Manual baseline (Dataset B): 33.0 seconds per case $\times$ 10 cases = 330 seconds (5.5 minutes).
-  - **Productivity Gain:** **> 99.8% reduction in turnaround time** for compliant cases, while catching 100% of policy anomalies and duplicates.
+  - Ingested 10 cases across 3 batches in < 0.1 seconds (0.045s average single-case API latency).
+  - Manual baseline (Dataset B): ~31.0s median / 41.0s mean per case.
+  - **Engine Velocity Gain:** **> 99.8% reduction in deterministic engine processing time** for compliant cases, while catching 100% of policy anomalies and duplicates.
+  - *Engineering Note on Speedup Interpretation:* As highlighted in the assignment brief, test logs feature shorter idle times than production. We explicitly recognize that this benchmark reflects deterministic engine compute velocity rather than end-to-end production cycle time, which will be bounded by human review queues (>¥100k items), enterprise network RTT, and approval workflows.
 
 ---
 

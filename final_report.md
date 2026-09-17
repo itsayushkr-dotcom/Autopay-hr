@@ -22,7 +22,7 @@ This report delivers a data-driven operational intelligence analysis and working
 * **Step 3 (Software Prototype - AutoPay-HR):** Built and verified `AutoPay-HR`, a production-shaped working prototype demonstrating the proposed automation architecture with dual interfaces:
   1. A multi-tab interactive **Streamlit Executive Dashboard** (`streamlit_app.py`) featuring dynamic 3-way internationalization (`🇯🇵 日本語`, `🇬🇧 English`, `Smart Hybrid 日英併記`), real-time batch processing, and live custom Japanese memo ingestion.
   2. A standalone **Direct Enterprise Portal Server** (`src/automation_tool/mock_portal_server.py`) mimicking Japanese HR ERP systems.
-* **Empirical Speedup & Governance:** Reduces processing time per case from **~31.0s-41.0s (manual median 31.0s / mean 41.0s) to 0.045 seconds (automated)**—a **>99.8% turnaround time reduction (>730x speedup)**—while enforcing strict financial governance (automatic flagging of transactions >¥100,000 JPY for human review and cryptographic duplicate prevention).
+* **Empirical Prototype Benchmark & Governance:** In the prototype benchmark, the deterministic engine reduced execution time from **~31.0s–41.0s (manual baseline) to 0.045 seconds per case**. Crucially, as emphasized in the problem brief, test environment logs feature shorter waiting times than real operations; this benchmark demonstrates deterministic compute and submission velocity rather than a naive 730× reduction in end-to-end production cycle time (which remains bounded by human review queues, network RTT, and operational checks). Strict financial governance is enforced via automatic review routing for items >¥100,000 JPY and cryptographic duplicate prevention.
 
 ---
 
@@ -126,10 +126,10 @@ We selected a **Deterministic Hybrid Python Architecture** (combining localized 
   2. **Unparseable / Corrupt Attachments:** Handwritten receipts or corrupt image files (~3–5% of volume) are routed to manual processing.
   3. **Monthly Audit Verification:** A 15-minute monthly reconciliation of the generated `audit_trail.json` against the enterprise ledger.
 * **Realistic Business Impact:**
-  - **Zero-Touch Automation Rate:** **85–90% of routine cases** process end-to-end without human intervention.
-  - **Processing Velocity:** Turnaround dropped from **33.0 seconds to 0.045 seconds** per case (>99.8% reduction).
-  - **Error Rate:** Decreased from ~2.5% manual typing/clipboard errors to **0.0% machine entry error** for all approved transactions.
-  - **Capacity Creation:** Frees approximately **25 hours per clerk per month**, enabling back-office staff to transition from manual data entry to employee advisory and talent development.
+  - **Zero-Touch Automation Rate:** **85–90% of routine cases** process end-to-end without human intervention (with 5–10% routed to the manager review queue).
+  - **Engine Processing Velocity:** In the prototype benchmark, the deterministic automation engine reduced its own processing time from **~31.0s–41.0s to 0.045 seconds per case**. *Note on Production Interpretation:* As highlighted in the project brief, test logs have artificially short waiting times compared with real production. This should not be interpreted as a literal 730× reduction in end-to-end employee cycle time, because production network latency, human review queues, ERP response times, and exception handling are not represented in the test environment.
+  - **Error Rate Elimination:** Decreased from ~2.5% manual typing/clipboard errors to **0.0% machine entry error** for all approved transactions.
+  - **Net Capacity Creation:** Frees approximately **20–25 hours per clerk per month** in routine mechanical typing and window switching, allowing staff to reallocate time to complex employee inquiries, benefits advising, and exception management.
 
 ### Question 4: Anticipated implementation and rollout risks, and mitigation strategy
 Drawing direct evidence from Dataset B event logs, we identified 4 realistic operational risks:
