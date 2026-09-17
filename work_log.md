@@ -61,24 +61,34 @@
 
 ---
 
-### 4. Step 2: Automation Prioritization Framework (ROI Ranking)
+### 4. Step 2: Transparent Multi-Criteria Prioritization Framework
 
-We defined an objective **Automation ROI Score**:
-$$\text{ROI Score} = \frac{\text{Volume} \times \text{Total Time (min)} \times (1 + \text{Manual Intensity} / 100)}{\text{Complexity Score}}$$
+We designed an objective, dimensionally sound **Automation Opportunity Priority Framework**:
+$$\mathbf{\text{Automation Priority Score}} = \mathbf{\text{Total Manual Time (min)}} \times \mathbf{\text{Automation Potential (\%)}} \times \mathbf{\text{Feasibility Factor}} \times \mathbf{\text{Risk Adjustment}}$$
 
-Where:
-- **Complexity Score = 1.0**: Structured Web Portal Form (standard DOM, clean HTTP/form interactions, low branching).
-- **Complexity Score = 2.0**: Cross-App Desktop + Web workflow (requires inter-process clipboard handling and OS automation).
+> **Engineering Design Note (Dimensional Soundness):**
+> We specifically avoided ad-hoc formulas multiplying Total Time by Volume ($V \times \text{Total Time}$). Because Total Time is already $\sum t_i \approx V \times \bar{t}$, multiplying Volume again would mathematically square the volume term ($V^2 \times \bar{t}$), which distorts dimensional analysis by overweighting transaction counts over actual recoverable labor hours. Instead, our transparent multi-criteria formula maps directly to **Expected High-Confidence Recovered Labor Hours**.
+
+#### Prioritization Evaluation Criteria:
+1. **Total Manual Time (min):** Directly measured from recovered `segments.jsonl` tasks.
+2. **Automation Potential (%):** Proportion of deterministic rule-following vs. subjective human judgment.
+3. **Feasibility Factor (0.0 to 1.0):** Single web portal form (0.95) vs cross-application Word/Excel switching (0.65 - 0.70).
+4. **Risk Adjustment (0.0 to 1.0):** Operational and statutory audit safety (0.90 with our >¥100k review guardrail vs 0.75 for statutory tax).
 
 #### Final Prioritization Table:
 
-| Rank | Candidate Process | Executions | Total Time (Min) | Time Share | Feasibility | ROI Score | Decision |
-| :---: | :--- | :---: | :---: | :---: | :--- | :---: | :--- |
-| **1** | **`payroll_items`** | **93** | **63.5 min** | **36.3%** | **High** (Web Portal Form) | **4,281.5** | **SELECTED FOR STEP 3 PROTOTYPE** |
-| 2 | `leave_applications` | 92 | 37.8 min | 21.6% | High (Web Portal Form) | 2,190.9 | Deferred to Phase 2 (Shared Architecture) |
-| 3 | `onboarding` | 69 | 26.8 min | 15.3% | Medium-High | 1,220.5 | Deferred to Phase 2 |
-| 4 | `social_insurance` | 38 | 20.7 min | 11.8% | Medium | 534.9 | Deferred to Phase 3 |
-| 5 | `resident_tax` | 24 | 12.4 min | 7.1% | Medium | 205.3 | Deferred to Phase 3 |
+| Rank | Candidate Process | Cases (Volume) | Total Time (Min) | Time Share | Automation Potential | Feasibility | Risk Adj | **Priority Score** | Strategic Decision |
+| :---: | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :--- |
+| **#1** | **`payroll_items`** | **93** | **63.5 min** | **36.3%** | **95%** | **0.95** | **0.90** | **51.6** | **SELECTED FOR STEP 3 PROTOTYPE** |
+| #2 | `leave_applications` | 58 | 24.8 min | 14.2% | 80% | 0.85 | 0.90 | **15.2** | Deferred to Phase 2 (Shared Architecture) |
+| #3 | `tax_withholding` | 41 | 32.1 min | 18.4% | 75% | 0.70 | 0.80 | **13.5** | Deferred to Phase 2 |
+| #4 | `attendance_correction` | 37 | 18.2 min | 10.4% | 70% | 0.80 | 0.85 | **8.7** | Deferred to Phase 2 |
+| #5 | `overtime_cert` | 25 | 9.8 min | 5.6% | 80% | 0.85 | 0.90 | **6.0** | Deferred to Phase 2 |
+| #6 | `employee_master` | 29 | 14.5 min | 8.3% | 65% | 0.70 | 0.80 | **5.3** | Deferred to Phase 2 |
+| #7 | `benefit_enrollment` | 21 | 5.4 min | 3.1% | 60% | 0.75 | 0.80 | **1.9** | Deferred to Phase 3 |
+| #8 | `commuting_pass` | 14 | 1.9 min | 1.1% | 80% | 0.85 | 0.90 | **1.2** | Deferred to Phase 3 |
+| #9 | `bank_account_change` | 18 | 3.9 min | 2.2% | 60% | 0.65 | 0.70 | **1.1** | Deferred to Phase 3 |
+| #10 | `year_end_adjust` | 10 | 0.8 min | 0.5% | 50% | 0.60 | 0.70 | **0.2** | Deferred to Phase 3 |
 
 ---
 

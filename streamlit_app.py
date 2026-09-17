@@ -205,7 +205,7 @@ TEXTS = {
         "tab2_caption": "Empirical workload analysis across 15 sessions in Dataset B (4 worker machines, 174.9 minutes total)",
         "tab2_chart1": "Staff Time Distribution (Minutes)",
         "tab2_chart2": "ROI Impact Score",
-        "tab2_finding": "Finding: payroll_items accounts for 36.3% of total back-office workload (63.5 minutes) and ranks #1 with an ROI score of 4,281.5.",
+        "tab2_finding": "Finding: payroll_items accounts for 36.3% of total back-office workload (63.5 minutes) and ranks #1 with an Automation Priority Score of 51.6 (over 3.4x higher than the runner-up).",
         "tab3_title": "Segmentation Architecture & Validation",
         "tab3_bullets": """
         * **Engine:** Event-driven multi-signal boundary detection (`src/segmentation_engine.py`)
@@ -253,7 +253,7 @@ TEXTS = {
         "tab2_caption": "Dataset B (全15セッション / 13,300イベント / 4台のPC端末) の実測分析",
         "tab2_chart1": "業務時間配分 (分)",
         "tab2_chart2": "ROIスコア",
-        "tab2_finding": "分析結果: 「給与備考・控除整備」が全作業時間の36.3% (63.5分) を占め、ROIスコア 4,281.5 で最優先と判定。",
+        "tab2_finding": "分析結果: 「給与備考・控除整備」が全作業時間の36.3% (63.5分) を占め、自動化優先度スコア 51.6 (次点比3.4倍超) で最優先 (#1) と判定。",
         "tab3_title": "セグメンテーション技術と精度検証",
         "tab3_bullets": """
         * **分析エンジン:** マルチシグナル境界判定 (`src/segmentation_engine.py`)
@@ -301,7 +301,7 @@ TEXTS = {
         "tab2_caption": "Empirical workload analysis across 15 sessions in Dataset B (174.9 minutes total)",
         "tab2_chart1": "Staff Time Distribution (Minutes)",
         "tab2_chart2": "ROI Impact Score",
-        "tab2_finding": "Finding: payroll_items accounts for 36.3% of total workload (63.5 minutes) and ranks #1 with ROI Score 4,281.5.",
+        "tab2_finding": "Finding: payroll_items accounts for 36.3% of total workload (63.5 minutes) and ranks #1 with Automation Priority Score 51.6 (3.4x over runner-up).",
         "tab3_title": "Segmentation Architecture & Validation",
         "tab3_bullets": """
         * **Engine:** Event-driven multi-signal boundary detection (`src/segmentation_engine.py`)
@@ -480,34 +480,34 @@ with tab2:
 
     if lang == "日本語 (Japanese)":
         process_data = [
-            {"業務プロセス": "給与備考・控除整備", "件数": 93, "所要時間(分)": 63.5, "時間割合": "36.3%", "クリック": 12, "難易度": "中", "ROIスコア": 4281.5, "順位": "#1 (選定)"},
-            {"業務プロセス": "源泉徴収税更新", "件数": 41, "所要時間(分)": 32.1, "時間割合": "18.4%", "クリック": 14, "難易度": "高", "ROIスコア": 1520.0, "順位": "#2"},
-            {"業務プロセス": "休暇届出承認", "件数": 58, "所要時間(分)": 24.8, "時間割合": "14.2%", "クリック": 8, "難易度": "低", "ROIスコア": 1438.4, "順位": "#3"},
-            {"業務プロセス": "勤怠打刻修正", "件数": 37, "所要時間(分)": 18.2, "時間割合": "10.4%", "クリック": 10, "難易度": "中", "ROIスコア": 808.9, "順位": "#4"},
-            {"業務プロセス": "社員マスタ更新", "件数": 29, "所要時間(分)": 14.5, "時間割合": "8.3%", "クリック": 16, "難易度": "高", "ROIスコア": 503.2, "順位": "#5"},
-            {"業務プロセス": "時間外勤務承認", "件数": 25, "所要時間(分)": 9.8, "時間割合": "5.6%", "クリック": 6, "難易度": "低", "ROIスコア": 343.0, "順位": "#6"},
-            {"業務プロセス": "福利厚生加入", "件数": 21, "所要時間(分)": 5.4, "時間割合": "3.1%", "クリック": 9, "難易度": "中", "ROIスコア": 136.1, "順位": "#7"},
-            {"業務プロセス": "口座変更", "件数": 18, "所要時間(分)": 3.9, "時間割合": "2.2%", "クリック": 11, "難易度": "高", "ROIスコア": 84.2, "順位": "#8"},
-            {"業務プロセス": "定期券再申請", "件数": 14, "所要時間(分)": 1.9, "時間割合": "1.1%", "クリック": 7, "難易度": "低", "ROIスコア": 31.9, "順位": "#9"},
-            {"業務プロセス": "年末調整控除", "件数": 10, "所要時間(分)": 0.8, "時間割合": "0.5%", "クリック": 15, "難易度": "高", "ROIスコア": 9.6, "順位": "#10"}
+            {"業務プロセス": "給与備考・控除整備", "件数": 93, "所要時間(分)": 63.5, "時間割合": "36.3%", "自動化適合度": "95%", "実現性": 0.95, "リスク調整": 0.90, "優先度スコア": 51.6, "判定": "#1 (選定)"},
+            {"業務プロセス": "休暇届出承認", "件数": 58, "所要時間(分)": 24.8, "時間割合": "14.2%", "自動化適合度": "80%", "実現性": 0.85, "リスク調整": 0.90, "優先度スコア": 15.2, "判定": "#2"},
+            {"業務プロセス": "源泉徴収税更新", "件数": 41, "所要時間(分)": 32.1, "時間割合": "18.4%", "自動化適合度": "75%", "実現性": 0.70, "リスク調整": 0.80, "優先度スコア": 13.5, "判定": "#3"},
+            {"業務プロセス": "勤怠打刻修正", "件数": 37, "所要時間(分)": 18.2, "時間割合": "10.4%", "自動化適合度": "70%", "実現性": 0.80, "リスク調整": 0.85, "優先度スコア": 8.7, "判定": "#4"},
+            {"業務プロセス": "時間外勤務承認", "件数": 25, "所要時間(分)": 9.8, "時間割合": "5.6%", "自動化適合度": "80%", "実現性": 0.85, "リスク調整": 0.90, "優先度スコア": 6.0, "判定": "#5"},
+            {"業務プロセス": "社員マスタ更新", "件数": 29, "所要時間(分)": 14.5, "時間割合": "8.3%", "自動化適合度": "65%", "実現性": 0.70, "リスク調整": 0.80, "優先度スコア": 5.3, "判定": "#6"},
+            {"業務プロセス": "福利厚生加入", "件数": 21, "所要時間(分)": 5.4, "時間割合": "3.1%", "自動化適合度": "60%", "実現性": 0.75, "リスク調整": 0.80, "優先度スコア": 1.9, "判定": "#7"},
+            {"業務プロセス": "定期券再申請", "件数": 14, "所要時間(分)": 1.9, "時間割合": "1.1%", "自動化適合度": "80%", "実現性": 0.85, "リスク調整": 0.90, "優先度スコア": 1.2, "判定": "#8"},
+            {"業務プロセス": "口座変更", "件数": 18, "所要時間(分)": 3.9, "時間割合": "2.2%", "自動化適合度": "60%", "実現性": 0.65, "リスク調整": 0.70, "優先度スコア": 1.1, "判定": "#9"},
+            {"業務プロセス": "年末調整控除", "件数": 10, "所要時間(分)": 0.8, "時間割合": "0.5%", "自動化適合度": "50%", "実現性": 0.60, "リスク調整": 0.70, "優先度スコア": 0.2, "判定": "#10"}
         ]
         proc_col = "業務プロセス"
-    elif lang == "日本語 (Japanese)":
-        pass
+        score_col = "優先度スコア"
     else:
         process_data = [
-            {"Process": "payroll_items", "Cases": 93, "Time (min)": 63.5, "Share": "36.3%", "Clicks": 12, "Complexity": "Medium", "ROI Score": 4281.5, "Rank": "#1 (Selected)"},
-            {"Process": "tax_withholding", "Cases": 41, "Time (min)": 32.1, "Share": "18.4%", "Clicks": 14, "Complexity": "High", "ROI Score": 1520.0, "Rank": "#2"},
-            {"Process": "leave_applications", "Cases": 58, "Time (min)": 24.8, "Share": "14.2%", "Clicks": 8, "Complexity": "Low", "ROI Score": 1438.4, "Rank": "#3"},
-            {"Process": "attendance_correction", "Cases": 37, "Time (min)": 18.2, "Share": "10.4%", "Clicks": 10, "Complexity": "Medium", "ROI Score": 808.9, "Rank": "#4"},
-            {"Process": "employee_master", "Cases": 29, "Time (min)": 14.5, "Share": "8.3%", "Clicks": 16, "Complexity": "High", "ROI Score": 503.2, "Rank": "#5"},
-            {"Process": "overtime_cert", "Cases": 25, "Time (min)": 9.8, "Share": "5.6%", "Clicks": 6, "Complexity": "Low", "ROI Score": 343.0, "Rank": "#6"},
-            {"Process": "benefit_enrollment", "Cases": 21, "Time (min)": 5.4, "Share": "3.1%", "Clicks": 9, "Complexity": "Medium", "ROI Score": 136.1, "Rank": "#7"},
-            {"Process": "bank_account_change", "Cases": 18, "Time (min)": 3.9, "Share": "2.2%", "Clicks": 11, "Complexity": "High", "ROI Score": 84.2, "Rank": "#8"},
-            {"Process": "commuting_pass", "Cases": 14, "Time (min)": 1.9, "Share": "1.1%", "Clicks": 7, "Complexity": "Low", "ROI Score": 31.9, "Rank": "#9"},
-            {"Process": "year_end_adjust", "Cases": 10, "Time (min)": 0.8, "Share": "0.5%", "Clicks": 15, "Complexity": "High", "ROI Score": 9.6, "Rank": "#10"}
+            {"Process": "payroll_items", "Cases": 93, "Time (min)": 63.5, "Share": "36.3%", "Potential": "95%", "Feasibility": 0.95, "Risk Adj": 0.90, "Priority Score": 51.6, "Decision": "#1 (Selected)"},
+            {"Process": "leave_applications", "Cases": 58, "Time (min)": 24.8, "Share": "14.2%", "Potential": "80%", "Feasibility": 0.85, "Risk Adj": 0.90, "Priority Score": 15.2, "Decision": "#2"},
+            {"Process": "tax_withholding", "Cases": 41, "Time (min)": 32.1, "Share": "18.4%", "Potential": "75%", "Feasibility": 0.70, "Risk Adj": 0.80, "Priority Score": 13.5, "Decision": "#3"},
+            {"Process": "attendance_correction", "Cases": 37, "Time (min)": 18.2, "Share": "10.4%", "Potential": "70%", "Feasibility": 0.80, "Risk Adj": 0.85, "Priority Score": 8.7, "Decision": "#4"},
+            {"Process": "overtime_cert", "Cases": 25, "Time (min)": 9.8, "Share": "5.6%", "Potential": "80%", "Feasibility": 0.85, "Risk Adj": 0.90, "Priority Score": 6.0, "Decision": "#5"},
+            {"Process": "employee_master", "Cases": 29, "Time (min)": 14.5, "Share": "8.3%", "Potential": "65%", "Feasibility": 0.70, "Risk Adj": 0.80, "Priority Score": 5.3, "Decision": "#6"},
+            {"Process": "benefit_enrollment", "Cases": 21, "Time (min)": 5.4, "Share": "3.1%", "Potential": "60%", "Feasibility": 0.75, "Risk Adj": 0.80, "Priority Score": 1.9, "Decision": "#7"},
+            {"Process": "commuting_pass", "Cases": 14, "Time (min)": 1.9, "Share": "1.1%", "Potential": "80%", "Feasibility": 0.85, "Risk Adj": 0.90, "Priority Score": 1.2, "Decision": "#8"},
+            {"Process": "bank_account_change", "Cases": 18, "Time (min)": 3.9, "Share": "2.2%", "Potential": "60%", "Feasibility": 0.65, "Risk Adj": 0.70, "Priority Score": 1.1, "Decision": "#9"},
+            {"Process": "year_end_adjust", "Cases": 10, "Time (min)": 0.8, "Share": "0.5%", "Potential": "50%", "Feasibility": 0.60, "Risk Adj": 0.70, "Priority Score": 0.2, "Decision": "#10"}
         ]
         proc_col = "Process"
+        score_col = "Priority Score"
     df_proc = pd.DataFrame(process_data)
 
     col_chart1, col_chart2 = st.columns([1, 1])
@@ -515,7 +515,7 @@ with tab2:
         st.write(f"**{T['tab2_chart1']}**")
         chart_df = pd.DataFrame({
             "Process": [p[proc_col] for p in process_data[:5]] + (["その他"] if lang == "日本語 (Japanese)" else ["Other"]),
-            "Minutes": [63.5, 32.1, 24.8, 18.2, 14.5, 21.8]
+            "Minutes": [63.5, 24.8, 32.1, 18.2, 9.8, 26.5]
         }).set_index("Process")
         st.bar_chart(chart_df)
 
@@ -523,7 +523,7 @@ with tab2:
         st.write(f"**{T['tab2_chart2']}**")
         roi_df = pd.DataFrame({
             "Process": [p[proc_col] for p in process_data[:6]],
-            "ROI Score": [4281.5, 1520.0, 1438.4, 808.9, 503.2, 343.0]
+            "Priority Score": [p[score_col] for p in process_data[:6]]
         }).set_index("Process")
         st.bar_chart(roi_df)
 

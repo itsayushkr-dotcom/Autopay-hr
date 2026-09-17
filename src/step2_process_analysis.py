@@ -163,12 +163,24 @@ def run_step2_analysis():
     print("\n--- Manual Operation Intensity (Per Execution Medians) ---")
     print(df_summary[["Process", "Executions", "Med_Keystrokes", "Med_Clicks", "Med_Clipboard", "Med_AppSwitches", "Apps"]].to_string(index=False))
     
-    # 5. ROI Prioritization Score Calculation
-    # Priority = (Volume * Total_Time * Manual_Intensity) / Complexity
-    # We define:
-    # - Impact Factor: (Time_Share_Pct * Executions) normalized
-    # - Repetitiveness Factor: high keystrokes + clicks + clipboard per execution (shows tedious manual work)
-    # - Feasibility: Web portal tasks have clean DOM/HTTP/forms (High Feasibility = Lower Difficulty Score)
+    # 5. Transparent Multi-Criteria Automation Priority Score Calculation
+    # Priority Score = Total_Time_Min * Automation_Potential * Feasibility * Risk_Adjustment
+    # Where:
+    # - Total_Time_Min: Scale of manual time drain directly measured from Dataset B logs
+    # - Automation_Potential: Proportion of process that is deterministic rule-following vs human judgment
+    # - Feasibility: Technical integration simplicity (pure web portal vs multi-app desktop orchestration)
+    # - Risk_Adjustment: Operational & financial safety (e.g. low risk when paired with human review thresholds)
+    
+    criteria_specs = {
+        "payroll_items": {"potential": 0.95, "feasibility": 0.95, "risk_adj": 0.90, "decision": "SELECTED FOR STEP 3 PROTOTYPE"},
+        "leave_applications": {"potential": 0.80, "feasibility": 0.85, "risk_adj": 0.90, "decision": "Deferred to Phase 2"},
+        "tax_withholding": {"potential": 0.75, "feasibility": 0.70, "risk_adj": 0.80, "decision": "Deferred to Phase 2"},
+        "onboarding": {"potential": 0.65, "feasibility": 0.70, "risk_adj": 0.80, "decision": "Deferred to Phase 2"},
+        "attendance_correction": {"potential": 0.70, "feasibility": 0.80, "risk_adj": 0.85, "decision": "Deferred to Phase 2"},
+        "employee_master": {"potential": 0.65, "feasibility": 0.70, "risk_adj": 0.80, "decision": "Deferred to Phase 2"},
+        "social_insurance": {"potential": 0.60, "feasibility": 0.65, "risk_adj": 0.75, "decision": "Deferred to Phase 3"},
+        "resident_tax": {"potential": 0.60, "feasibility": 0.65, "risk_adj": 0.75, "decision": "Deferred to Phase 3"}
+    }
     
     df_roi = df_summary[df_summary["Executions"] >= 10].copy()
     
@@ -177,37 +189,30 @@ def run_step2_analysis():
         proc = row["Process"]
         vol = row["Executions"]
         time_min = row["Total_Time_Min"]
-        intensity = row["Med_Keystrokes"] + row["Med_Clicks"] * 2 + row["Med_Clipboard"] * 3
         
-        # Feasibility assessment based on system stack:
-        # Web portal with structured fields = High Feasibility (Complexity Score = 1.0 to 1.5)
-        # Cross-app with Word/Excel = Medium Feasibility (Complexity Score = 2.0 to 2.5)
-        if "Microsoft Word" in row["Apps"] or "Microsoft Excel" in row["Apps"]:
-            complexity = 2.0
-            feasibility_rating = "Medium (Desktop Office + Web)"
-        else:
-            complexity = 1.0
-            feasibility_rating = "High (Pure Web Portal Form)"
-            
-        roi_score = (vol * time_min * (1.0 + intensity / 100.0)) / complexity
+        spec = criteria_specs.get(proc, {"potential": 0.60, "feasibility": 0.70, "risk_adj": 0.75, "decision": "Deferred to Later Phase"})
+        
+        score = time_min * spec["potential"] * spec["feasibility"] * spec["risk_adj"]
         
         roi_rows.append({
             "Process": proc,
-            "Executions": vol,
+            "Cases": vol,
             "Total_Time_Min": time_min,
             "Time_Pct": row["Time_Share_Pct"],
-            "Manual_Intensity_Score": round(intensity, 1),
-            "Feasibility": feasibility_rating,
-            "ROI_Score": round(roi_score, 1)
+            "Automation_Potential": f"{int(spec['potential'] * 100)}%",
+            "Feasibility": spec["feasibility"],
+            "Risk_Adjustment": spec["risk_adj"],
+            "Priority_Score": round(score, 1),
+            "Strategic_Decision": spec["decision"]
         })
         
-    df_ranked = pd.DataFrame(roi_rows).sort_values("ROI_Score", ascending=False)
+    df_ranked = pd.DataFrame(roi_rows).sort_values("Priority_Score", ascending=False)
     df_ranked["Rank"] = range(1, len(df_ranked) + 1)
     
     print("\n" + "=" * 80)
-    print("FINAL PRIORITIZED AUTOMATION CANDIDATES (STEP 2 RANKING)")
+    print("FINAL PRIORITIZED AUTOMATION CANDIDATES (TRANSPARENT MULTI-CRITERIA RANKING)")
     print("=" * 80)
-    print(df_ranked[["Rank", "Process", "Executions", "Total_Time_Min", "Time_Pct", "Feasibility", "ROI_Score"]].to_string(index=False))
+    print(df_ranked[["Rank", "Process", "Cases", "Total_Time_Min", "Time_Pct", "Automation_Potential", "Feasibility", "Risk_Adjustment", "Priority_Score", "Strategic_Decision"]].to_string(index=False))
     
     return df_summary, df_ranked
 
