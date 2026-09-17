@@ -15,8 +15,8 @@ class MemoParser:
     CASE_PATTERN = re.compile(r'([A-Z0-9]{2,4}-[0-9]{6,10}-[0-9]{2,4}|[A-Z0-9]{2,8}-[0-9]{3,6})')
     AMOUNT_PATTERN = re.compile(r'(?:金額|調整額|計)[：:\s]*([0-9,]+)\s*円?')
     STANDALONE_YEN_PATTERN = re.compile(r'([0-9,]+)\s*円')
-    CATEGORY_PATTERN = re.compile(r'(?:費目|区分|項目)[：:\s]*([^\s\r\n。、]+)')
-    EMPLOYEE_PATTERN = re.compile(r'(?:申請者|対象者|社員|氏名)[：:\s]*([^\s\r\n。、]+(?:\s+[^\s\r\n。、]+)?)')
+    CATEGORY_PATTERN = re.compile(r'(?:給与備考控除申請|給与備考|費目|区分|項目)[：:\s]*([^\s\r\n。、]+)')
+    EMPLOYEE_PATTERN = re.compile(r'(?:申請者|対象者|社員名|氏名|社員|氏)[：:\s]*([^\s\r\n。、]+(?:\s+[^\s\r\n。、]+)?)')
     
     @classmethod
     def parse_text(cls, raw_text: str, source_name: str = "memo.txt") -> List[PayrollAdjustmentItem]:
@@ -116,3 +116,9 @@ class MemoParser:
             source_memo=source_name,
             raw_text=str(data)
         )
+
+
+def parse_memo(raw_text: str) -> Optional[PayrollAdjustmentItem]:
+    """Convenience functional wrapper for parsing a memo text block."""
+    items = MemoParser.parse_text(raw_text)
+    return items[0] if items else None

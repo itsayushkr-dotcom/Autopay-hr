@@ -51,3 +51,9 @@ class BusinessRuleEngine:
 
     def register_processed(self, case_id: str):
         self.processed_cases.add(case_id)
+
+
+def validate_case(item: PayrollAdjustmentItem) -> ValidationResult:
+    """Convenience functional wrapper for validating an adjustment item."""
+    engine = BusinessRuleEngine()
+    return engine.validate(item)

@@ -18,6 +18,10 @@ class PayrollAdjustmentItem:
     currency: str = "JPY"
     created_at: str = field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
 
+    @property
+    def employee_name(self) -> str:
+        return self.employee_name_or_id
+
     def to_dict(self):
         return asdict(self)
 
