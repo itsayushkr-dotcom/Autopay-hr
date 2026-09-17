@@ -40,19 +40,18 @@ st.markdown("""
         font-family: 'Material Symbols Rounded', 'Material Icons' !important;
     }
 
-    /* Clean, Generous Whitespace with Top Clearance */
+    /* Pixel-Perfect Balanced Top Spacing */
     .block-container {
-        padding-top: 4.75rem !important;
-        padding-bottom: 3rem !important;
+        padding-top: 3.6rem !important;
+        padding-bottom: 2.5rem !important;
         max-width: 1200px !important;
     }
 
     /* Prominent Enterprise Header */
     .header-box {
         border-bottom: 1px solid rgba(255, 255, 255, 0.12);
-        padding-top: 0.5rem;
-        padding-bottom: 1.25rem;
-        margin-bottom: 1.8rem;
+        padding-bottom: 1.1rem;
+        margin-bottom: 1.5rem;
     }
     .header-pill {
         display: inline-block;
