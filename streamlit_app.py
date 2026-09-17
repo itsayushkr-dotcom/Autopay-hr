@@ -16,56 +16,61 @@ except ImportError:
 
 st.set_page_config(
     page_title="AutoPay-HR | Enterprise Payroll Automation & Analytics",
-    page_icon="⚡",
+    page_icon="🏢",
     layout="wide",
     initial_sidebar_state="expanded"
 )
 
-# Custom Typography & Styling with Noto Sans JP + Inter
+# Minimalistic Enterprise Typography & Solid Color Styling
 st.markdown("""
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+JP:wght@400;500;700;900&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;600;700&display=swap');
 
     html, body, [class*="css"], .stMarkdown, .stText, h1, h2, h3, h4, p, span {
         font-family: 'Inter', 'Noto Sans JP', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Hiragino Sans', 'Meiryo', sans-serif !important;
         -webkit-font-smoothing: antialiased;
     }
 
+    /* Minimalist Solid Enterprise Header */
     .main-header {
-        font-size: 2.25rem;
-        font-weight: 800;
-        letter-spacing: -0.02em;
-        line-height: 1.35;
-        margin-bottom: 0.35rem;
-        background: linear-gradient(135deg, #60A5FA 0%, #A78BFA 50%, #F472B6 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        display: inline-block;
+        font-size: 1.95rem;
+        font-weight: 700;
+        letter-spacing: -0.015em;
+        line-height: 1.3;
+        margin-bottom: 0.25rem;
+        color: #FFFFFF !important;
     }
 
     .sub-header {
-        font-size: 1.05rem;
+        font-size: 0.95rem;
         font-weight: 400;
         color: #94A3B8 !important;
-        margin-bottom: 1.6rem;
+        margin-bottom: 1.5rem;
         line-height: 1.5;
-        letter-spacing: 0.01em;
     }
 
-    /* Fallback for light mode if user switches theme */
+    /* Light Theme Compatibility */
     @media (prefers-color-scheme: light) {
+        .main-header {
+            color: #0F172A !important;
+        }
         .sub-header {
             color: #475569 !important;
         }
     }
 
+    /* Clean, Professional Tab Design */
     .stTabs [data-baseweb="tab-list"] {
-        gap: 14px;
+        gap: 8px;
+        border-bottom: 1px solid #334155;
+        padding-bottom: 4px;
+        margin-bottom: 16px;
     }
     .stTabs [data-baseweb="tab"] {
-        font-size: 1.0rem;
+        font-size: 0.95rem;
         font-weight: 600;
         padding: 8px 16px;
+        border-radius: 6px;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -73,7 +78,7 @@ st.markdown("""
 # Language Definitions Dictionary
 TEXTS = {
     "Smart Hybrid (日英併記)": {
-        "title": "AutoPay-HR | 人事給与業務 自動化 & 分析プラットフォーム",
+        "title": "AutoPay-HR | 人事給与業務 自動化 & 分析システム",
         "subtitle": "Enterprise Operational Intelligence & Zero-Touch Automation (Dataset B: 13,300 Events)",
         "tab1": "⚡ AutoPay-HR 自動化ツール (Step 3: Live Simulator)",
         "tab2": "📊 業務分析・ROI優先度 (Step 2: ROI Ranking)",
@@ -85,7 +90,7 @@ TEXTS = {
         "kpi_flagged_delta": "リスク検知・安全ガード",
         "kpi_time": "Staff Time Saved / 削減時間",
         "kpi_time_delta": "99.8% 工数短縮",
-        "control_title": "⚡ Interactive Execution Control / インタラクティブ操作パネル",
+        "control_title": "⚡ Interactive Execution Control / 操作パネル",
         "btn_routine": "▶ 定常バッチ実行 (Run Routine Batch)",
         "btn_risk": "⚠️ リスク・例外バッチ検証 (Run Risk Batch: >¥100k, Dup)",
         "btn_reset": "🔄 履歴リセット (Reset Log)",
@@ -121,7 +126,7 @@ TEXTS = {
         """
     },
     "日本語 (Japanese)": {
-        "title": "AutoPay-HR | 人事給与業務 自動化・分析プラットフォーム",
+        "title": "AutoPay-HR | 人事給与業務 自動化・分析システム",
         "subtitle": "PC操作ログ解析 (Dataset B: 13,300イベント) に基づくROI最適化ソリューション",
         "tab1": "⚡ 給与備考自動登録ツール (Step 3)",
         "tab2": "📊 業務工数分析・ROI優先度 (Step 2)",
@@ -220,8 +225,8 @@ TEXTS = {
 
 # Sidebar Controls
 with st.sidebar:
-    st.image("https://img.icons8.com/fluency/96/bot.png", width=72)
-    st.title("AutoPay-HR Suite")
+    st.image("https://img.icons8.com/fluency/96/bot.png", width=64)
+    st.title("AutoPay-HR")
     st.caption("Autonomous HR Back-Office Automation\n\n**Candidate:** Ayush Kumar\n**Institute:** IIT Kharagpur\n**Major:** Chemical Engg (AI Micro-spec)\n**Email:** itsayushkr7@gmail.com")
     
     st.divider()
@@ -232,7 +237,7 @@ with st.sidebar:
     
     st.divider()
     st.subheader("System Telemetry" if lang != "日本語 (Japanese)" else "システム稼働状態")
-    st.success("● Engine: Ready" if lang != "日本語 (Japanese)" else "● 自動化エンジン: 稼働中")
+    st.success("● Engine: Online" if lang != "日本語 (Japanese)" else "● 自動化エンジン: 稼働中")
     st.success("● Guard: ¥100k Limit" if lang != "日本語 (Japanese)" else "● 統制ルール: 10万円上限適用")
 
 # Initialize Session State with localized initial items
@@ -243,7 +248,7 @@ if "processed_cases" not in st.session_state:
         {"case_id": "P1-07080388-003", "employee": "高橋 健司", "category": "通勤交通費", "amount": 57500, "remark": "定期券6ヶ月分一括支給", "status": "SYNCED", "txn_id": "TXN-INIT-03", "time": "2026-09-15 10:12"},
     ]
 
-# App Header with Sleek Gradient & Noto Sans JP
+# App Header - Solid Clean Typography
 st.markdown(f'<div class="main-header">{T["title"]}</div>', unsafe_allow_html=True)
 st.markdown(f'<div class="sub-header">{T["subtitle"]}</div>', unsafe_allow_html=True)
 
