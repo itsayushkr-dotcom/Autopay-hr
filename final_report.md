@@ -143,8 +143,8 @@ To ensure delivery within a compressed 3-4 day timeline, effort was structured a
 
 ## 6. How to Run the Deliverables
 
-### Option 1: Live Cloud Streamlit Dashboard (Immediate Access)
-* **Live URL:** [https://autopay-hr.streamlit.app/](https://autopay-hr.streamlit.app/)
+### Option 1: Live Cloud Streamlit Dashboard (Direct Public Access)
+* **Live URL:** [https://autopay-hr.streamlit.app/](https://autopay-hr.streamlit.app/) *(Publicly accessible from any browser with zero installation)*
 
 ### Option 2: Local Streamlit Dashboard Execution
 ```bash
