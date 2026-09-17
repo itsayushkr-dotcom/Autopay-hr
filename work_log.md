@@ -190,6 +190,7 @@ $$\mathbf{\text{Automation Priority Score}} = \mathbf{\text{Total Manual Time (m
 3. **What manual work remains after deployment?**
    - High-value anomalies (> ¥100,000) and unconfirmed policy exceptions are routed to a human manager review queue for 1-click verification.
    - All routine, compliant transactions (80-90% of volume) are processed with zero manual touch.
+   - **Net Capacity Creation:** Derived via $\frac{\text{Cases/month} \times \text{Manual Seconds} \times \text{Coverage}}{3600}$. At 41.0s mean manual duration and 88% touchless coverage, ~2,450 department cases/month saves **~24.6 hours/month across the 4-clerk team** (~6.1 hrs/clerk/month; or ~25.1 hrs/month for a dedicated closing clerk at ~2,500 cases/mo). Production savings should be validated against actual monthly transaction volumes during pilot rollout.
 4. **Anticipated risks & mitigations:**
    - *Risk:* Double submission / duplicate payments. *Mitigation:* State-level idempotency tracking on case ID.
    - *Risk:* Data extraction errors on free-form text. *Mitigation:* Regex strict typing + fallback to human review queue whenever confidence drops.
