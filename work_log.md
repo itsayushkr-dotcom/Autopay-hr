@@ -257,6 +257,83 @@ $$\mathbf{\text{Heuristic Automation-Priority Score}} = \mathbf{\text{Total Manu
    - Tested public cloud availability: verified live app at `https://autopay-hr.streamlit.app/`.
    - Verified automated unit tests (`tests/test_automation_tool.py`: 5/5 passing in 0.057s).
 
+---
+
+## Record of Generative AI & Translation Tools Usage
+
+> **Assignment Compliance Statement:**  
+> In full alignment with the assignment guidelines:  
+> - *"The logs come from a Japanese company. Screen text, business process names, and application UI content are in Japanese. You are free to use translation tools or LLMs."*  
+> - *"You are free to use generative AI. Please record how you used it in your work log."*  
+>  
+> This section explicitly documents how translation tools and generative AI (Gemini, Claude) were utilized during this project, what succeeded, what failed, and the engineering rationale for excluding generative LLMs from the runtime transaction execution path.
+
+### 1. Where and How Generative AI & Translation Tools Were Used
+
+#### A. Japanese Domain Comprehension & UI Localization (Days 1–2)
+- **ERP Telemetry & Navigation Mapping:**  
+  The raw telemetry in `events.jsonl` contains Japanese window titles, button text, and URL hash fragments from enterprise Japanese web ERP portals. Translation tools and LLMs were used to translate and semantically map these business processes:
+  - `給与備考・控除整備` $\to$ *Payroll Items & Deductions Maintenance* (Target Workflow for Step 3)
+  - `休暇届出承認` $\to$ *Leave Application Approvals*
+  - `社員受入・社会保険` $\to$ *Onboarding & Social Insurance Enrollment*
+  - `賞与算定・支給控除` $\to$ *Bonus Calculation*
+  - `年末調整申告照会` $\to$ *Year-End Tax Adjustment Inquiries*
+  - `勤怠締日集計` $\to$ *Attendance Closing Aggregation*
+  - `月次給与確定` $\to$ *Monthly Payroll Finalization*
+  - `源泉徴収票発行` $\to$ *Withholding Tax Slip Generation*
+  - `退職金試算` $\to$ *Retirement Allowance Calculation*
+  - `扶養控除異動申告` $\to$ *Dependent Deduction Declarations*
+- **Accounting & Labor Terminology Clarification:**  
+  Assisted in understanding Japanese statutory payroll conventions, including non-taxable commuting allowances (`通勤手当非課税限度額`), statutory vs. non-statutory deductions (`法定控除` vs. `協定控除`), business trip per diem allowances (`出張旅費規程第4条`), and standard accounting audit confirmations (`規程内確認済み`).
+
+#### B. Unstructured Notepad Memo Structure & Entity Pattern Analysis (Days 2–3)
+- **Memo Syntactic Analysis:**  
+  In Dataset A and Dataset B, clerks copied unstructured adjustment requests from Notepad (`notepad.exe` / `メモ帳`). LLMs were used to inspect the distribution of memo structures across sessions and identify token anchors:
+  - Header variations: `社員番号` vs. `社員No` vs. `従業員番号`.
+  - Name markers: `氏名` vs. `従業員名` vs. `氏 名`.
+  - Payment and deduction items: `出張旅費`, `9月度通勤手当定期代差額`, `資格取得補助`, `健康診断再検査補助`.
+  - Number representation: Distinguishing full-width (`全角`) numerals (e.g., `１０４２９`, `１８，５００円`) from half-width (`半角`) numerals (`10429`, `18500`).
+- **Regex Rule Formulation:**  
+  This linguistic analysis guided the multi-pattern extraction engine in `src/automation_tool/memo_parser.py`, ensuring full Unicode coverage for Kanji (`\u4e00-\u9faf`), Hiragana (`\u3040-\u309f`), Katakana (`\u30a0-\u30ff`), and full-width alphanumeric characters (`\uff00-\uffef`).
+
+#### C. Bilingual Executive Dashboard & Localization (Day 4)
+- **3-Way Internationalization (`streamlit_app.py`):**  
+  Translation tools assisted in constructing the comprehensive tri-lingual localization dictionary (`TEXTS` in `streamlit_app.py`) supporting English, Japanese (`日本語`), and Smart Hybrid (`日英併記`).
+- **Executive Metric Translation:**  
+  Ensured idiomatic corporate Japanese phrasing for dashboard KPI cards and audit logs (e.g., `優先度スコア (工数×難易度)`, `月次推定創出工数`, `決定論的検証エンジン`, `完全自動化率`).
+
+#### D. Accelerated Code Engineering & Edge-Case Synthesis (Days 3–5)
+- **Assisted Scaffolding & Edge Cases:**  
+  LLMs accelerated the generation of repetitive code structures, such as mock HTML/DOM templates for the Japanese HR portal (`src/automation_tool/mock_portal_server.py`), edge-case test payloads for automated unit testing (e.g., negative deductions, unapproved memos, zero-yen amounts), and automated regression test suites (`tests/test_automation_tool.py`, `tests/test_parser.py`, `tests/test_governance.py`).
+
+---
+
+### 2. What Failed or Did Not Work with Generative AI
+
+- **Direct Event-to-Task Segmentation via LLM Prompting (Attempted Day 1):**  
+  Prompting an LLM with raw JSON event windows to predict task boundary timestamps (`start_time`, `end_time`) proved ineffective:
+  - *Context Window & Token Inefficiency:* Even a 5-minute slice of event telemetry generates thousands of tokens, making batch processing slow and cost-prohibitive.
+  - *Timestamp Drift & Imprecision:* LLMs frequently hallucinated floating-point timestamps that did not match exact event timestamps.
+  - *Resolution:* Abandoned LLM-based boundary segmentation in favor of the multi-signal deterministic Python engine (URL hash transitions + window title state machines + mouse trajectory pause detection), which achieved an instantaneous 100% boundary match on Dataset A ground truth.
+- **Unconstrained Free-Form Memo Extraction:**  
+  Testing an LLM to generate arbitrary JSON schemas from raw memos occasionally omitted required fields or formatted currency values inconsistently (e.g., returning string `"18,500円"` instead of integer `18500`).  
+  - *Resolution:* Replaced with strict Pydantic schema validation (`MemoData`) combined with deterministic regex extraction and explicit currency sanitation (`clean_currency`).
+
+---
+
+### 3. Deliberate Architectural Rejection: Why Generative LLMs Were NOT Used in Runtime Execution
+
+In designing `AutoPay-HR` (Step 3), we explicitly evaluated and **rejected** deploying an LLM in the production execution pipeline:
+
+1. **Zero Tolerance for Hallucination in Financial/Payroll Operations:**  
+   In statutory payroll processing, an LLM non-deterministic error rate of even 0.1%–0.5% (e.g., paying ¥185,000 instead of ¥18,500, or assigning a deduction to employee 10428 instead of 10429) leads to direct wage theft or overpayment, labor union grievances, and tax audit penalties. Payroll requires 100% deterministic reproducibility.
+2. **Execution Velocity & Cost:**  
+   Invoking an external LLM API requires 2,000–5,000 ms per case and incurs recurring SaaS per-token costs. In contrast, our deterministic parsing engine processes cases in **0.045 milliseconds** (>50,000× faster) with zero ongoing API licensing overhead.
+3. **Data Privacy & Compliance (Japan APPI):**  
+   Streaming unredacted employee names, IDs, salaries, and deduction reasons to third-party public cloud LLM endpoints creates severe compliance exposure under Japan's Act on the Protection of Personal Information (APPI). The deterministic Python prototype operates entirely local/on-premise within the enterprise boundary with zero data egress.
+
+---
+
 ### 3. Deliverables Status Check
 - [x] `segments.jsonl`: 346 tasks extracted across all 15 sessions of Dataset B (strictly validated schema).
 - [x] Git Repository: Complete, clean commit history on private GitHub repo.
