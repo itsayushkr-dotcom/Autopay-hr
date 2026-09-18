@@ -59,12 +59,17 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Native Streamlit Enterprise Logo Integration (Header & Sidebar)
-if hasattr(st, "logo") and os.path.exists(logo_icon_path):
-    st.logo(
-        logo_h_path if os.path.exists(logo_h_path) else logo_icon_path,
-        icon_image=logo_icon_path
-    )
+# Load base64 icon for crisp high-DPI sidebar rendering
+logo_b64 = ""
+favicon_path = os.path.join(current_dir, "assets", "favicon.png")
+icon_source = favicon_path if os.path.exists(favicon_path) else logo_icon_path
+if os.path.exists(icon_source):
+    import base64
+    try:
+        with open(icon_source, "rb") as f:
+            logo_b64 = base64.b64encode(f.read()).decode("utf-8")
+    except Exception:
+        pass
 
 # Ultra-Minimalist Enterprise Design System
 st.markdown("""
@@ -326,9 +331,24 @@ TEXTS = {
 
 # Clean Minimal Sidebar
 with st.sidebar:
-    if not hasattr(st, "logo") and os.path.exists(logo_h_path):
-        st.image(logo_h_path, use_container_width=True)
-    elif not hasattr(st, "logo"):
+    if logo_b64:
+        st.markdown(
+            f'''
+            <div style="display: flex; align-items: center; gap: 12px; margin-top: -12px; margin-bottom: 12px; padding: 4px 0;">
+                <img src="data:image/png;base64,{logo_b64}" style="width: 36px; height: 36px; border-radius: 50%; object-fit: cover; flex-shrink: 0;" alt="AutoPay Logo" />
+                <div>
+                    <div style="font-size: 1.35rem; font-weight: 700; line-height: 1.15; letter-spacing: -0.02em;">
+                        AutoPay<span style="color: #00d2f2; font-weight: 700;">-HR</span>
+                    </div>
+                    <div style="font-size: 0.72rem; opacity: 0.72; font-weight: 500; letter-spacing: 0.02em; margin-top: 1px;">
+                        Enterprise Automation Engine
+                    </div>
+                </div>
+            </div>
+            ''',
+            unsafe_allow_html=True
+        )
+    else:
         st.markdown("### AutoPay-HR")
         st.caption("Enterprise Back-Office Automation Engine")
     
