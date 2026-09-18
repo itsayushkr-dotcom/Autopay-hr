@@ -1,9 +1,5 @@
 # Executive Final Report: Operation Log Analysis & Automation Proposal
 
-<p align="center">
-  <img src="assets/logo_horizontal.png" alt="AutoPay-HR Logo" width="440" />
-</p>
-
 **Candidate:** Ayush Kumar  
 **University:** Indian Institute of Technology Kharagpur (IIT Kharagpur)  
 **Department / Major:** Chemical Engineering (Dual Degree B.Tech + M.Tech)  
