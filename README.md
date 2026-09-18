@@ -1,5 +1,9 @@
 # Intern Selection Task: From Operation Logs to an Automation Proposal
 
+<p align="center">
+  <img src="assets/logo_horizontal.png" alt="AutoPay-HR Logo" width="440" />
+</p>
+
 ## Candidate Information
 - **Full Name:** Ayush Kumar
 - **University:** Indian Institute of Technology Kharagpur (IIT Kharagpur)

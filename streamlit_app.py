@@ -48,11 +48,23 @@ except Exception:
             return ValidationResult(status="FLAGGED_FOR_REVIEW", flags=["HIGH_VALUE"])
         return ValidationResult(status="AUTO_APPROVED", flags=[])
 
+# Resolve brand logo assets
+logo_icon_path = os.path.join(current_dir, "assets", "logo.png")
+logo_h_path = os.path.join(current_dir, "assets", "logo_horizontal.png")
+
 st.set_page_config(
     page_title="AutoPay-HR | Enterprise Payroll Automation",
+    page_icon=logo_icon_path if os.path.exists(logo_icon_path) else "⚡",
     layout="wide",
     initial_sidebar_state="expanded"
 )
+
+# Native Streamlit Enterprise Logo Integration (Header & Sidebar)
+if hasattr(st, "logo") and os.path.exists(logo_icon_path):
+    st.logo(
+        logo_h_path if os.path.exists(logo_h_path) else logo_icon_path,
+        icon_image=logo_icon_path
+    )
 
 # Ultra-Minimalist Enterprise Design System
 st.markdown("""
@@ -314,8 +326,11 @@ TEXTS = {
 
 # Clean Minimal Sidebar
 with st.sidebar:
-    st.markdown("### AutoPay-HR")
-    st.caption("Enterprise Back-Office Automation Engine")
+    if not hasattr(st, "logo") and os.path.exists(logo_h_path):
+        st.image(logo_h_path, use_container_width=True)
+    elif not hasattr(st, "logo"):
+        st.markdown("### AutoPay-HR")
+        st.caption("Enterprise Back-Office Automation Engine")
     
     st.markdown("---")
     lang = st.radio("Language / 言語", ["English", "日本語 (Japanese)", "Smart Hybrid (日英併記)"])
