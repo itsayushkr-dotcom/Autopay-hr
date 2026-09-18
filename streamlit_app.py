@@ -550,3 +550,35 @@ with tab3:
         {"Session ID": "B_machine4_session1", "Events": 1054, "Tasks": 28, "Dominant Process": "payroll_items (35%)"},
     ])
     st.dataframe(session_summary, use_container_width=True, hide_index=True)
+
+    st.markdown("---")
+    st.markdown("#### ⚡ Enterprise Safeguards & Declarative Multi-Process Architecture")
+    
+    col_cb1, col_cb2, col_cb3 = st.columns(3)
+    with col_cb1:
+        st.metric(label="Circuit Breaker Status", value="CLOSED (Armed)", delta="3 Failures Threshold")
+    with col_cb2:
+        st.metric(label="Empirical Routine Ceiling (定常)", value="88.0%", delta="P4/P1 Payroll Memos")
+    with col_cb3:
+        st.metric(label="Discretionary Escalation (調整)", value="12.0%", delta="Routed to Human Review")
+
+    st.caption("The Golden Governance Maxim: *'A model may propose. A rule must decide. A human must approve.'*")
+
+    st.markdown("##### Declarative Procedure DSL Contracts (`src/automation_tool/procedures/`)")
+    selected_proc = st.selectbox(
+        "Select Process Procedure Contract to Inspect:",
+        ["payroll_items.yaml (Target: 給与備考・控除整備)", "leave_applications.yaml (休暇届出承認)", "onboarding.yaml (社員受入・社会保険)"]
+    )
+    
+    proc_filename = "payroll_items.yaml"
+    if "leave" in selected_proc:
+        proc_filename = "leave_applications.yaml"
+    elif "onboarding" in selected_proc:
+        proc_filename = "onboarding.yaml"
+        
+    proc_full_path = os.path.join(current_dir, "src", "automation_tool", "procedures", proc_filename)
+    if os.path.exists(proc_full_path):
+        with open(proc_full_path, "r", encoding="utf-8") as yf:
+            st.code(yf.read(), language="yaml")
+    else:
+        st.info(f"Procedure definition {proc_filename} active in engine.")

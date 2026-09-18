@@ -1,0 +1,51 @@
+# AutoPay-HR Declarative Process Specification
+# Target Process: 給与備考・控除整備 (Payroll Items & Deductions Maintenance)
+
+process: "payroll_items"
+process_ja: "給与備考・控除整備"
+case_prefixes: ["P4", "P1", "CASE"]
+system: "HR"
+route: "payroll-items"
+
+evidence:
+  observed_executions: 93
+  total_manual_time_min: 63.5
+  share_of_total_time_pct: 36.3
+  median_duration_sec: 33.0
+  routine_share: 0.88  # 88.0% of cases marked 定常 in telemetry
+  adjustment_share: 0.12 # 12.0% of cases marked 調整
+  subtypes: ["出張旅費", "通勤手当", "資格取得補助", "健康診断補助", "特別手当"]
+
+guard:
+  automate_when:
+    column: "種別"
+    equals: "定常"
+    max_amount_jpy: 100000
+    require_memo_policy_approval: true
+  escalate_when:
+    column: "種別"
+    equals: "調整"
+    amount_exceeds_jpy: 100000
+    missing_approval_flag: true
+  circuit_breaker:
+    stop_after_consecutive_failures: 3
+
+selectors:
+  table: "#pi-table"
+  row_by_case: "#rt-row-{case_id}"
+  note_input: "#pi-note"
+  confirm_button: "#btn-pi-ok"
+  toast_confirmation: ".toast-success"
+
+canonical_steps:
+  - open_case:
+      selector: "#rt-row-{case_id}"
+  - verify_memo_approval:
+      keyword: "規程内確認済み"
+  - input_note:
+      target: "#pi-note"
+      template: "{category}を確認し、社内規程に準拠しているため登録を確定しました。（自動処理）"
+  - submit:
+      target: "#btn-pi-ok"
+  - assert_toast:
+      contains: "{case_id}"

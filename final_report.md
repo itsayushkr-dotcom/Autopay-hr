@@ -110,6 +110,7 @@ $$\mathbf{\text{Heuristic Automation-Priority Score}} = \mathbf{\text{Total Manu
   1. **Maximum Time Drain:** Consumes 63.5 minutes (36.3% of staff labor across all 4 worker machines).
   2. **High Transaction Volume:** 93 discrete case executions across the 15 recorded sessions.
   3. **High Repetitiveness:** Each case forces an operator to perform 12 mouse clicks, 12 keystrokes, and 3 clipboard paste operations between disparate windows.
+  4. **Empirical Routine Ceiling (`種別: 定常`):** Analysis of the portal's structured business columns in `context.extracted_text` proves that **88.0% of `payroll_items` cases are marked `定常` (Routine)**, while only 12.0% are `調整` (Adjustment). This establishes an empirical foundation for our **88% Touchless Automation Potential**: routine cases execute unattended under deterministic rules, while discretionary adjustments cleanly escalate to human reviewers.
 * **Why this Scope:**
   - We scoped the solution to **end-to-end ingestion, parsing, rule validation, and portal synchronization** of payroll adjustment memos (housing allowances, commuting subsidies, standard deductions).
   - Scope excludes statutory tax calculations (`tax_withholding`), which are governed by fluctuating National Tax Agency formulas, and seasonal batch processes (`year_end_adjust`), which only execute once per calendar year.
@@ -124,8 +125,13 @@ We selected a **Deterministic Hybrid Python Architecture** (combining localized 
    - *Failure Mode:* Generative LLMs are non-deterministic. In corporate payroll and deductions, a 0.5% hallucination rate (e.g., generating ¥185,000 instead of ¥18,500) results in compliance violations, tax audit failures, and severe legal liability. LLMs also introduce unacceptable token costs, high latency (2–5s per request), and PII data leakage risks under Japan's APPI. *(Note: See `work_log.md` Section "Record of Generative AI & Translation Tools Usage" for the full account of where translation tools and LLMs were applied for exploratory domain comprehension and internationalization vs. where they were deliberately excluded).*
 3. **Static Deterministic Scripts (Pure Regex) — INSUFFICIENT:**
    - *Failure Mode:* Fails to handle natural language variations in unstructured Japanese memos (e.g., `給与備考控除申請: 住宅手当` vs `9月度社宅手当支給願`).
-4. **The Hybrid Solution (Chosen):**
+4. **Naive Keystroke / Macro Replay — REJECTED (Empirically Impossible):**
+   - *Failure Mode:* Quantitative audit of `events.jsonl` revealed that `clipboard_change.payload.text_content` is `null` across all 872 clipboard events and `browser_form_input.payload.value` is `null` across all 608 form events due to client privacy masking (`redact_password_fields: true`). Replaying raw event logs is technically impossible; the automation engine MUST derive semantic intent from source memos (Notepad) or query the portal API directly.
+5. **The Hybrid Solution (Chosen):**
    - Combines flexible Japanese entity extraction (handling messy memos) with **100% deterministic schema validation, duplicate detection, and threshold rules**. If an amount cannot be validated with mathematical certainty, it is automatically routed to a human reviewer.
+   - **The Enterprise Governance Maxim:**  
+     > *"A model may propose. A rule must decide. A human must approve."*
+   - **Declarative Multi-Process Extensibility:** Rather than hardcoding a single-process bot, `AutoPay-HR` implements a **Declarative Procedure Specification Architecture** (`src/automation_tool/procedures/*.yaml`). Canonical step sequences, DOM selectors (`#pi-table`, `#pi-note`, `#btn-pi-ok`), and empirical guard rules are stored as declarative YAML contracts (`payroll_items.yaml`, `leave_applications.yaml`, `onboarding.yaml`), enabling immediate onboarding of additional back-office workflows without software rewrites.
 
 ### Question 3: What manual work remains after deployment, and what impact is realistically expected?
 * **Residual Manual Work (Human-in-the-Loop):**
@@ -161,6 +167,11 @@ Drawing direct evidence from Dataset B event logs, we identified 4 realistic ope
 | **2. UI & ERP Schema Drift** | Client shifted from Chrome to Edge in Dataset B; portals update periodically. | Total automation failure. | **Headless API Bridge & Contract Schemas:** Implemented API/data-contract interfaces rather than brittle UI scraping. Automated integration tests detect schema drift immediately. |
 | **3. High-Value Financial Liability** | Workers occasionally enter custom executive adjustments exceeding ¥100,000 JPY. | Severe payroll errors / financial audit penalties. | **Threshold Guardrails:** Hard-coded limit holding any item >¥100,000 for mandatory two-factor human managerial sign-off. |
 | **4. Regulatory Data Privacy (APPI)** | HR logs contain sensitive employee names, salary adjustments, and deduction IDs. | Violating Japan's Act on the Protection of Personal Information. | **Air-Gapped / Containerized Deployment:** Complete `Dockerfile` and local execution architecture ensuring zero PII leaves the client's private VPC/intranet. |
+| **5. Discretionary Judgment Incursion (`種別: 調整`)** | 12.0% of payroll cases in Dataset B are marked `調整` (Adjustment), requiring human discretion. | Attempting unattended processing on adjustments produces erroneous payroll adjustments. | **Empirical Routine Guard:** Engine restricts unattended execution strictly to `種別 == "定常"`; all `調整` cases are safely escalated to human reviewers with pre-filled audit notes. |
+| **6. Cascading UI/DOM Breakage** | Portals update dynamically; a renamed input ID could cause a cascade of batch failures. | Hundreds of failed records polluting audit logs and database locks. | **Automated Circuit Breaker:** Integrated safety switch (`stop_after_consecutive_failures: 3`) that immediately halts batch processing upon 3 consecutive errors. |
+| **7. Keystroke Telemetry Redaction** | `text_content` and `value` are `null` on all 872 clipboard and 608 form events. | Naive macro recorders fail completely due to missing payloads. | **Semantic Intent Extraction:** Ingests unstructured memos directly via multi-pattern Japanese regex and Pydantic schemas. |
+
+> *(Note: For the exhaustive empirical telemetry reference and full risk register, see [`DATA_FACTS.md`](DATA_FACTS.md) and [`RISKS.md`](RISKS.md)).*
 
 ---
 

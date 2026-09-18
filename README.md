@@ -50,8 +50,11 @@ python -m unittest tests/test_automation_tool.py -v
 - **`segments.jsonl`**: Step 1 task segmentation across all 15 sessions in Dataset B (346 tasks, F1: 0.884).
 - **`final_report.md`**: Executive report addressing Step 2 ROI analysis and the 4 mandated strategic questions.
 - **`work_log.md`**: Detailed 7-day engineering journal documenting all iterations, benchmarks, and architectural decisions.
-- **`streamlit_app.py`**: Streamlit executive control plane.
-- **`src/automation_tool/`**: Core AutoPay-HR automation engine and deterministic governance guards.
+- **`DATA_FACTS.md`**: Exhaustive empirical telemetry profile, dwell time percentiles, chunk layouts, and redaction audits.
+- **`RISKS.md`**: Formal Enterprise Risk Register evaluating 8 failure modes grounded in observational log evidence.
+- **`streamlit_app.py`**: Interactive Streamlit executive control plane (`https://autopay-hr.streamlit.app/`).
+- **`src/automation_tool/`**: Core AutoPay-HR automation engine, Pydantic data schemas, and Circuit Breaker safeguards.
+- **`src/automation_tool/procedures/`**: Declarative Multi-Process DSL contracts (`payroll_items.yaml`, `leave_applications.yaml`, `onboarding.yaml`).
 
 ---
 

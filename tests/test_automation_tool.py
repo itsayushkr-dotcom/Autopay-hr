@@ -110,5 +110,66 @@ class TestAutoPayTool(unittest.TestCase):
         self.assertEqual(sync.portal_status_code, 201)
         self.assertTrue(sync.transaction_id.startswith("TXN-"))
 
+
+    def test_circuit_breaker_halts_on_consecutive_failures(self):
+        from automation_tool.business_rules import CircuitBreaker, CircuitBreakerTrippedException
+        cb = CircuitBreaker(max_consecutive_failures=3)
+        self.assertEqual(cb.consecutive_failures, 0)
+        self.assertFalse(cb.is_tripped())
+        
+        # 1st failure
+        cb.record_failure("HTTP 500 error")
+        self.assertEqual(cb.consecutive_failures, 1)
+        
+        # 2nd failure
+        cb.record_failure("Timeout")
+        self.assertEqual(cb.consecutive_failures, 2)
+        
+        # 3rd failure trips the breaker
+        with self.assertRaises(CircuitBreakerTrippedException):
+            cb.record_failure("Selector missing")
+        self.assertTrue(cb.is_tripped())
+        self.assertIn("consecutive failures", cb.trip_reason)
+
+    def test_routine_vs_adjustment_guard(self):
+        # Routine case (定常) should be auto-approved
+        item_routine = PayrollAdjustmentItem(
+            case_id="CASE-ROUTINE-01",
+            employee_name_or_id="田中 健一",
+            category="出張旅費",
+            amount=18500.0,
+            rule_confirmed=True,
+            remark="規程内確認済み",
+            source_memo="",
+            raw_text="",
+            classification="定常"
+        )
+        res_routine = self.engine.validate(item_routine)
+        self.assertEqual(res_routine.status, "AUTO_APPROVED")
+
+        # Adjustment case (調整) must be flagged for human review
+        item_adjustment = PayrollAdjustmentItem(
+            case_id="CASE-ADJUST-02",
+            employee_name_or_id="佐藤 美咲",
+            category="特別手当",
+            amount=45000.0,
+            rule_confirmed=True,
+            remark="例外申請",
+            source_memo="",
+            raw_text="",
+            classification="調整"
+        )
+        res_adj = self.engine.validate(item_adjustment)
+        self.assertEqual(res_adj.status, "FLAGGED_FOR_REVIEW")
+        self.assertTrue(any("DISCRETIONARY_ADJUSTMENT" in f for f in res_adj.flags))
+
+    def test_load_declarative_procedure(self):
+        from automation_tool.business_rules import load_procedure
+        proc = load_procedure("payroll_items")
+        self.assertIsNotNone(proc)
+        self.assertEqual(proc["process"], "payroll_items")
+        self.assertEqual(proc["evidence"]["routine_share"], 0.88)
+        self.assertIn("selectors", proc)
+
 if __name__ == "__main__":
     unittest.main()

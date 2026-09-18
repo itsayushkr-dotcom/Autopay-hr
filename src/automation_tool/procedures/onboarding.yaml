@@ -1,0 +1,32 @@
+# AutoPay-HR Declarative Process Specification
+# Workflow: 社員受入・社会保険 (Onboarding & Social Insurance)
+
+process: "onboarding"
+process_ja: "社員受入・社会保険"
+case_prefixes: ["ONB", "P3"]
+system: "HR"
+route: "onboarding"
+
+evidence:
+  observed_executions: 69
+  total_manual_time_min: 26.8
+  share_of_total_time_pct: 15.3
+  median_duration_sec: 20.0
+  routine_share: 0.81
+  adjustment_share: 0.19
+  subtypes: ["新卒入社", "中途入社", "出向受入", "契約社員登用"]
+
+guard:
+  automate_when:
+    column: "種別"
+    equals: "定常"
+    require_my_number_verification: true
+  escalate_when:
+    column: "種別"
+    equals: "調整"
+  circuit_breaker:
+    stop_after_consecutive_failures: 3
+
+selectors:
+  table: "#onb-table"
+  confirm_button: "#btn-onb-submit"

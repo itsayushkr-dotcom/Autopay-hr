@@ -1,0 +1,34 @@
+# AutoPay-HR Declarative Process Specification
+# Workflow: 休暇届出承認 (Leave Application Approvals)
+
+process: "leave_applications"
+process_ja: "休暇届出承認"
+case_prefixes: ["LV", "P2"]
+system: "HR"
+route: "leave-applications"
+
+evidence:
+  observed_executions: 92
+  total_manual_time_min: 37.8
+  share_of_total_time_pct: 21.6
+  median_duration_sec: 22.5
+  routine_share: 0.60
+  adjustment_share: 0.40
+  subtypes: ["有給休暇", "慶弔休暇", "特別休暇", "産前産後休暇", "病気休暇"]
+
+guard:
+  automate_when:
+    column: "種別"
+    equals: "定常"
+    max_days: 3
+  escalate_when:
+    column: "種別"
+    equals: "調整"
+    days_exceed: 3
+  circuit_breaker:
+    stop_after_consecutive_failures: 3
+
+selectors:
+  table: "#lv-table"
+  row_by_case: "#lv-row-{case_id}"
+  approve_button: "#btn-lv-approve"

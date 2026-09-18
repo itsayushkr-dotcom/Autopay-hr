@@ -15,6 +15,7 @@ class PayrollAdjustmentItem:
     remark: str
     source_memo: str
     raw_text: str
+    classification: str = "定常"  # 定常 (Routine) vs 調整 (Adjustment) from ERP telemetry
     currency: str = "JPY"
     created_at: str = field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
 
