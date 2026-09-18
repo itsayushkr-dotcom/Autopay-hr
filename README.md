@@ -11,11 +11,11 @@
 
 ---
 
-## ⚡ Quick Start: Live Interactive Dashboard & Prototype Demo
+## Quick Start: Live Interactive Dashboard & Prototype Demo
 
 A live, interactive executive dashboard and automation simulator is deployed and running:
 
-- **🌐 Live Cloud URL (Direct Public Access):** [https://autopay-hr.streamlit.app/](https://autopay-hr.streamlit.app/)  
+- **Live Cloud URL (Direct Public Access):** [https://autopay-hr.streamlit.app/](https://autopay-hr.streamlit.app/)  
   *(Open directly in any browser — publicly accessible with zero login or setup required)*
 
 ---
@@ -37,7 +37,7 @@ docker run -p 8501:8501 autopay-hr
 ```
 * Then open **http://localhost:8501** in your browser.
 
-### 3. Run Automated Unit Tests (5/5 Passing)
+### 3. Run Automated Unit Tests (8/8 Passing)
 ```bash
 python -m unittest tests/test_automation_tool.py -v
 ```
