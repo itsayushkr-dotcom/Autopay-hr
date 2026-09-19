@@ -100,9 +100,10 @@ $$\mathbf{\text{Heuristic Automation-Priority Score}} = \mathbf{\text{Total Manu
    - `payroll_items` rates at **95%** (extracting structured fields from memos into fixed portal inputs). High-value cases (>¥100k) or policy ambiguities represent the remaining 5% routed to human verification.
    - In contrast, processes like `employee_master` (65%) require physical identity document verification and KYC checks.
 3. **Feasibility Factor (Technical Integration Friction, Scale 0.0–1.0):**
-   - Measures integration surface predictability and API/DOM accessibility.
-   - `payroll_items` rates at **0.95 (High)**: It interacts with a single, well-structured web portal form with distinct input IDs, enabling direct RESTful API integration or clean form automation.
-   - Multi-application workflows involving Word, Excel, and desktop dialogs rate lower (0.65–0.70) due to OS-level focus shifts and desktop state volatility.
+   - Measures integration surface predictability, application context stability, and API/DOM accessibility.
+   - `payroll_items` rates at **0.90–0.95 (High)**: Confined entirely to a single web portal screen (`#/payroll-items`).
+   - **Production Feasibility Boundary & Known Gap:** Operation logs only record front-end browser events and element handles (`#pi-note`, `#btn-pi-ok`); they provide **zero evidence that the client's internal HR ERP exposes an accessible backend REST API**. Our architecture does not make optimistic assumptions: the prototype demonstrates a dual-track pattern—a direct REST client demonstrated against our mock test harness, and **declarative headless DOM form automation (via Playwright / CDP) as the primary realistic fallback** if enterprise IT does not provide API access.
+   - In contrast, multi-application workflows involving Word, Excel, and desktop dialogs rate significantly lower (0.65–0.70) due to OS-level focus shifts, clipboard contention, and desktop window volatility.
 4. **Risk Adjustment (Operational Safety & Compliance Multiplier, Scale 0.0–1.0):**
    - Adjusts for statutory compliance liability, reversible impact, and audit exposure.
    - `payroll_items` scores **0.90** when paired with our strict financial controls (cryptographic deduplication and mandatory human review for entries exceeding ¥100,000 JPY).
@@ -142,7 +143,17 @@ We selected a **Deterministic Hybrid Python Architecture** (combining localized 
    - Combines flexible Japanese entity extraction (handling messy memos) with **100% deterministic schema validation, duplicate detection, and threshold rules**. If an amount cannot be validated with mathematical certainty, it is automatically routed to a human reviewer.
    - **The Enterprise Governance Maxim:**  
      > *"A model may propose. A rule must decide. A human must approve."*
-   - **Declarative Multi-Process Extensibility:** Rather than hardcoding a single-process bot, `AutoPay-HR` implements a **Declarative Procedure Specification Architecture** (`src/automation_tool/procedures/*.yaml`). Canonical step sequences, DOM selectors (`#pi-table`, `#pi-note`, `#btn-pi-ok`), and empirical guard rules are stored as declarative YAML contracts (`payroll_items.yaml`, `leave_applications.yaml`, `onboarding.yaml`), enabling immediate onboarding of additional back-office workflows without software rewrites.
+   - **Declarative Multi-Process Extensibility:** Rather than hardcoding a single-process bot, `AutoPay-HR` implements a **Declarative Procedure Specification Architecture** (`src/automation_tool/procedures/*.yaml`). Canonical step sequences, DOM selectors, and empirical guard rules are stored as declarative YAML contracts (`payroll_items.yaml`, `leave_applications.yaml`, `onboarding.yaml`), enabling immediate onboarding of additional back-office workflows without software rewrites.
+
+#### Production Feasibility Gap & Week 1 Verification Protocol (API vs. DOM Fallback):
+> [!IMPORTANT]
+> **Separating Prototype Demonstration from Production Reality:**  
+> We do not know whether the client's internal HR portal exposes a production REST API; operation logs only capture front-end browser events. The REST API (`/api/payroll-items`) utilized by `portal_client.py` was built into our standalone test harness (`mock_portal_server.py`) to demonstrate the target state. In a real-world enterprise deployment, our architecture assumes **form-level headless DOM automation (via Playwright / Chrome DevTools Protocol) as the primary fallback** if no backend API is accessible.
+>
+> **Week 1 Client Discovery Protocol:**
+> 1. **IT API Discovery & Security Access Request:** Interview client enterprise IT during sprint 0 to ascertain whether `HR人事給与システム` possesses documented REST/GraphQL endpoints, a message queue, or a secure database staging table.
+> 2. **Live Production DOM Inspection:** If no API is accessible, audit the live production portal via Edge DevTools on operator machines to verify element stability. While operation logs captured `#pi-note` and `#btn-pi-ok`, we must confirm whether these selectors are static across ERP builds or require resilient semantic anchoring (`aria-label`, input name, or structural hierarchy).
+> 3. **Execution Driver Selection:** If an API is granted, activate the lightweight REST client; if rejected, deploy the Playwright headless browser driver using our declarative YAML procedure contracts (`procedures/payroll_items.yaml`), eliminating coordinate-based RPA fragility entirely.
 
 ### Question 3: What manual work remains after deployment, and what impact is realistically expected?
 * **Residual Manual Work (Human-in-the-Loop):**

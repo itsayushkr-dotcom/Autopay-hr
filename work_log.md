@@ -176,6 +176,7 @@ $$\mathbf{\text{Heuristic Automation-Priority Score}} = \mathbf{\text{Total Manu
    - Standalone mock server on port 5135 simulating the client's internal HR Web System (`HR人事給与システム` at `#/payroll-items`).
    - Serves an interactive Japanese web dashboard and REST API (`/api/payroll-items`).
    - `portal_client.py` executes synchronous HTTP POST registration, latency measurement, and fallback offline buffering.
+   - *Feasibility Boundary & Architecture Decoupling (Prototype vs. Production):* The mock portal exposes a REST API (`/api/payroll-items`) to demonstrate the target state and measure compute latency. However, because operation logs only capture front-end browser interactions, the existence of an accessible production REST API remains unverified. The architecture therefore establishes **headless DOM form automation (via Playwright / CDP using `procedures/payroll_items.yaml`) as the primary realistic fallback** if enterprise IT does not grant API access, with definitive integration selection governed by our Week 1 Discovery Protocol.
 4. **`main.py` & `cli.py`:**
    - Full CLI orchestrator with `--demo` and `--file` flags.
    - Generates complete audit trail (`output/audit_trail.json`).
@@ -282,6 +283,11 @@ $$\mathbf{\text{Heuristic Automation-Priority Score}} = \mathbf{\text{Total Manu
    - Grounded the 88% touchless automation potential in the portal's empirical `種別` column (88.0% `定常` routine cases vs 12.0% `調整` discretionary adjustments).
    - Upgraded `AutoPay-HR` with declarative procedure specifications in `src/automation_tool/procedures/` (`payroll_items.yaml`, `leave_applications.yaml`, `onboarding.yaml`) and implemented an enterprise **Circuit Breaker** (`stop_after_consecutive_failures: 3`) to prevent cascading UI failure.
    - Compiled formal enterprise risk register in [`RISKS.md`](RISKS.md) with 8 grounded failure modes and mitigations.
+6. **Feasibility Assumptions & Production Integration Boundary Audit:**
+   - Audited all architectural claims to eliminate ungrounded assumptions regarding the client's internal portal:
+     - Disclosed plainly: *We do not know whether the client's internal portal exposes a backend API; operation logs only capture front-end browser events.*
+     - Clarified that while front-end handles (`#pi-note`, `#btn-pi-ok`) were observed in browser click payloads, our prototype uses them inside `mock_portal_server.py` and `procedures/payroll_items.yaml` to model the declarative automation pattern.
+     - Formalized the **Week 1 Client Discovery Protocol** across reports: (1) Enterprise IT API discovery & security access request, (2) live production DOM inspection via DevTools to confirm selector stability, and (3) headless DOM automation fallback via Playwright/CDP if direct API access is denied.
 
 ### 3. Deliverables Status Check
 - [x] `segments.jsonl`: 346 tasks extracted across all 15 sessions of Dataset B (strictly validated schema).

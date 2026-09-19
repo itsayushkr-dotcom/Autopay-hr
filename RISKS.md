@@ -34,7 +34,14 @@ This risk register evaluates implementation, operational, and regulatory risks g
 ### Risk A5: Cross-Browser Event Engine Incompatibilities (Severity: MEDIUM)
 - **Empirical Evidence:** Operators in Dataset A executed on Google Chrome (`theme_m1`), whereas Dataset B operators shifted to Microsoft Edge (`theme_m2`).
 - **Failure Mode:** CSS styling offsets, DPI scaling shifts (125% to 150%), and browser engine nuances alter visual coordinate locations.
-- **Mitigation:** Direct DOM interaction via Playwright / REST endpoints rather than coordinate-based screen clicking (UiPath / Power Automate coordinate mode).
+- **Mitigation:** Form-level DOM interaction via Playwright / CDP rather than coordinate-based screen clicking (UiPath / Power Automate coordinate mode).
+
+### Risk A6: Unverified Production API Availability & Integration Fallback (Severity: HIGH)
+- **Empirical Evidence & Boundary:** Operation logs in Dataset B record browser-level UI events and element handles (`#pi-note`, `#btn-pi-ok`) on ports 5132–5135, but provide **zero evidence that the client's internal HR ERP exposes an accessible backend REST API**.
+- **Failure Mode:** An automation proposal predicated solely on direct API integration risks immediate project blockage if enterprise IT refuses API access, lacks existing web service endpoints, or enforces strict network perimeter security.
+- **Mitigation & Week 1 Discovery Protocol:** `AutoPay-HR` implements a decoupled dual-path architecture:
+  1. *Prototype vs. Production Reality:* While our prototype harness (`mock_portal_server.py`) exposes a REST API (`/api/payroll-items`) to benchmark optimal processing latency, the architecture establishes **headless DOM form automation (Playwright / CDP) as the primary realistic fallback**.
+  2. *Week 1 Protocol:* During sprint 0, the engineering team conducts an IT access discovery session to determine if a REST API, message queue, or database staging table is authorized. If rejected, the system deploys the declarative YAML procedure (`procedures/payroll_items.yaml`) for headless browser automation, eliminating coordinate fragility without relying on unverified APIs.
 
 ---
 

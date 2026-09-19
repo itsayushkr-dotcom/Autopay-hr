@@ -19,7 +19,7 @@ This document establishes the empirical facts, physical layout, and operational 
 
 ### Key Structural Anomalies Discovered:
 1. **Single-Page Application Rebranding (Three Portals in One):**  
-   The three operational systems depicted in the logs—**HR Portal (人事)**, **Finance Portal (経理)**, and **General Affairs / Operations (総務・発注)**—are not separate legacy software installations. They are three theme skins of a unified Single-Page Application (SPA) served locally across ports `5132–5135`. They share identical REST routes (e.g., `#/payroll-items`, `#/leave-applications`) and shared DOM element prefixes (`#pi-table`, `#pi-note`, `#btn-pi-ok`).
+   The three operational systems depicted in the logs—**HR Portal (人事)**, **Finance Portal (経理)**, and **General Affairs / Operations (総務・発注)**—are not separate legacy software installations. They are three theme skins of a unified Single-Page Application (SPA) served locally across ports `5132–5135`. They share identical client-side SPA hash routes (e.g., `#/payroll-items`, `#/leave-applications`) and consistent DOM element patterns (`#pi-table`, `#pi-note`, `#btn-pi-ok` captured in browser click payloads). Note: While front-end hash routes and DOM element handles were logged by the browser extension, the existence of an accessible backend REST API in production remains unverified and requires Week 1 IT discovery.
 2. **Chunk Directory Structure (Dataset A):**  
    Dataset A contains 133 chunk directories, but only 117 contain `events.jsonl`. The remaining 16 use legacy short naming (`chunk_1200`) and hold redundant screenshot captures. Event counts must always be derived from `events.jsonl` manifests.
 3. **Duplicate Archive:**  
