@@ -179,7 +179,7 @@ Drawing direct evidence from Dataset B event logs, we identified 4 realistic ope
 ```
 [Day 1] 20% Effort: Environment Setup, Log Parsing & Dataset A Ground Truth Calibration (F1: 0.884)
 [Day 2] 25% Effort: Dataset B Segmentation (346 tasks) & Multi-Criteria Automation Prioritization
-[Day 3] 30% Effort: AutoPay-HR Core Prototype, Anomaly Rules, Standalone ERP Bridge & Unit Tests (5/5 pass)
+[Day 3] 30% Effort: AutoPay-HR Core Prototype, Anomaly Rules, Standalone ERP Bridge & Unit Tests (8/8 pass)
 [Day 4] 15% Effort: Streamlit Internationalized UI (JA/EN/Hybrid), Docker Packaging & Executive Report
 [Days 5–7] 10% Effort: Adversarial Testing, Comprehensive Metric Audit & Cloud Deployment Verification
 ```
@@ -187,7 +187,7 @@ Drawing direct evidence from Dataset B event logs, we identified 4 realistic ope
 * **Detailed Day-by-Day Allocation:**
   - **Day 1 (Ingestion & Calibration):** Ingested 63 sessions (161,858 events) from Dataset A. Developed multi-signal heuristic segmenter, calibrating against ground truth (F1: 0.884, boundary precision ±1.2s).
   - **Day 2 (Segmentation & Prioritization):** Ingested 15 unlabelled sessions (79,488 events) in Dataset B, producing `segments.jsonl` (346 tasks). Uncovered operational bottleneck: `payroll_items` accounts for 36.3% of labor time (63.5 min across 93 cases). Established transparent multi-criteria prioritization matrix.
-  - **Day 3 (Core Automation & Financial Governance):** Engineered headless Python automation pipeline with dual-mode regex/NLP parsing. Implemented SHA-256 idempotency fingerprinting and ¥100,000 managerial threshold holding. Built standalone mock ERP portal bridge and 5/5 automated unit tests.
+  - **Day 3 (Core Automation & Financial Governance):** Engineered headless Python automation pipeline with dual-mode regex/NLP parsing. Implemented SHA-256 idempotency fingerprinting and ¥100,000 managerial threshold holding. Built standalone mock ERP portal bridge and 8 automated unit tests (including enterprise circuit breaker & procedure DSL suites).
   - **Day 4 (Executive UI & Containerization):** Developed full-stack Streamlit Executive Dashboard (`streamlit_app.py`) with 3-way localization (`日本語` / `English` / `Smart Hybrid`). Packaged Docker container and authored initial final report.
   - **Days 5–7 (Hardening, Numerical Audit & Pilot Verification):** Conducted adversarial edge-case testing on Japanese memos, audited every quantitative claim across all files for 100% mathematical consistency, formalized explicit formulas for monthly capacity creation and ROI scoring, and verified live cloud deployment.
 
@@ -220,4 +220,4 @@ docker run -p 8501:8501 autopay-hr
 ```bash
 python -m unittest tests/test_automation_tool.py -v
 ```
-*(All 5 unit tests passing: parsing, duplicate rejection, ¥100k threshold guard, and batch sync).*
+*(All 8 unit tests passing: parsing, duplicate rejection, ¥100k threshold guard, batch sync, circuit breaker halts on failures, circuit breaker resets, procedure DSL loading, and routine vs adjustment guard).*
