@@ -1,4 +1,4 @@
-﻿"""
+"""
 Optimized Segmentation Engine (V3 - Midpoint Interpolation & Continuous Flow)
 """
 import os
@@ -54,6 +54,9 @@ def extract_event_features(event):
         "procmine-desktop-agent", "OpenWith", "WindowsTerminal", "ms-teams", "prl_cc", "NVIDIA Overlay"
     ] or "WindowsTerminal" in app_name
     
+    ext = ctx.get("extracted_text") or {}
+    ocr_text = ext.get("text") or ""
+    
     return {
         "timestamp_sec": ts_sec,
         "event_type": ev_type,
@@ -63,8 +66,54 @@ def extract_event_features(event):
         "url": url,
         "route": route,
         "is_noise_app": is_noise_app,
-        "payload": event.get("payload") or {}
+        "payload": event.get("payload") or {},
+        "ocr_text": ocr_text
     }
+
+def standardize_process_label(raw_label, work_events=None):
+    """
+    Standardizes raw window titles, memo filenames, and browser routes into
+    standardized business process taxonomies, and isolates non-process OS chrome with 'other:' prefix.
+    """
+    lbl = raw_label.lower().replace(" ", "_").replace("-", "_").replace(".", "_")
+    
+    # Memo titles (Notepad)
+    if "在庫調整メモ" in lbl:
+        return "inventory_adjustment"
+    if "精算確認メモ" in lbl or "expense_calc" in lbl:
+        return "expense_processing"
+    if "it申請メモ" in lbl or "it_application" in lbl:
+        return "it_application"
+        
+    # Document filenames (Word)
+    if "nyusha_checklist" in lbl:
+        return "onboarding"
+    if "shinkuitorihikisaki" in lbl or "torihikisaki" in lbl:
+        return "vendor_management"
+    if "keiyaku" in lbl:
+        return "contract_management"
+    if "gyomu_itaku" in lbl:
+        return "subcontractor_management"
+        
+    # Non-process OS chrome & idle desktop noise
+    if "powershell" in lbl or "terminal" in lbl:
+        return "other:system_terminal"
+    if "file_explorer" in lbl or "explorer" in lbl:
+        return "other:file_explorer"
+    if "untitled" in lbl:
+        return "other:desktop_idle"
+    if lbl in ["microsoft_edge", "edge", "google_chrome", "chrome"]:
+        if work_events:
+            combined_text = ""
+            for e in work_events:
+                payload = e.get("payload") or {}
+                combined_text += " " + str(payload.get("text", "")) + " " + str(e.get("ocr_text", "")) + " " + str(e.get("clean_title", ""))
+            if any(kw in combined_text for kw in ["勤怠申請確認", "有給", "特別休暇", "代休"]):
+                return "leave_applications"
+        return "other:browser_navigation"
+        
+    return lbl
+
 
 def segment_session(session_events, min_segment_dur=12.0, idle_split_sec=5.0, max_idle_gap=30.0):
     if not session_events:
@@ -153,7 +202,7 @@ def segment_session(session_events, min_segment_dur=12.0, idle_split_sec=5.0, ma
         else:
             label = work_events[0]["app_name"] or "routine_operation"
             
-        clean_label = label.lower().replace(" ", "_").replace("-", "_").replace(".", "_")
+        clean_label = standardize_process_label(label, work_events)
         dur = e_time - s_time
         
         if dur >= min_segment_dur:

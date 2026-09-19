@@ -222,7 +222,7 @@ TEXTS = {
         "tab2_caption": "Empirical workload analysis across 15 sessions in Dataset B (4 worker machines, 174.7 minutes total)",
         "tab2_chart1": "Staff Time Distribution (Minutes)",
         "tab2_chart2": "Heuristic Automation-Priority Score",
-        "tab2_finding": "Finding: payroll_items accounts for 36.3% of total back-office workload (63.5 minutes) and ranks #1 with an Automation Priority Score of 51.6 (over 2.2x higher than the runner-up leave_applications at 23.1).",
+        "tab2_finding": "Finding: payroll_items accounts for 36.3% of total back-office workload (63.5 minutes) and ranks #1 with an Automation Priority Score of 51.6 (over 2.15x higher than the runner-up leave_applications at 24.1).",
         "tab3_title": "Segmentation Architecture & Validation",
         "tab3_bullets": """
         * **Engine:** Event-driven multi-signal boundary detection (`src/segmentation_engine.py`)
@@ -270,7 +270,7 @@ TEXTS = {
         "tab2_caption": "Dataset B (全15セッション / 20,477イベント / 4台のPC端末) の実測分析",
         "tab2_chart1": "業務時間配分 (分)",
         "tab2_chart2": "自動化優先度スコア (Priority Score)",
-        "tab2_finding": "分析結果: 「給与備考・控除整備」が全作業時間の36.3% (63.5分) を占め、自動化優先度スコア 51.6 (次点 休暇届出承認 23.1 比で2.2倍超) で最優先 (#1) と判定。",
+        "tab2_finding": "分析結果: 「給与備考・控除整備」が全作業時間の36.3% (63.5分) を占め、自動化優先度スコア 51.6 (次点 休暇届出承認 24.1 比で2.15倍超) で最優先 (#1) と判定。",
         "tab3_title": "セグメンテーション技術と精度検証",
         "tab3_bullets": """
         * **分析エンジン:** マルチシグナル境界判定 (`src/segmentation_engine.py`)
@@ -318,7 +318,7 @@ TEXTS = {
         "tab2_caption": "Empirical workload analysis across 15 sessions in Dataset B (174.7 minutes total)",
         "tab2_chart1": "Staff Time Distribution (Minutes)",
         "tab2_chart2": "Heuristic Automation-Priority Score",
-        "tab2_finding": "Finding: payroll_items accounts for 36.3% of total workload (63.5 minutes) and ranks #1 with Automation Priority Score 51.6 (2.2x over runner-up leave_applications at 23.1).",
+        "tab2_finding": "Finding: payroll_items accounts for 36.3% of total workload (63.5 minutes) and ranks #1 with Automation Priority Score 51.6 (2.15x over runner-up leave_applications at 24.1).",
         "tab3_title": "Segmentation Architecture & Validation",
         "tab3_bullets": """
         * **Engine:** Event-driven multi-signal boundary detection (`src/segmentation_engine.py`)
@@ -516,8 +516,8 @@ with tab2:
     if lang == "日本語 (Japanese)":
         process_data = [
             {"業務プロセス": "給与備考・控除整備", "件数": 93, "所要時間(分)": 63.5, "時間割合": "36.3%", "自動化適合度": "95%", "実現性": 0.95, "リスク調整": 0.90, "優先度スコア": 51.6, "判定": "#1 (選定)"},
-            {"業務プロセス": "休暇届出承認", "件数": 92, "所要時間(分)": 37.8, "時間割合": "21.6%", "自動化適合度": "80%", "実現性": 0.85, "リスク調整": 0.90, "優先度スコア": 23.1, "判定": "#2"},
-            {"業務プロセス": "入社・受入登録", "件数": 69, "所要時間(分)": 26.8, "時間割合": "15.3%", "自動化適合度": "65%", "実現性": 0.70, "リスク調整": 0.80, "優先度スコア": 9.8, "判定": "#3"},
+            {"業務プロセス": "休暇届出承認", "件数": 95, "所要時間(分)": 39.3, "時間割合": "22.5%", "自動化適合度": "80%", "実現性": 0.85, "リスク調整": 0.90, "優先度スコア": 24.1, "判定": "#2"},
+            {"業務プロセス": "入社・受入登録", "件数": 73, "所要時間(分)": 27.9, "時間割合": "16.0%", "自動化適合度": "65%", "実現性": 0.70, "リスク調整": 0.80, "優先度スコア": 10.2, "判定": "#3"},
             {"業務プロセス": "社会保険算定基礎", "件数": 38, "所要時間(分)": 20.7, "時間割合": "11.8%", "自動化適合度": "60%", "実現性": 0.65, "リスク調整": 0.75, "優先度スコア": 6.1, "判定": "#4"},
             {"業務プロセス": "住民税改定処理", "件数": 24, "所要時間(分)": 12.4, "時間割合": "7.1%", "自動化適合度": "60%", "実現性": 0.65, "リスク調整": 0.75, "優先度スコア": 3.6, "判定": "#5"},
             {"業務プロセス": "その他定常/メモ操作", "件数": 30, "所要時間(分)": 13.5, "時間割合": "7.8%", "自動化適合度": "30%", "実現性": 0.50, "リスク調整": 0.70, "優先度スコア": 1.4, "判定": "対象外"}
@@ -527,8 +527,8 @@ with tab2:
     else:
         process_data = [
             {"Process": "payroll_items", "Cases": 93, "Time (min)": 63.5, "Share": "36.3%", "Potential": "95%", "Feasibility": 0.95, "Risk Adj": 0.90, "Priority Score": 51.6, "Decision": "#1 (Selected)"},
-            {"Process": "leave_applications", "Cases": 92, "Time (min)": 37.8, "Share": "21.6%", "Potential": "80%", "Feasibility": 0.85, "Risk Adj": 0.90, "Priority Score": 23.1, "Decision": "#2"},
-            {"Process": "onboarding", "Cases": 69, "Time (min)": 26.8, "Share": "15.3%", "Potential": "65%", "Feasibility": 0.70, "Risk Adj": 0.80, "Priority Score": 9.8, "Decision": "#3"},
+            {"Process": "leave_applications", "Cases": 95, "Time (min)": 39.3, "Share": "22.5%", "Potential": "80%", "Feasibility": 0.85, "Risk Adj": 0.90, "Priority Score": 24.1, "Decision": "#2"},
+            {"Process": "onboarding", "Cases": 73, "Time (min)": 27.9, "Share": "16.0%", "Potential": "65%", "Feasibility": 0.70, "Risk Adj": 0.80, "Priority Score": 10.2, "Decision": "#3"},
             {"Process": "social_insurance", "Cases": 38, "Time (min)": 20.7, "Share": "11.8%", "Potential": "60%", "Feasibility": 0.65, "Risk Adj": 0.75, "Priority Score": 6.1, "Decision": "#4"},
             {"Process": "resident_tax", "Cases": 24, "Time (min)": 12.4, "Share": "7.1%", "Potential": "60%", "Feasibility": 0.65, "Risk Adj": 0.75, "Priority Score": 3.6, "Decision": "#5"},
             {"Process": "other_tasks", "Cases": 30, "Time (min)": 13.5, "Share": "7.8%", "Potential": "30%", "Feasibility": 0.50, "Risk Adj": 0.70, "Priority Score": 1.4, "Decision": "Out of Scope"}

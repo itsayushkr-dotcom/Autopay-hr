@@ -43,7 +43,7 @@ python -m unittest tests/test_automation_tool.py -v
 ```
 
 ### 4. Key Deliverables in this Repository:
-- **`segments.jsonl`**: Step 1 task segmentation across all 15 sessions in Dataset B (346 tasks, F1: 0.884).
+- **segments.jsonl**: Step 1 task segmentation across all 15 sessions in Dataset B (346 tasks, F1: 0.884, standardized 15-label taxonomy with explicit other: noise quarantine).
 - **`final_report.md`**: Executive report addressing Step 2 ROI analysis and the 4 mandated strategic questions.
 - **`work_log.md`**: Detailed 7-day engineering journal documenting all iterations, benchmarks, and architectural decisions.
 - **`DATA_FACTS.md`**: Exhaustive empirical telemetry profile, dwell time percentiles, chunk layouts, and redaction audits.
