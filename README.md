@@ -16,7 +16,7 @@
 A live, interactive executive dashboard and automation simulator is deployed and running:
 
 - **Live Cloud URL (Direct Public Access):** [https://autopay-hr.streamlit.app/](https://autopay-hr.streamlit.app/)  
-  *(Open directly in any browser — publicly accessible with zero login or setup required)*
+  *(Open directly in any browser — publicly accessible with zero login or setup required. If the cloud container is cold-starting, click "Yes, get this app back up!" to boot in ~30s)*
 
 ---
 

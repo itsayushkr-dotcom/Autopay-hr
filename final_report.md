@@ -198,7 +198,7 @@ Drawing direct evidence from Dataset B event logs, we identified 4 realistic ope
 ## 6. How to Run the Deliverables
 
 ### Option 1 — Live Cloud Streamlit Dashboard (Direct Public Access)
-* **Live URL:** [https://autopay-hr.streamlit.app/](https://autopay-hr.streamlit.app/) *(Publicly accessible from any browser with zero installation)*
+* **Live URL:** [https://autopay-hr.streamlit.app/](https://autopay-hr.streamlit.app/) *(Publicly accessible from any browser with zero installation. If container is cold-starting, click "Yes, get this app back up!" to boot in ~30s)*
 
 ### Option 2 — Local Streamlit Dashboard Execution
 ```bash

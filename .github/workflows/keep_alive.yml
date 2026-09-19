@@ -1,0 +1,37 @@
+name: Keep Streamlit App Awake & Active
+
+on:
+  schedule:
+    # Run every 4 hours (at minute 0 past every 4th hour UTC)
+    - cron: '0 */4 * * *'
+  workflow_dispatch: # Allows 1-click manual trigger from GitHub Actions UI
+
+concurrency:
+  group: streamlit-keep-alive
+  cancel-in-progress: true
+
+jobs:
+  check-and-wake:
+    name: Ping & Awaken Streamlit Cloud
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Selenium & Automation Drivers
+        run: |
+          python -m pip install --upgrade pip
+          pip install selenium webdriver-manager
+
+      - name: Run Keep-Alive & Wakeup Daemon
+        env:
+          STREAMLIT_APP_URL: https://autopay-hr.streamlit.app/
+        run: |
+          python scripts/keep_alive.py
