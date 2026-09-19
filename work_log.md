@@ -184,12 +184,15 @@ $$\mathbf{\text{Heuristic Automation-Priority Score}} = \mathbf{\text{Total Manu
 
 ### 3. Verification & Empirical Benchmark
 
-- **Automated Test Suite:** `tests/test_automation_tool.py` (5/5 unit tests passed).
-  - Japanese memo field extraction: PASS
-  - Routine auto-approval: PASS
-  - High-value threshold anomaly (> ¥100k): PASS (Flagged for Review)
-  - Duplicate case prevention: PASS (Rejected)
-  - Live portal HTTP sync: PASS (HTTP 201 Created with transaction ID)
+- **Automated Test Suite:** `tests/test_automation_tool.py` (8/8 unit tests passed).
+  - Japanese memo field extraction (`test_memo_parser_extraction`): PASS
+  - Routine auto-approval (`test_business_rules_auto_approval`): PASS
+  - High-value threshold anomaly (> ¥100k, `test_business_rules_high_value_anomaly`): PASS (Flagged for Review)
+  - Duplicate case prevention via SHA-256 (`test_business_rules_duplicate_rejection`): PASS (Rejected)
+  - Live portal HTTP sync (`test_portal_client_live_sync`): PASS (HTTP 201 Created with transaction ID)
+  - Routine vs. Adjustment guard (`test_routine_vs_adjustment_guard`): PASS (Non-routine cases held)
+  - Enterprise Circuit Breaker (`test_circuit_breaker_halts_on_consecutive_failures`): PASS (Trips and halts on 3 consecutive downstream errors)
+  - Declarative Multi-Process DSL (`test_load_declarative_procedure`): PASS (Validates multi-process YAML contracts)
 - **Batch Processing Performance:**
   - Ingested 10 cases across 3 batches in < 0.1 seconds (0.045s average single-case API latency).
   - Manual baseline (Dataset B): ~31.0s median / 41.0s mean per case.
