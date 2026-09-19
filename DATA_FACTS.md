@@ -11,7 +11,7 @@ This document establishes the empirical facts, physical layout, and operational 
 | **Source Archives** | 5 ZIP archives (`dataset_a-*.zip`, 001–005) | 1 ZIP archive (`dataset_b-*.zip`, 001) |
 | **Total Operator Sessions** | **63 sessions** across 5 batch runs | **15 sessions** across 4 operator machines |
 | **Chunk Directories with Logs** | **117 chunks** containing `events.jsonl` | **20 chunks** containing `events.jsonl` |
-| **Total Event Count** | **~161,858 events** | **20,477 events** (82.2 MB raw JSON) |
+| **Total Event Count** | **162,768 events** (across 117 log chunks) | **20,477 events** (across 20 log chunks; 82.2 MB raw JSON) |
 | **Total Screenshots** | 34,563 JPEGs (~9.5 GB) | 4,746 JPEGs (~1.6 GB) |
 | **Target Browser Runtime** | **Google Chrome** (`theme_m1`) | **Microsoft Edge** (`theme_m2`, `run_theme_m2.bat`) |
 | **Local Portal Ports** | `127.0.0.1:5123` (dynamic) | `127.0.0.1:5132 / 5133 / 5134 / 5135` |

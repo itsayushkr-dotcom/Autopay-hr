@@ -12,7 +12,7 @@
 
 ## 1. Executive Summary
 
-This report delivers a data-driven operational intelligence analysis and working automation prototype for an enterprise client in Japan, based on 183,000+ keystrokes, mouse clicks, and application events across two datasets (162,768 in Dataset A + 20,477 in Dataset B):
+This report delivers a data-driven operational intelligence analysis and working automation prototype for an enterprise client in Japan, based on 183,000+ keystrokes, mouse clicks, and application events across two datasets (162,768 in Dataset A + 20,477 in Dataset B; 183,245 total events):
 1. **Dataset A:** 63 sessions (~162,000 events) with ground truth labels used for model development and temporal boundary calibration.
 2. **Dataset B:** 15 production sessions (~20,500 events / 20,477 exact across 4 distinct worker machines) representing real-world back-office workload with no ground truth.
 
@@ -200,8 +200,8 @@ Drawing direct evidence from Dataset B event logs, we identified 4 realistic ope
 ```
 
 * **Detailed Day-by-Day Allocation:**
-  - **Day 1 (Ingestion & Calibration):** Ingested 63 sessions (161,858 events) from Dataset A. Developed multi-signal heuristic segmenter, calibrating against ground truth (F1: 0.884, boundary precision ±1.2s).
-  - **Day 2 (Segmentation & Prioritization):** Ingested 15 unlabelled sessions (79,488 events) in Dataset B, producing `segments.jsonl` (346 tasks). Uncovered operational bottleneck: `payroll_items` accounts for 36.3% of labor time (63.5 min across 93 cases). Established transparent multi-criteria prioritization matrix.
+  - **Day 1 (Ingestion & Calibration):** Ingested 63 sessions (162,768 events) from Dataset A. Developed multi-signal heuristic segmenter, calibrating against ground truth (F1: 0.884, boundary precision ±1.2s).
+  - **Day 2 (Segmentation & Prioritization):** Ingested 15 unlabelled sessions (20,477 events) in Dataset B, producing `segments.jsonl` (346 tasks). Uncovered operational bottleneck: `payroll_items` accounts for 36.3% of labor time (63.5 min across 93 cases). Established transparent multi-criteria prioritization matrix.
   - **Day 3 (Core Automation & Financial Governance):** Engineered headless Python automation pipeline with dual-mode regex/NLP parsing. Implemented SHA-256 idempotency fingerprinting and ¥100,000 managerial threshold holding. Built standalone mock ERP portal bridge and 8 automated unit tests (including enterprise circuit breaker & procedure DSL suites).
   - **Day 4 (Executive UI & Containerization):** Developed full-stack Streamlit Executive Dashboard (`streamlit_app.py`) with 3-way localization (`日本語` / `English` / `Smart Hybrid`). Packaged Docker container and authored initial final report.
   - **Days 5–7 (Hardening, Numerical Audit & Pilot Verification):** Conducted adversarial edge-case testing on Japanese memos, audited every quantitative claim across all files for 100% mathematical consistency, formalized explicit formulas for monthly capacity creation and ROI scoring, and verified live cloud deployment.

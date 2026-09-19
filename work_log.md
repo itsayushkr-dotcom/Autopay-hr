@@ -7,7 +7,7 @@
 
 ### 1. Objective
 - Set up local working environment and Git version control.
-- Ingest and analyze Dataset A (`events.jsonl` vs `gt.jsonl` and `gt_manifest.json`).
+- Ingest and analyze Dataset A (162,768 events across 63 sessions / 117 chunks: `events.jsonl` vs `gt.jsonl` and `gt_manifest.json`).
 - Characterize ground truth task boundaries, execution durations, and transition behavior.
 - Build an initial boundary detection algorithm and establish rigorous evaluation metrics (IoU, boundary precision/recall, label alignment).
 
@@ -27,7 +27,7 @@
 ## Day 2 — Dataset B Segmentation Execution & Business Process ROI Prioritization (Step 2)
 
 ### 1. Objective
-- Execute batch segmentation across all 15 sessions in Dataset B to produce `segments.jsonl` (Deliverable 1).
+- Ingest and execute batch segmentation across all 15 production sessions in Dataset B (20,477 events across 20 chunks on 4 worker machines) to produce `segments.jsonl` (Deliverable 1).
 - Validate formatting and schema against submission specifications.
 - Conduct deep-dive operational analysis (volume, duration, operator spread, manual operation intensity).
 - Formulate an objective ROI Prioritization Framework and select the #1 automation target for Step 3.
@@ -262,7 +262,7 @@ $$\mathbf{\text{Heuristic Automation-Priority Score}} = \mathbf{\text{Total Manu
      3. Explicitly isolate the 7 pure OS chrome / system window segments under the `other:` prefix convention (`other:browser_navigation`, `other:desktop_idle`, `other:system_terminal`, `other:file_explorer`).
      4. Disclose the honest label cardinality: **15 unique standardized labels** (11 business process types representing 97.8% of manual time, and 4 non-process OS noise categories representing 2.2% of duration).
    - Audited every quantitative metric across the repository:
-     - Dataset event counts (Dataset A: 161,858 events across 63 sessions; Dataset B: 79,488 events across 15 sessions on 4 worker machines).
+     - Dataset event counts (Dataset A: 162,768 events across 63 sessions / 117 chunks; Dataset B: 20,477 events across 15 sessions / 20 chunks on 4 worker machines; 183,245 total verified events across repository).
      - Segment counts (346 tasks extracted; 93 `payroll_items` consuming 63.5 min / 36.3% of time).
      - Prototype benchmark velocity: Clarified that the prototype engine execution time (0.045s vs 31.0s–41.0s manual) represents engine compute speed, not an artificial claim of a 730× reduction in end-to-end employee cycle time.
 3. **Explicit Mathematical Derivations:**
